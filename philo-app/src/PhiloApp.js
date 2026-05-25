@@ -1,1166 +1,56 @@
 import { useState } from "react";
-
-const NOTIONS = [
-{
-    id: "conscience",
-    titre: "La Conscience",
-    emoji: "🧠",
-    couleur: "#7C3AED",
-    definition: "La conscience désigne la capacité de l'esprit à se rapporter à lui-même et au monde, à la fois comme présence immédiate aux choses (conscience immédiate) et comme retour réflexif sur ses propres actes (conscience réfléchie). Sa problématique centrale est celle du sujet : la conscience est-elle vraiment maîtresse d'elle-même, ou est-elle traversée par des forces qui lui échappent — inconscient, idéologie, corps ? Elle interroge aussi la condition d'existence : être conscient, est-ce être libre, ou est-ce le point de départ d'une angoisse fondamentale ?",
-    distinctions: [
-      { terme: "Conscience immédiate", def: "Présence directe et pré-réflexive au monde et à ses propres états, sans retour sur soi — le simple fait de percevoir, ressentir, agir." },
-      { terme: "Conscience réfléchie", def: "Acte par lequel le sujet se prend lui-même pour objet, se retourne sur ses pensées ou ses actes pour les examiner et les juger." },
-      { terme: "Conscience morale", def: "Faculté intérieure qui juge la valeur morale de nos actes, distingue le bien du mal et éprouve culpabilité ou approbation." },
-      { terme: "Inconscient", def: "Ensemble des contenus psychiques refoulés ou inaccessibles à la conscience, qui influencent pourtant les pensées et les comportements sans que le sujet en soit averti." },
-      { terme: "Intentionnalité", def: "Concept husserlien désignant la propriété fondamentale de la conscience d'être toujours dirigée vers un objet : toute conscience est conscience de quelque chose, elle vise un contenu." },
-    ],
-    idees: [
-      {
-        titre: "La conscience comme lumière sur le monde",
-        contenu: "Pour Hegel, la conscience n'est pas enfermée en elle-même : elle se constitue en s'opposant à ce qui n'est pas elle, en introduisant une distance entre le sujet et le monde. Cette mise à distance est ce qui permet la connaissance et la liberté. Contrairement à l'animal fondu dans son milieu, l'homme conscient peut nier le donné, le transformer, le dépasser. La conscience est ainsi le mouvement même de l'esprit cherchant à se reconnaître dans le réel.",
-      },
-      {
-        titre: "Le Cogito cartésien : certitude irréfutable et ses limites",
-        contenu: "Descartes, en appliquant le doute méthodique à toutes ses croyances, découvre une vérité qu'il est impossible de mettre en doute : pour douter, il faut penser ; pour penser, il faut exister. Le « Je pense, donc je suis » fonde la certitude du sujet pensant comme premier principe indubitable. Cependant cette certitude reste étroite : elle ne nous dit rien sur le monde extérieur ni sur les autres consciences, et ne préjuge pas de la transparence du sujet à lui-même.",
-      },
-      {
-        titre: "L'intentionnalité husserlienne",
-        contenu: "Husserl, fondateur de la phénoménologie, pose que la conscience n'est jamais une chose isolée qui contiendrait des représentations : elle est structurellement tendue vers un objet, elle vise toujours quelque chose. Il n'y a pas de conscience pure sans contenu, ni de contenu sans acte de conscience qui l'appréhende. Cette thèse brise l'idée d'une intériorité close et montre que la subjectivité se définit par son rapport au monde plutôt que par son repli sur elle-même.",
-      },
-      {
-        titre: "Merleau-Ponty : la conscience incarnée",
-        contenu: "Merleau-Ponty critique le dualisme cartésien âme/corps en montrant que la conscience est toujours déjà incarnée. Le « corps propre » n'est pas un instrument que la conscience utiliserait de l'extérieur, mais le médium même à travers lequel nous habitons le monde. Percevoir, c'est être en prise motrice et affective sur les choses avant toute représentation intellectuelle. La conscience n'est donc pas un regard pur sur le monde, mais une présence corporelle qui s'y engage.",
-      },
-      {
-        titre: "La fausse conscience chez Marx",
-        contenu: "Marx montre que la conscience des individus est largement déterminée par les conditions matérielles et les rapports de production dans lesquels ils vivent. L'idéologie est précisément ce mécanisme par lequel les idées dominantes — celles de la classe dominante — se présentent comme universelles et naturelles, masquant les rapports d'exploitation. La conscience ordinaire est donc une fausse conscience : elle ignore les forces sociales qui la façonnent et prend pour libre pensée ce qui est en réalité un reflet des structures économiques.",
-      },
-      {
-        titre: "L'inconscient freudien destitue le sujet",
-        contenu: "Freud opère ce que Ricoeur appelle une « blessure narcissique » : le moi n'est pas maître dans sa propre maison. Des désirs refoulés, des conflits infantiles, des pulsions inconscientes orientent nos actes, nos rêves, nos lapsus à notre insu. La conscience n'est que la partie émergée d'un iceberg ; l'essentiel de la vie psychique se déroule hors de sa portée. Cette découverte remet en cause l'idéal d'un sujet transparent à lui-même, maître souverain de ses pensées et de ses actions.",
-      },
-      {
-        titre: "La mauvaise foi selon Sartre",
-        contenu: "Sartre refuse l'inconscient freudien et lui substitue le concept de mauvaise foi : le mensonge que le sujet se fait à lui-même pour fuir l'angoisse de sa liberté. La mauvaise foi consiste à se traiter comme une chose déterminée, à nier sa propre liberté en se cachant derrière des rôles, des excuses, des habitudes. Mais ce mensonge à soi est paradoxal : pour se mentir, il faut savoir ce qu'on dissimule, ce qui implique une forme de conscience de ce que l'on refuse d'admettre.",
-      },
-      {
-        titre: "La dialectique de la reconnaissance chez Hegel",
-        contenu: "Dans la Phénoménologie de l'esprit, Hegel montre que la conscience de soi ne peut se constituer seule : elle a besoin d'être reconnue par une autre conscience. La célèbre dialectique du maître et de l'esclave illustre ce besoin : chacun cherche à s'affirmer en niant l'autre, mais la véritable reconnaissance exige la réciprocité. La conscience est donc fondamentalement intersubjective — elle se construit dans et par le regard d'autrui, non dans la solitude du cogito.",
-      },
-    ],
-    citations: [
-      {
-        auteur: "Descartes",
-        texte: "Je pense, donc je suis.",
-        source: "Discours de la méthode",
-      },
-      {
-        auteur: "Freud",
-        texte: "Le moi n'est pas maître dans sa propre maison.",
-        source: "Introduction à la psychanalyse",
-      },
-      {
-        auteur: "Sartre",
-        texte: "L'existence précède l'essence.",
-        source: "L'existentialisme est un humanisme",
-      },
-      {
-        auteur: "Hegel",
-        texte: "La conscience de soi n'existe qu'en étant reconnue.",
-        source: "Phénoménologie de l'esprit",
-      },
-      {
-        auteur: "Locke",
-        texte: "La conscience est ce qui fait qu'un homme est lui-même à ses propres yeux.",
-        source: "Essai sur l'entendement humain",
-      },
-      {
-        auteur: "Husserl",
-        texte: "Toute conscience est conscience de quelque chose.",
-        source: "Idées directrices pour une phénoménologie",
-      },
-      {
-        auteur: "Merleau-Ponty",
-        texte: "Le corps est le véhicule de l'être au monde.",
-        source: "Phénoménologie de la perception",
-      },
-    ],
-    auteurs: [
-      "Descartes",
-      "Hegel",
-      "Husserl",
-      "Merleau-Ponty",
-      "Sartre",
-      "Freud",
-      "Marx",
-      "Locke",
-      "Leibniz",
-      "Ricoeur",
-    ],
-  },
-  {
-    id: "inconscient",
-    titre: "L'Inconscient",
-    emoji: "🌊",
-    couleur: "#1D4ED8",
-    definition: "L'inconscient désigne l'ensemble des processus psychiques qui se déroulent hors du champ de la conscience et qui influencent pourtant nos pensées, nos désirs et nos comportements. Freud en a fait le concept central d'une révolution : le sujet n'est plus transparent à lui-même, ses motivations profondes lui sont cachées. La problématique centrale est celle de la responsabilité et de la liberté : si nous sommes mus par des forces qui nous échappent, dans quelle mesure sommes-nous vraiment auteurs de nos actes ?",
-    distinctions: [
-      { terme: "Inconscient topique (1re topique)", def: "Première modélisation freudienne du psychisme en trois instances : le conscient (ce dont on a connaissance), le préconscient (accessible à l'effort d'attention) et l'inconscient (refoulé, inaccessible directement)." },
-      { terme: "Inconscient dynamique (2e topique)", def: "Deuxième modèle freudien distinguant le Ça (réservoir des pulsions), le Moi (médiateur entre pulsions et réalité) et le Surmoi (instance morale intériorisée). Le conflit entre ces instances produit la vie psychique." },
-      { terme: "Refoulement", def: "Mécanisme de défense fondamental par lequel le Moi rejette hors de la conscience des représentations ou désirs insupportables, sans les détruire — ils subsistent dans l'inconscient et cherchent à revenir." },
-      { terme: "Inconscient collectif", def: "Concept jungien désignant un fond psychique commun à l'humanité, composé d'archétypes — images symboliques universelles (la Mère, le Héros, l'Ombre) — transmis culturellement et non par l'expérience individuelle." },
-      { terme: "Inconscient cognitif", def: "Au sens des sciences cognitives, ensemble des traitements automatiques, non conscients, de l'information (perception, mémoire implicite, biais cognitifs). Distinct de l'inconscient freudien : il n'implique pas de refoulement ni de désir." },
-    ],
-    idees: [
-      {
-        titre: "Les voies royales de l'inconscient selon Freud",
-        contenu: "Freud identifie plusieurs manifestations privilégiées de l'inconscient : le rêve, qu'il appelle « la voie royale » d'accès à l'inconscient, les lapsus (erreurs de langage révélatrices), les actes manqués et les symptômes névrotiques. Ces phénomènes apparemment fortuits ou absurdes ont en réalité un sens : ils sont des formations de compromis entre le désir refoulé qui cherche à s'exprimer et la censure du Moi qui tente de le maintenir hors de la conscience. Les interpréter, c'est commencer à entendre ce que le sujet dit sans le savoir.",
-      },
-      {
-        titre: "Les deux topiques freudiennes",
-        contenu: "Freud a reformulé deux fois son modèle du psychisme. La première topique (1900) distingue trois registres : conscient, préconscient et inconscient. La seconde topique (1920), plus dynamique, introduit le Ça, le Moi et le Surmoi. Le Ça est le réservoir pulsionnel, gouverné par le principe de plaisir ; le Moi doit négocier entre le Ça, la réalité et le Surmoi moralisateur. Ce remaniement souligne la conflictualité constitutive du psychisme : le sujet est littéralement divisé contre lui-même.",
-      },
-      {
-        titre: "Jung et l'inconscient collectif",
-        contenu: "Carl Gustav Jung, d'abord disciple de Freud, s'en éloigne en postulant l'existence d'un inconscient collectif, couche plus profonde que l'inconscient personnel. Cet inconscient collectif est composé d'archétypes — des formes symboliques universelles que l'on retrouve dans tous les mythes, toutes les religions, tous les rêves à travers les cultures. Il ne s'agit pas de souvenirs personnels refoulés, mais d'un héritage psychique de l'humanité entière, fond commun de l'imaginaire humain.",
-      },
-      {
-        titre: "La critique sartrienne : la mauvaise foi contre l'inconscient",
-        contenu: "Sartre refuse le concept d'inconscient freudien, qu'il juge contradictoire : pour refouler un désir, il faudrait d'abord le connaître, donc en être conscient. Il lui substitue la mauvaise foi, qui est la capacité de la conscience à se mentir à elle-même en toute lucidité. Reconnaître un inconscient, c'est selon Sartre se donner une excuse pour fuir sa liberté et sa responsabilité : « Je ne pouvais pas faire autrement, l'inconscient m'y poussait. » Cette critique préserve l'idée d'une liberté radicale et irréductible du sujet.",
-      },
-      {
-        titre: "Lacan : l'inconscient structuré comme un langage",
-        contenu: "Jacques Lacan relit Freud à travers la linguistique saussurienne. Pour lui, l'inconscient n'est pas un réservoir d'images ou de pulsions brutes : il est structuré comme un langage, organisé selon des mécanismes rhétoriques — la métaphore et la métonymie. Le sujet est constitué par le langage avant même de naître, et son désir est fondamentalement le désir de l'Autre (de la reconnaissance d'un autre sujet). L'inconscient, c'est le discours de l'Autre en nous : nous parlons, mais nous sommes aussi parlés.",
-      },
-      {
-        titre: "Inconscient cognitif versus inconscient freudien",
-        contenu: "Les sciences cognitives contemporaines parlent elles aussi d'inconscient, mais dans un sens radicalement différent : il s'agit de traitements automatiques de l'information qui s'effectuent sans accès conscient (perception subliminale, mémoire procédurale, biais cognitifs). Cet inconscient cognitif n'implique aucun refoulement, aucun désir, aucun conflit — c'est simplement l'efficacité du cerveau à traiter de l'information en parallèle. L'opposition avec l'inconscient freudien est nette : l'un est fonctionnel et neutre, l'autre est motivationnel et conflictuel.",
-      },
-      {
-        titre: "Résistances et cure analytique",
-        contenu: "Le refoulement ne se maintient pas passivement : il est actif, il résiste. Dans la cure psychanalytique, le patient oppose des résistances à la remontée du refoulé — oublis, blocages, réactions émotionnelles intenses face à certains sujets. Freud en fait un indice précieux : là où la résistance est la plus forte, là est le nœud du refoulement. L'objectif de la thérapie n'est pas de supprimer l'inconscient, mais de rendre conscient ce qui était inconscient, permettant au patient de se réapproprier une part de sa vie psychique jusqu'alors agie à son insu.",
-      },
-    ],
-    citations: [
-      {
-        auteur: "Freud",
-        texte: "Le rêve est la voie royale qui mène à la connaissance de l'inconscient.",
-        source: "L'interprétation des rêves",
-      },
-      {
-        auteur: "Freud",
-        texte: "Là où était le ça, le moi doit advenir.",
-        source: "Nouvelles conférences d'introduction à la psychanalyse",
-      },
-      {
-        auteur: "Lacan",
-        texte: "L'inconscient est structuré comme un langage.",
-        source: "Écrits",
-      },
-      {
-        auteur: "Sartre",
-        texte: "Il n'y a pas d'inconscient : il y a mauvaise foi.",
-        source: "L'Être et le Néant",
-      },
-      {
-        auteur: "Nietzsche",
-        texte: "La grande raison du corps est un puissant souverain, un sage inconnu.",
-        source: "Ainsi parlait Zarathoustra",
-      },
-      {
-        auteur: "Jung",
-        texte: "L'inconscient collectif est un héritage spirituel de l'évolution de l'humanité.",
-        source: "L'Âme et la vie",
-      },
-      {
-        auteur: "Freud",
-        texte: "Le moi n'est pas maître dans sa propre maison.",
-        source: "Introduction à la psychanalyse",
-      },
-    ],
-    auteurs: [
-      "Freud",
-      "Jung",
-      "Lacan",
-      "Sartre",
-      "Nietzsche",
-      "Adler",
-      "Ricoeur",
-      "Merleau-Ponty",
-      "Winnicott",
-      "Dolto",
-    ],
-  },
-  {
-    id: "liberte",
-    titre: "La Liberté",
-    emoji: "🕊️",
-    couleur: "#059669",
-    definition: "La liberté désigne la capacité d'agir selon sa propre volonté, sans être soumis à une contrainte extérieure ou intérieure. Mais la question philosophique est bien plus complexe : est-on vraiment libre si nos désirs sont eux-mêmes déterminés par notre nature, notre éducation, notre inconscient ? La problématique centrale oppose le libre arbitre — pouvoir toujours agir autrement — au déterminisme — l'idée que tout acte est la conséquence nécessaire de causes antérieures. La liberté est aussi une question politique et morale : condition de la responsabilité, elle est au cœur de l'idée de dignité humaine.",
-    distinctions: [
-      { terme: "Libre arbitre", def: "Capacité supposée de la volonté à se décider indépendamment de toute cause déterminante — pouvoir, dans une situation donnée, agir autrement qu'on n'a agi. Fondement traditionnel de la responsabilité morale." },
-      { terme: "Liberté négative", def: "Au sens d'Isaiah Berlin, absence d'obstacles et de contraintes extérieures pesant sur l'action : je suis libre dans la mesure où rien ni personne ne m'empêche d'agir. C'est la liberté comme espace de non-ingérence." },
-      { terme: "Liberté positive", def: "Capacité réelle de se gouverner soi-même et de réaliser ses projets — non seulement l'absence d'obstacle, mais la possession des moyens effectifs d'agir. Elle implique des conditions sociales et éducatives." },
-      { terme: "Déterminisme", def: "Thèse selon laquelle tout événement, y compris les actes humains, est la conséquence nécessaire et prévisible de causes antérieures. Dans ce cadre, le sentiment de liberté serait une illusion produite par l'ignorance des causes qui nous meuvent." },
-      { terme: "Compatibilisme", def: "Position philosophique (Hume, Leibniz, Kant dans une certaine mesure) soutenant que liberté et déterminisme ne sont pas contradictoires : on est libre quand on agit selon ses propres désirs, même si ceux-ci sont déterminés." },
-    ],
-    idees: [
-      {
-        titre: "Libre arbitre contre déterminisme : Kant et l'autonomie",
-        contenu: "Kant oppose le monde de la nature, entièrement soumis au déterminisme causal, au monde de la liberté, domaine de la morale et de la raison pratique. L'être humain appartient aux deux mondes : en tant qu'être naturel, il est déterminé ; en tant qu'être raisonnable, il est capable d'autonomie — de se donner lui-même sa loi. Cette liberté morale kantienne ne dépend pas de l'absence de causes : elle est la capacité de la raison à s'imposer à elle-même une loi universelle, indépendante des désirs et des inclinations.",
-      },
-      {
-        titre: "La liberté sartrienne : condamné à être libre",
-        contenu: "Pour Sartre, la liberté n'est pas une propriété parmi d'autres de l'homme : elle est la structure même de son être. L'existence précède l'essence — l'homme n'a pas de nature préalable qui le déterminerait ; il est ce qu'il se fait. Cette liberté radicale est source d'angoisse : sans essence ni Dieu pour nous guider, nous sommes seuls responsables de tout ce que nous sommes. La mauvaise foi est précisément la tentation de fuir cette angoisse en se croyant déterminé, en se traitant comme une chose.",
-      },
-      {
-        titre: "Spinoza : la vraie liberté, c'est comprendre ses causes",
-        contenu: "Spinoza distingue la liberté illusoire — croire qu'on agit spontanément parce qu'on ignore les causes qui nous déterminent — de la liberté véritable, qui consiste à agir selon sa propre nature et non par contrainte extérieure. L'homme passionné est esclave de ses passions parce qu'il est mû par des causes qu'il n'a pas comprises ; la liberté est dans la connaissance de la nécessité. Plus on comprend les causes de ses désirs et de ses émotions, plus on cesse d'en être le jouet et plus on agit adéquatement.",
-      },
-      {
-        titre: "Bergson : la liberté comme jaillissement de la durée",
-        contenu: "Bergson distingue deux dimensions du moi : le moi superficiel, social, figé dans les habitudes et le langage, et le moi profond, qui vit dans la durée — le temps vécu, continu et qualitatif. La liberté n'est pas une décision calculée mais un acte qui exprime l'intégralité de notre personnalité profonde, notre durée vécue. Un acte vraiment libre est celui qui jaillit de notre être le plus intime, non de nos habitudes ou de nos calculs rationnels ; c'est pourquoi la liberté est rare et difficile à reconnaître.",
-      },
-      {
-        titre: "Rousseau : la liberté politique comme obéissance à la loi qu'on s'est donnée",
-        contenu: "Rousseau distingue la liberté naturelle (faire ce qu'on veut sans frein) de la liberté civile ou morale, seule vraiment digne de ce nom. Dans le contrat social, chacun s'associe à tous et obéit à la volonté générale — loi que la communauté s'est donnée à elle-même. Obéir à la loi qu'on s'est prescrite est donc liberté, car on n'obéit qu'à soi-même collectivement. C'est aussi une liberté morale : se soumettre à la loi commune plutôt qu'à ses seuls appétits.",
-      },
-      {
-        titre: "Le compatibilisme de Hume et Leibniz",
-        contenu: "Pour Hume, la liberté n'est pas contradictoire avec le déterminisme : elle signifie simplement agir selon ses propres désirs et motivations, sans contrainte extérieure. Nos désirs sont certes déterminés par notre caractère et notre histoire, mais ils sont bien les nôtres. Leibniz partage cette intuition : la nécessité logique qui gouverne le meilleur des mondes possibles n'exclut pas la spontanéité de chaque monade. Ce qui compte pour la liberté et la responsabilité, c'est que l'action vienne de nous, non qu'elle soit incausée.",
-      },
-      {
-        titre: "Arendt : la liberté comme action politique",
-        contenu: "Hannah Arendt distingue la liberté intérieure ou philosophique — objet de la tradition — de la liberté politique, qui se manifeste dans l'action publique avec d'autres. Être libre, c'est agir, commencer quelque chose de nouveau dans l'espace public, prendre des initiatives qui ouvrent l'imprévisible. La liberté n'est pas un état de l'âme mais une pratique collective : elle disparaît quand la politique disparaît, comme sous les régimes totalitaires. Cette liberté-là est fragile, contingente, et exige l'existence d'un espace public commun.",
-      },
-      {
-        titre: "Schopenhauer : l'illusion du libre arbitre",
-        contenu: "Pour Schopenhauer, ce que nous appelons volonté libre n'est qu'une apparence. Derrière nos actes conscients opère une Volonté aveugle, puissance cosmique irrationnelle dont les êtres individuels ne sont que des expressions temporaires. L'homme peut faire ce qu'il veut, mais il ne peut pas vouloir ce qu'il veut : ses désirs eux-mêmes lui sont imposés par la Volonté universelle. Le sentiment de libre arbitre est donc une illusion produite par la conscience, qui s'observe agir sans voir les forces profondes qui la meuvent.",
-      },
-    ],
-    citations: [
-      {
-        auteur: "Sartre",
-        texte: "L'homme est condamné à être libre.",
-        source: "L'existentialisme est un humanisme",
-      },
-      {
-        auteur: "Spinoza",
-        texte: "Les hommes se croient libres parce qu'ils sont conscients de leurs volitions et de leurs appétits, mais ils ignorent les causes qui les déterminent.",
-        source: "Éthique",
-      },
-      {
-        auteur: "Kant",
-        texte: "Agis seulement d'après la maxime grâce à laquelle tu peux vouloir en même temps qu'elle devienne une loi universelle.",
-        source: "Fondements de la métaphysique des mœurs",
-      },
-      {
-        auteur: "Rousseau",
-        texte: "L'obéissance à la loi qu'on s'est prescrite est liberté.",
-        source: "Du contrat social",
-      },
-      {
-        auteur: "Mill",
-        texte: "La seule liberté qui mérite ce nom est celle de poursuivre notre propre bien à notre propre manière.",
-        source: "De la liberté",
-      },
-      {
-        auteur: "Bergson",
-        texte: "Nous sommes libres quand nos actes émanent de notre personnalité entière.",
-        source: "Essai sur les données immédiates de la conscience",
-      },
-      {
-        auteur: "Schopenhauer",
-        texte: "L'homme peut faire ce qu'il veut, mais il ne peut pas vouloir ce qu'il veut.",
-        source: "Le Monde comme volonté et représentation",
-      },
-    ],
-    auteurs: [
-      "Sartre",
-      "Kant",
-      "Spinoza",
-      "Rousseau",
-      "Bergson",
-      "Hume",
-      "Leibniz",
-      "Arendt",
-      "Schopenhauer",
-      "Mill",
-    ],
-  },
-  {
-    id: "verite",
-    titre: "La Vérité",
-    emoji: "🔍",
-    couleur: "#DC2626",
-    definition: "La vérité est ce que l'esprit cherche à atteindre lorsqu'il pense correctement : la conformité de la pensée avec la réalité, ou du discours avec les faits. Mais cette définition apparemment simple cache de multiples difficultés : qu'est-ce que la réalité que la pensée devrait refléter ? Comment distinguer la vérité de l'opinion, de la croyance ou de l'erreur ? La problématique centrale est celle du fondement de la connaissance : existe-t-il une vérité absolue et universelle, ou toute vérité est-elle relative à un point de vue, une époque, une culture ?",
-    distinctions: [
-      { terme: "Vérité-correspondance", def: "Conception classique (Aristote, Tarski) selon laquelle une proposition est vraie si et seulement si elle correspond à la réalité — dire de ce qui est qu'il est. C'est la vérité comme adéquation de l'intellect à la chose." },
-      { terme: "Vérité-cohérence", def: "Une proposition est vraie si elle est cohérente avec l'ensemble du système de propositions auquel elle appartient. Pas de référence directe au monde extérieur : la vérité est interne à un système logique ou théorique." },
-      { terme: "Vérité pragmatique", def: "Au sens de William James et du pragmatisme américain, est vrai ce qui est utile, ce qui fonctionne, ce qui permet à l'action de réussir. La vérité n'est pas un état statique mais un processus de vérification par l'expérience." },
-      { terme: "Vérité-consensus", def: "Pour Habermas, la vérité est ce sur quoi s'accorderaient des interlocuteurs engagés dans un débat rationnel, libre de toute contrainte et de toute distorsion. La vérité n'est pas donnée mais construite par le dialogue." },
-      { terme: "Opinion (doxa)", def: "Croyance subjective sans fondement rationnel solide, ni démonstration ni vérification. Platon oppose la doxa (simple opinion, peut être vraie par hasard) à l'épistémè (science, connaissance fondée et justifiée)." },
-    ],
-    idees: [
-      {
-        titre: "Le doute cartésien et la recherche d'un fondement certain",
-        contenu: "Descartes entreprend de reconstruire l'édifice du savoir sur des bases inébranlables. Pour cela, il applique un doute radical et méthodique à tout ce dont il peut douter : les sens le trompent parfois, peut-être toujours ; peut-être un malin génie perturbe toutes ses intuitions mathématiques. Il ne reste alors qu'une certitude : le fait même de douter prouve qu'on pense, et penser prouve qu'on existe. Cette vérité première, le cogito, fonde la méthode et fixe un idéal : la vérité doit être claire, distincte et indubitable.",
-      },
-      {
-        titre: "Le mythe de la caverne : la vérité comme ascension",
-        contenu: "Platon illustre sa théorie de la connaissance par le célèbre mythe de la caverne : des prisonniers enchaînés ne voient que des ombres projetées sur un mur et croient que c'est la réalité. Libéré, l'un d'eux monte vers la lumière du Soleil — symbole du Bien et de la vérité. L'ascension est douloureuse, le retour dangereux (le philosophe qui revient dire la vérité est tué, allusion à Socrate). La vérité est rare, difficile d'accès, et exige un effort de conversion du regard qui ne va pas de soi.",
-      },
-      {
-        titre: "La vérité scientifique et la falsifiabilité chez Popper",
-        contenu: "Karl Popper critique l'idée que la science progresse par accumulation de confirmations. Pour lui, le critère de scientificité d'une théorie n'est pas sa capacité à être vérifiée mais à être réfutée : une bonne théorie scientifique doit formuler des prédictions qui pourraient en principe être démenties par l'expérience. Ce critère de falsifiabilité permet de distinguer science et pseudo-science (astrologie, certaines formes de psychanalyse). La vérité scientifique est donc toujours provisoire, toujours susceptible d'être dépassée.",
-      },
-      {
-        titre: "Nietzsche et le perspectivisme : la vérité comme illusion utile",
-        contenu: "Nietzsche remet radicalement en cause la notion de vérité objective. Il n'y a pas de faits, seulement des interprétations : toute connaissance est un regard depuis un point de vue, une perspective historiquement et biologiquement situés. Les vérités sont des métaphores oubliées, des illusions que nous avons cessé de reconnaître comme telles parce qu'elles servent à la vie. Cette position perspectiviste ne tombe pas dans un relativisme total — certaines perspectives sont plus riches, plus puissantes que d'autres — mais elle interdit toute prétention à une vérité absolue.",
-      },
-      {
-        titre: "Kant sur le mensonge : la vérité comme exigence morale absolue",
-        contenu: "Kant soutient que le mensonge est moralement condamnable sans exception, même au meurtrier qui demande où est sa victime. Le devoir de vérité est catégorique, non hypothétique : il ne dépend pas des conséquences. Si tout le monde mentait quand c'était pratique, le langage lui-même cesserait de fonctionner — on ne pourrait plus rien croire de personne. Le mensonge traite autrui comme un moyen, non comme une fin ; il viole sa capacité rationnelle de se former des jugements vrais.",
-      },
-      {
-        titre: "Habermas et la vérité-consensus",
-        contenu: "Pour Jürgen Habermas, la vérité n'est pas une propriété des propositions mesurable indépendamment des sujets qui les énoncent : elle est ce à quoi parviendraient des interlocuteurs engagés dans une « situation idéale de parole », libre de toute domination, manipulation et contrainte. La vérité émerge du dialogue rationnel dans des conditions d'égalité. Cette théorie a des implications politiques : la démocratie délibérative, espace de débat rationnel, est la condition institutionnelle de la vérité dans les affaires humaines.",
-      },
-      {
-        titre: "Vérité et liberté : la vérité peut être dangereuse",
-        contenu: "Platon montre déjà que le philosophe qui revient de la lumière dans la caverne risque d'être tué par ceux qui ne veulent pas quitter leurs ombres familières. La vérité dérange, déstabilise, remet en cause les certitudes confortables et les pouvoirs établis. Socrate fut condamné à mort pour avoir dit des vérités gênantes. Cette tension entre vérité et pouvoir traverse toute l'histoire de la pensée : la vérité est une exigence inconditionnelle, mais son dire peut exiger du courage — ce que Foucault appelle la parrêsia, le franc-parler.",
-      },
-    ],
-    citations: [
-      {
-        auteur: "Aristote",
-        texte: "Dire de ce qui est qu'il n'est pas, ou de ce qui n'est pas qu'il est, c'est le faux ; dire de ce qui est qu'il est, et de ce qui n'est pas qu'il n'est pas, c'est le vrai.",
-        source: "Métaphysique",
-      },
-      {
-        auteur: "Nietzsche",
-        texte: "Il n'y a pas de faits, seulement des interprétations.",
-        source: "Fragments posthumes",
-      },
-      {
-        auteur: "Descartes",
-        texte: "Je pris garde que, pendant que je voulais ainsi penser que tout était faux, il fallait nécessairement que moi, qui le pensais, fusse quelque chose.",
-        source: "Discours de la méthode",
-      },
-      {
-        auteur: "Bachelard",
-        texte: "La vérité scientifique est une erreur rectifiée.",
-        source: "La formation de l'esprit scientifique",
-      },
-      {
-        auteur: "Kant",
-        texte: "La vérité est la conformité de la connaissance avec son objet.",
-        source: "Critique de la raison pure",
-      },
-      {
-        auteur: "Platon",
-        texte: "La connaissance est une vision de la vérité.",
-        source: "La République",
-      },
-      {
-        auteur: "Popper",
-        texte: "Une théorie qui n'est réfutable par aucun événement concevable est dépourvue de caractère scientifique.",
-        source: "La logique de la découverte scientifique",
-      },
-    ],
-    auteurs: [
-      "Platon",
-      "Aristote",
-      "Descartes",
-      "Kant",
-      "Nietzsche",
-      "Popper",
-      "Bachelard",
-      "Habermas",
-      "Wittgenstein",
-      "Foucault",
-    ],
-  },
-  {
-    id: "raison",
-    titre: "La Raison et le Réel",
-    emoji: "⚙️",
-    couleur: "#B45309",
-    definition: "La raison est la faculté de penser selon des principes universels, de démontrer, d'argumenter et d'ordonner l'expérience. Elle est au cœur de la philosophie depuis les Grecs : c'est elle qui distingue l'homme de l'animal selon Aristote, et qui fonde la prétention à la vérité objective. La problématique centrale est celle du rapport entre la raison et le réel : la raison peut-elle vraiment connaître le monde tel qu'il est ? Est-elle une lumière naturelle suffisante, ou doit-elle s'appuyer sur l'expérience — et dans ce cas, quelles sont ses limites ?",
-    distinctions: [
-      { terme: "Raison théorique", def: "Faculté de connaître — formuler des jugements vrais sur ce qui est. Elle régit la science, la logique et la métaphysique, visant à établir la vérité sur le monde et ses principes." },
-      { terme: "Raison pratique", def: "Au sens kantien, faculté de déterminer la volonté selon des principes moraux universels — ce qu'on doit faire. Elle est le fondement de la morale : la raison pratique légifère dans le domaine de l'action libre." },
-      { terme: "Rationalisme", def: "Courant philosophique (Descartes, Leibniz, Spinoza) selon lequel la raison seule, sans recours nécessaire à l'expérience sensible, peut atteindre des vérités certaines. Les idées innées ou les principes a priori sont le socle de la connaissance." },
-      { terme: "Empirisme", def: "Courant philosophique (Locke, Hume, Berkeley) pour lequel toute connaissance dérive de l'expérience sensible. L'esprit est d'abord une table rase (tabula rasa) et toute idée provient d'impressions sensibles préalables." },
-      { terme: "Entendement vs Raison (Kant)", def: "Kant distingue l'entendement (Verstand), qui structure l'expérience à l'aide de catégories a priori (causalité, substance…), de la raison (Vernunft), qui cherche l'inconditionné et tend à dépasser l'expérience possible. L'entendement connaît légitimement ; la raison seule produit des illusions métaphysiques." },
-    ],
-    idees: [
-      {
-        titre: "Rationalisme cartésien contre empirisme humien",
-        contenu: "Descartes affirme que les vérités les plus certaines — mathématiques, existence de Dieu, distinction âme/corps — sont atteintes par la seule lumière naturelle de la raison, grâce à des idées claires et distinctes indépendantes des sens. Hume, à l'inverse, soutient que toute idée est une copie affaiblie d'une impression sensible préalable : sans expérience, l'esprit est vide. Il en déduit que des concepts métaphysiques comme la substance ou la causalité n'ont pas de fondement empirique solide et ne sont que des habitudes de l'esprit.",
-      },
-      {
-        titre: "La synthèse kantienne : intuitions et concepts",
-        contenu: "Kant opère une révolution copernicienne en philosophie en montrant que la connaissance n'est ni purement rationnelle ni purement empirique. Les intuitions sensibles fournissent la matière de la connaissance, mais sans les catégories de l'entendement (causalité, substance, unité…) elles seraient un chaos informe. « Des intuitions sans concepts sont aveugles, des concepts sans intuitions sont vides. » La connaissance est une synthèse des deux : l'objet de l'expérience est en partie constitué par notre manière de le penser.",
-      },
-      {
-        titre: "La dialectique hégélienne : tout réel est rationnel",
-        contenu: "Hegel formule une thèse audacieuse : « Tout ce qui est rationnel est réel ; tout ce qui est réel est rationnel. » Ce n'est pas une justification naïve du monde tel qu'il est, mais l'affirmation que le réel est un processus rationnel se déployant dans l'histoire. L'Esprit absolu se réalise dans le temps à travers des contradictions et des dépassements successifs (dialectique thèse-antithèse-synthèse). Comprendre le réel, c'est saisir ce mouvement rationnel immanent à l'histoire.",
-      },
-      {
-        titre: "Les limites de la raison selon Kant : antinomies et métaphysique",
-        contenu: "Kant montre que lorsque la raison cherche à connaître des objets qui dépassent toute expérience possible — l'âme, le monde comme totalité, Dieu — elle tombe dans des antinomies : on peut prouver de façon également rigoureuse des thèses contradictoires (le monde est fini en espace et temps / le monde est infini…). Ces contradictions ne viennent pas d'une faiblesse accidentelle de la raison humaine, mais d'une tendance constitutive de la raison à dépasser le champ de l'expérience légitime. La métaphysique traditionnelle est une illusion transcendantale.",
-      },
-      {
-        titre: "Pascal : le cœur et les raisons que la raison ne connaît pas",
-        contenu: "Pascal distingue la raison démonstrative, efficace en géométrie et en science, et le cœur, qui connaît les premiers principes (l'espace, le temps, le mouvement, le nombre) sans pouvoir les démontrer. La foi en Dieu est affaire de cœur, non de démonstration rationnelle — « le cœur a ses raisons que la raison ne connaît point ». Cette pensée n'est pas irrationaliste : elle souligne simplement que la raison discursive n'est pas la seule forme de connaissance, et qu'elle repose sur des fondements qu'elle ne peut elle-même fonder.",
-      },
-      {
-        titre: "Weber : rationalité en valeur et rationalité instrumentale",
-        contenu: "Max Weber distingue deux types de rationalité dans l'action sociale. La rationalité en valeur consiste à agir selon des convictions morales, religieuses ou esthétiques, quelles qu'en soient les conséquences. La rationalité instrumentale (ou en finalité) calcule les moyens les plus efficaces pour atteindre une fin donnée, sans s'interroger sur la valeur de cette fin. La modernité est caractérisée par la montée de la rationalité instrumentale, qui peut se mettre au service de n'importe quel objectif, y compris les plus inhumains.",
-      },
-      {
-        titre: "Lévi-Strauss : la pensée sauvage est aussi rationnelle",
-        contenu: "Claude Lévi-Strauss réhabilite la pensée mythique et magique des sociétés dites « primitives » en montrant qu'elle n'est pas pré-logique ou irrationnelle, mais qu'elle répond à une logique propre — une « science du concret ». Les mythes obéissent à des structures formelles rigoureuses, des systèmes d'oppositions binaires que l'anthropologue peut analyser. La pensée sauvage n'est pas une étape dépassée vers la raison scientifique : elle est une autre manière de classer et d'ordonner le monde, tout aussi rigoureuse à sa façon.",
-      },
-    ],
-    citations: [
-      {
-        auteur: "Descartes",
-        texte: "Le bon sens est la chose du monde la mieux partagée.",
-        source: "Discours de la méthode",
-      },
-      {
-        auteur: "Hegel",
-        texte: "Tout ce qui est rationnel est réel ; tout ce qui est réel est rationnel.",
-        source: "Principes de la philosophie du droit",
-      },
-      {
-        auteur: "Kant",
-        texte: "Des intuitions sans concepts sont aveugles, des concepts sans intuitions sont vides.",
-        source: "Critique de la raison pure",
-      },
-      {
-        auteur: "Pascal",
-        texte: "Le cœur a ses raisons que la raison ne connaît point.",
-        source: "Pensées",
-      },
-      {
-        auteur: "Hume",
-        texte: "La raison est, et ne peut qu'être, l'esclave des passions.",
-        source: "Traité de la nature humaine",
-      },
-      {
-        auteur: "Aristote",
-        texte: "L'homme est le seul animal qui possède la raison.",
-        source: "Politique",
-      },
-      {
-        auteur: "Wittgenstein",
-        texte: "Les limites de mon langage sont les limites de mon monde.",
-        source: "Tractatus logico-philosophicus",
-      },
-    ],
-    auteurs: [
-      "Descartes",
-      "Kant",
-      "Hegel",
-      "Hume",
-      "Leibniz",
-      "Pascal",
-      "Aristote",
-      "Weber",
-      "Lévi-Strauss",
-      "Spinoza",
-    ],
-  },
-{
-    id: "temps",
-    titre: "Le Temps",
-    emoji: "⏳",
-    couleur: "#6D28D9",
-    definition: "Le temps est la dimension dans laquelle se succèdent les événements, du passé vers le futur en passant par le présent. Il peut être appréhendé objectivement comme mesure du mouvement (Aristote, Newton) ou subjectivement comme durée vécue par la conscience (Bergson, Augustin). La question du temps est indissociable de celle de l'existence humaine : être dans le temps, c'est être mortel, donc être confronté à la finitude.",
-    distinctions: [
-      { terme: "Temps objectif vs temps subjectif", def: "Le temps objectif (Newton) est un cadre absolu, homogène et mesurable, indépendant de tout observateur. Le temps subjectif est le temps tel qu'il est vécu par la conscience : il peut sembler long ou court, peuplé de souvenirs ou d'anticipations — c'est la 'durée' de Bergson." },
-      { terme: "Temps relatif (Einstein)", def: "La relativité restreinte montre que le temps n'est pas absolu : il se dilate ou se contracte selon la vitesse de l'observateur ou l'intensité du champ gravitationnel. Le temps est inséparable de l'espace (espace-temps), ce qui ruine l'idée d'un présent universel simultané." },
-      { terme: "Temps cosmique vs temps humain", def: "Le temps cosmique est l'immensité des durées géologiques ou astronomiques (milliards d'années) face auxquelles la vie humaine est infime. Le temps humain est vécu, structuré par des projets, des rituels, une mémoire — il donne un sens à l'existence là où le temps cosmique est indifférent." },
-      { terme: "Présent / passé / futur comme ekstases temporelles (Heidegger)", def: "Heidegger nomme 'ekstases' les trois dimensions du temps vécues par le Dasein : le passé comme 'avoir-été' (ce que nous sommes déjà), le présent comme 'être-auprès' (l'engagement dans le monde), le futur comme 'pouvoir-être' (le projet vers la mort). Ces trois ekstases sont co-originaires et inséparables." },
-      { terme: "Éternité vs temporalité", def: "L'éternité (Platon, tradition chrétienne) désigne ce qui est hors du temps, immuable et parfait — le monde des Idées ou Dieu. La temporalité est au contraire le mode d'être de tout ce qui change et passe. Le temps est pour Platon 'l'image mobile de l'éternité'." },
-    ],
-    idees: [
-      { titre: "Aristote : le temps comme mesure du mouvement", contenu: "Dans la Physique, Aristote définit le temps comme 'le nombre du mouvement selon l'avant et l'après'. Le temps n'existe donc pas sans changement ni mouvement : si tout était immobile, il n'y aurait pas de temps. Mais il faut aussi une âme pour percevoir et compter cet avant-après — le temps est à la fois dans le monde (le mouvement) et dans l'âme (qui le mesure). Cette double ancrage fait du temps une réalité relationnelle entre le monde et l'esprit." },
-      { titre: "Saint Augustin : le temps dans l'âme", contenu: "Dans les Confessions (livre XI), Augustin pose la question célèbre : 'Qu'est-ce donc que le temps ?' Sa réponse est radicalement intériorisante : le passé n'existe plus, le futur n'existe pas encore, seul le présent existe — mais le présent est insaisissable. Il distingue trois présents dans l'âme : le présent du passé (la mémoire), le présent du présent (l'attention ou intuition), le présent du futur (l'attente). Le temps est donc une 'distension de l'âme', une tension intérieure, non une réalité extérieure." },
-      { titre: "Bergson : durée vécue contre temps spatialisé", contenu: "Bergson oppose radicalement deux conceptions du temps. La science découpe le temps en instants mesurables, le représente comme une ligne — elle le spatialise et en perd l'essentiel : le flux, la continuité qualitative. La vraie temporalité, c'est la durée (durée vécue) : un écoulement continu dans lequel les moments s'interpénètrent sans se juxtaposer. Cette durée ne peut se mesurer qu'en la vivant de l'intérieur, par intuition. La liberté elle-même suppose cette durée : elle est ce qui jaillit de la durée profonde, non du moi superficiel soumis à la causalité mécanique." },
-      { titre: "Heidegger : l'être-vers-la-mort et la temporalité authentique", contenu: "Pour Heidegger (Être et Temps), le Dasein (l'être humain) est fondamentalement temporel. La mort est 'la possibilité de l'impossibilité de toute possibilité' : elle est certaine, la plus propre (personne ne peut mourir à ma place) et indépassable. C'est l'angoisse devant la mort qui arrache le Dasein à la dispersion dans le 'on' (l'existence inauthentique) et le renvoie à ses possibilités les plus propres. L'existence authentique est celle qui assume sa finitude et vit chaque instant comme si la mort était possible : elle donne au temps son poids existentiel." },
-      { titre: "Platon : le temps image mobile de l'éternité", contenu: "Dans le Timée, Platon raconte que le démiurge crée le monde en prenant modèle sur les Idées éternelles. Ne pouvant rendre le monde éternel, il crée le temps comme 'image mobile de l'éternité, qui avance selon le nombre'. Le temps est donc une imitation du monde idéal : le mouvement circulaire des astres en est la mesure. Cette conception hiérarchise : l'éternité est supérieure au temps, le temps est la marque de l'imperfection du monde sensible." },
-      { titre: "Identité personnelle et mémoire : Locke et Ricœur", contenu: "Pour Locke, c'est la mémoire qui fonde l'identité personnelle : je suis la même personne que celle qui a vécu telle expérience passée parce que je m'en souviens. Ricœur (Temps et récit, Soi-même comme un autre) approfondit en distinguant l'identité-idem (substance permanente) et l'identité-ipse (se maintenir dans la promesse et dans le récit). L'identité narrative tisse un fil entre passé, présent et futur en faisant de la vie une histoire cohérente. La mémoire n'est pas simple stockage mais reconstruction active orientée vers l'avenir." },
-      { titre: "Temps et éthique : vivre au présent ou se projeter ?", contenu: "Pascal (Pensées) observe que les hommes ne vivent jamais au présent : toujours en attente d'un futur ou regrettant le passé, ils se divertissent pour fuir l'ennui et la conscience de leur misère. La sagesse épicurienne du carpe diem (Horace) invite à habiter pleinement le présent. À l'inverse, le projet (Sartre, existentialisme) définit l'homme par ce vers quoi il se projette : l'existence précède l'essence, l'homme est ce qu'il se fait. Ces deux sagesses — jouissance du présent et engagement dans le futur — définissent deux manières d'habiter le temps." },
-    ],
-    citations: [
-      { auteur: "Saint Augustin", texte: "Qu'est-ce donc que le temps ? Si personne ne me le demande, je le sais ; mais si on me le demande et que je veuille l'expliquer, je ne le sais plus.", source: "Confessions" },
-      { auteur: "Bergson", texte: "Le temps est invention ou il n'est rien du tout.", source: "L'Évolution créatrice" },
-      { auteur: "Heidegger", texte: "La mort est la possibilité de l'impossibilité de toute possibilité.", source: "Être et Temps" },
-      { auteur: "Héraclite", texte: "On ne se baigne jamais deux fois dans le même fleuve.", source: "Fragments" },
-      { auteur: "Pascal", texte: "Nous ne vivons jamais, mais nous espérons de vivre.", source: "Pensées" },
-      { auteur: "Aristote", texte: "Le temps est le nombre du mouvement selon l'avant et l'après.", source: "Physique" },
-      { auteur: "Marcel Proust", texte: "Le vrai paradis, c'est le paradis qu'on a perdu.", source: "Le Temps retrouvé" },
-    ],
-    auteurs: ["Aristote", "Saint Augustin", "Henri Bergson", "Martin Heidegger", "Platon", "John Locke", "Paul Ricœur", "Blaise Pascal", "Isaac Newton", "Albert Einstein"],
-  },
-  {
-    id: "autrui",
-    titre: "Autrui",
-    emoji: "👥",
-    couleur: "#0891B2",
-    definition: "Autrui désigne l'autre être humain en tant qu'il est à la fois semblable à moi (alter ego, un autre moi-même) et radicalement différent, irréductible à ma perspective. La question d'autrui est philosophiquement double : comment puis-je connaître et comprendre un autre sujet (problème épistémologique) ? Et quel est le sens moral et existentiel de cette présence de l'autre (problème éthique et ontologique) ? Autrui est à la fois condition de ma liberté et menace potentielle pour elle.",
-    distinctions: [
-      { terme: "Alter ego", def: "Autrui comme 'autre moi-même' : je lui reconnais une intériorité, une conscience, des sentiments analogues aux miens. C'est l'analogie qui fonde la compréhension d'autrui selon Husserl : je transfère sur l'autre corps les vécus que j'expérimente dans le mien. L'alter ego est le fondement de l'empathie et de la solidarité morale." },
-      { terme: "Altérité radicale (Levinas)", def: "Levinas s'oppose à la réduction d'autrui à un alter ego : l'Autre (avec majuscule) est absolument autre, il déborde toute représentation que je peux en avoir. Son visage m'interpelle avant toute pensée et m'impose une obligation éthique infinie : 'Tu ne tueras pas'. L'altérité radicale interdit de ramener autrui à ma mesure." },
-      { terme: "Intersubjectivité", def: "La subjectivité ne précède pas la relation à autrui mais se constitue dans et par cette relation. Je ne suis sujet qu'en relation à d'autres sujets : la conscience de soi est d'emblée conscience sociale. Hegel (reconnaissance), Husserl (phénoménologie), Merleau-Ponty (intercorporéité) décrivent tous ce tissage originaire entre moi et autrui." },
-      { terme: "Empathie vs sympathie", def: "L'empathie consiste à se mettre à la place d'autrui, à ressentir ce qu'il ressent de l'intérieur, sans pour autant fusionner avec lui. La sympathie est le partage d'une émotion à distance : je compatis sans m'identifier. L'empathie est un acte cognitif et affectif complexe, fondement de la compréhension morale d'autrui." },
-      { terme: "Soi-même comme un autre (Ricœur)", def: "Ricœur (Soi-même comme un autre) montre que l'identité du soi (ipséité) est indissociable de la relation à l'autre. Je me comprends moi-même à travers les récits que je fais de ma vie, récits toujours adressés à autrui et construits avec lui. L'autre n'est pas extérieur à moi : il est constitutif de ce que je suis." },
-    ],
-    idees: [
-      { titre: "Le problème du solipsisme et la solution husserlienne", contenu: "Le solipsisme est la thèse selon laquelle je ne peux être certain que de l'existence de ma propre conscience : le monde et les autres pourraient n'être que mes représentations. Husserl (Méditations cartésiennes, Ve méditation) tente d'y répondre par le 'transfert apperceptif' : mon corps propre est le centre de mon expérience, et lorsque je perçois un autre corps qui se comporte comme le mien, je lui transfère analogiquement une vie intérieure. Autrui m'est donné comme 'alter ego', constitution d'une expérience intersubjective partagée qui fonde l'objectivité du monde." },
-      { titre: "La dialectique maître-esclave chez Hegel", contenu: "Dans la Phénoménologie de l'Esprit, Hegel montre que la conscience de soi ne peut s'affirmer seule : elle a besoin d'être reconnue par une autre conscience. La lutte pour la reconnaissance aboutit à une dissymétrie : l'un préfère la vie à la liberté (l'esclave), l'autre risque sa vie (le maître). Mais le maître, reconnu par un esclave qu'il ne reconnaît pas, obtient une reconnaissance sans valeur. L'esclave, lui, en travaillant la nature, se réalise et prend conscience de lui-même. L'inversion dialectique : c'est l'esclave qui, au bout du compte, atteint la vraie liberté." },
-      { titre: "Le regard d'autrui selon Sartre", contenu: "Dans L'Être et le Néant, Sartre analyse l'expérience du regard : lorsque je suis regardé par autrui, je me sens soudain 'pétrifié', réduit à un objet dans son monde — je deviens une chose parmi les choses. 'L'enfer, c'est les autres' (Huis clos) : autrui me vole ma liberté en me définissant, en me fixant dans une essence que je ne choisis pas. Pourtant, le regard d'autrui est nécessaire : c'est par lui que j'existe comme sujet perceptible, que je prends conscience de ma propre existence-pour-autrui. La relation à autrui est fondamentalement conflictuelle." },
-      { titre: "Le visage d'autrui selon Levinas", contenu: "Levinas (Totalité et infini) propose une éthique fondée sur la rencontre avec le visage d'autrui. Le visage n'est pas d'abord une donnée perceptive : c'est une interpellation, une injonction ('Tu ne tueras pas'). Le visage me met en question, me sort de ma tranquillité égoïste. L'éthique — la responsabilité infinie envers autrui — précède toute ontologie. Contrairement à Sartre, Levinas voit dans la relation à l'Autre non une menace mais la condition même d'une vie authentiquement humaine et morale." },
-      { titre: "Merleau-Ponty et l'intercorporéité", contenu: "Merleau-Ponty (Phénoménologie de la perception) critique les approches qui font de la connaissance d'autrui un raisonnement par analogie : autrui n'est pas d'abord une conscience cachée que j'inférerais de son comportement. Je perçois autrui directement dans son corps vécu, dans sa gestuelle, ses expressions — avant toute réflexion. Les corps communicants se répondent dans un espace partagé (l'intercorporéité). Cette 'chair du monde' commune fait que le solipsisme est, phénoménologiquement, impossible." },
-      { titre: "Ricœur : l'identité narrative et la relation à l'autre", contenu: "Paul Ricœur (Soi-même comme un autre) montre que l'identité personnelle n'est pas une substance figée mais une construction narrative : je suis l'auteur du récit de ma vie. Or ce récit est toujours adressé à des tiers, construit en dialogue avec des témoins, infléchi par d'autres histoires. L'ipséité (identité comme promesse tenue) implique l'altérité : 'soi-même comme un autre' signifie que l'autre est au cœur du soi, non son extérieur. La solicitude envers autrui est la dimension éthique de cette identité narrative." },
-      { titre: "Simone de Beauvoir : l'Autre absolu comme oppression", contenu: "Dans Le Deuxième Sexe, Beauvoir applique la dialectique hégélienne au rapport entre les sexes : la femme a été historiquement construite comme 'l'Autre' absolu par le regard masculin, c'est-à-dire comme ce qui n'est pas le sujet de référence (l'homme). Cette altérisation n'est pas réciproque : l'homme ne se vit pas comme 'l'Autre' de la femme. La femme est définie négativement, privée de la réciprocité constitutive d'une vraie relation intersubjective. Autrui peut donc devenir un instrument d'oppression lorsque la reconnaissance est unilatérale." },
-    ],
-    citations: [
-      { auteur: "Jean-Paul Sartre", texte: "L'enfer, c'est les autres.", source: "Huis clos" },
-      { auteur: "Emmanuel Levinas", texte: "Le visage ouvre le discours originel dont le premier mot est obligation.", source: "Totalité et infini" },
-      { auteur: "Hegel", texte: "La conscience de soi n'est qu'en étant reconnue par une autre conscience de soi.", source: "Phénoménologie de l'esprit" },
-      { auteur: "Arthur Rimbaud", texte: "Je est un autre.", source: "Lettre du voyant" },
-      { auteur: "Martin Buber", texte: "Toute vie véritable est rencontre.", source: "Je et Tu" },
-      { auteur: "Maurice Merleau-Ponty", texte: "Autrui m'est donné comme comportement, non comme pensée.", source: "Phénoménologie de la perception" },
-      { auteur: "Paul Ricœur", texte: "Soi-même comme un autre suggère que l'ipséité du soi-même implique l'altérité à titre constitutif.", source: "Soi-même comme un autre" },
-    ],
-    auteurs: ["Edmund Husserl", "Georg W. F. Hegel", "Jean-Paul Sartre", "Emmanuel Levinas", "Maurice Merleau-Ponty", "Paul Ricœur", "Simone de Beauvoir", "Martin Buber", "René Descartes", "Sigmund Freud"],
-  },
-  {
-    id: "bonheur",
-    titre: "Le Bonheur",
-    emoji: "☀️",
-    couleur: "#D97706",
-    definition: "Le bonheur désigne un état de satisfaction complète et durable, une plénitude de l'existence. Il se distingue du plaisir, qui est momentané et partiel, et du simple bien-être, qui n'implique pas de réflexion sur le sens de la vie. La question philosophique du bonheur est double : en quoi consiste-t-il (eudémonisme, hédonisme, stoïcisme) et est-il possible ou désirable comme but ultime de l'existence humaine ?",
-    distinctions: [
-      { terme: "Eudémonisme", def: "Du grec eudaimonia, l'eudémonisme (Aristote) conçoit le bonheur comme épanouissement de la nature humaine — la réalisation de ce que nous sommes le mieux à même de faire, notamment l'exercice de la raison et de la vertu. Ce n'est pas un état passif mais une activité : 'activité de l'âme en accord avec la vertu'." },
-      { terme: "Hédonisme", def: "L'hédonisme fait du plaisir le souverain bien. Mais Épicure en donne une version raffinée : ce n'est pas la recherche des plaisirs intenses (kinesiai) mais de l'absence de douleur physique (aponie) et de trouble de l'âme (ataraxie). La sagesse consiste à maîtriser ses désirs pour atteindre une paix durable." },
-      { terme: "Stoïcisme", def: "Pour les stoïciens (Épictète, Marc Aurèle), le bonheur réside dans la vertu intérieure, seule chose qui dépende entièrement de nous. Les biens extérieurs (santé, richesse, réputation) sont des 'indifférents' : ils ne peuvent ni nous rendre vraiment heureux ni vraiment malheureux si notre volonté est droite." },
-      { terme: "Bonheur vs plaisir", def: "Le plaisir est momentané, lié à une sensation ou une satisfaction ponctuelle. Le bonheur est durable, global, il concerne l'ensemble d'une vie. On peut éprouver du plaisir sans être heureux (plaisirs coupables, éphémères) et être heureux sans jouir de plaisirs intenses (la sérénité stoïcienne)." },
-      { terme: "Bonheur vs sens de la vie", def: "Peut-on être heureux sans que sa vie ait un sens ? Certains (Mill, Aristote) lient les deux : une vie heureuse est aussi une vie signifiante. D'autres (Camus, Sartre) montrent qu'on peut trouver du sens à l'existence (dans l'engagement, la révolte) même sans bonheur au sens traditionnel. La question du sens dépasse celle du bonheur." },
-    ],
-    idees: [
-      { titre: "Aristote : l'eudémonie comme fin ultime", contenu: "Dans l'Éthique à Nicomaque, Aristote cherche le souverain bien, c'est-à-dire ce qui est désirable pour lui-même et non en vue d'autre chose. Ce bien suprême est l'eudaimonia (bonheur, épanouissement). Elle consiste en une 'activité de l'âme en accord avec la vertu' : l'homme heureux est celui qui actualise pleinement ses capacités proprement humaines, notamment la raison. Le bonheur n'est pas un état passif mais une pratique. Il nécessite aussi certains biens extérieurs (santé, amis, ressources minimales) et l'amitié vertueuse." },
-      { titre: "Épicure : ataraxie, aponie et maîtrise des désirs", contenu: "Épicure (Lettre à Ménécée) distingue trois types de désirs : les désirs naturels et nécessaires (manger, boire : faciles à satisfaire, indispensables), les désirs naturels mais non nécessaires (le raffinement, la variété : satisfaisables mais superflus), et les désirs vains (gloire, immortalité : insatisfaisables et source de malheur). La sagesse épicurienne consiste à se concentrer sur les premiers, à cultiver l'amitié et la philosophie, pour atteindre l'ataraxie (absence de trouble dans l'âme) et l'aponie (absence de douleur dans le corps). Le souverain plaisir est négatif : ne pas souffrir." },
-      { titre: "Épictète et la distinction stoïcienne : ce qui dépend de nous", contenu: "Épictète (Manuel) ouvre sur la distinction fondamentale : certaines choses dépendent de nous (nos jugements, désirs, aversions, actions — la volonté intérieure), d'autres non (notre corps, la réputation, les honneurs, la richesse). Le bonheur consiste à ne désirer et ne fuir que ce qui dépend de nous, à accueillir avec sérénité tout ce qui ne dépend pas de nous. Cette liberté intérieure est inaliénable : même l'esclave peut être libre en son âme. La souffrance vient toujours d'une mauvaise attribution — croire que des indifférents sont des biens ou des maux." },
-      { titre: "Kant : contre l'eudémonisme, la morale du devoir", contenu: "Kant (Fondements de la métaphysique des mœurs, Critique de la raison pratique) rejette le bonheur comme fondement de la morale. Le bonheur est 'un idéal non de la raison mais de l'imagination' : chacun en a une conception différente, et il ne peut servir de principe universel. La morale doit être fondée sur le devoir et la raison pure pratique, non sur le désir de bonheur. Cela ne signifie pas qu'Aristote se désintéresse du bonheur : il pose le 'souverain bien' comme union de la vertu et du bonheur, mais la vertu doit primer et le bonheur n'est accessible qu'à qui mérite de l'être." },
-      { titre: "Schopenhauer : l'impossibilité du bonheur", contenu: "Pour Schopenhauer (Le Monde comme volonté et représentation), la vie humaine est dominée par un vouloir-vivre insatiable. Tout désir insatisfait produit de la souffrance ; tout désir satisfait produit de l'ennui. L'existence oscille entre ces deux pôles sans jamais connaître de bonheur stable. La seule issue est la négation de la volonté : ascèse, renoncement, contemplation esthétique ou compassion. Cette vision pessimiste est radicalement anti-eudémoniste : le bonheur n'est qu'une illusion provisoire entre deux souffrances." },
-      { titre: "Stuart Mill et l'utilitarisme qualitatif", contenu: "Mill (L'Utilitarisme) reprend la maxime de Bentham — maximiser le bonheur du plus grand nombre — mais en l'enrichissant d'une distinction qualitative entre les plaisirs. Certains plaisirs sont supérieurs (plaisirs intellectuels, moraux, esthétiques) à d'autres (plaisirs corporels). 'Mieux vaut être Socrate insatisfait qu'un imbécile satisfait' : si Socrate préfère ses tourments intellectuels aux jouissances simples de l'imbécile, c'est parce qu'il a expérimenté les deux et juge les premiers supérieurs. L'utilitarisme n'est pas un hédonisme grossier mais prend en compte la qualité de l'expérience." },
-      { titre: "Alain : le bonheur comme devoir et comme acte de volonté", contenu: "Alain (Propos sur le bonheur) soutient que le bonheur n'est pas un état qui nous tombe dessus mais une tâche morale : 'Le pessimisme est d'humeur, l'optimisme est de volonté.' On est responsable de son bonheur comme on l'est de ses actes. L'humeur mélancolique, si on la laisse s'exprimer, contamine l'entourage et devient une faute envers les autres. Le bonheur exige effort, discipline de la pensée, refus de se laisser aller aux plaintes. Cette vision active et volontariste du bonheur est proche du stoïcisme mais insiste sur la dimension sociale et éthique." },
-    ],
-    citations: [
-      { auteur: "Aristote", texte: "Le bonheur est une activité de l'âme en accord avec la vertu.", source: "Éthique à Nicomaque" },
-      { auteur: "Épicure", texte: "Il n'est jamais trop tôt ni trop tard pour prendre soin de son âme.", source: "Lettre à Ménécée" },
-      { auteur: "Emmanuel Kant", texte: "Le bonheur est un idéal non de la raison mais de l'imagination.", source: "Fondements de la métaphysique des mœurs" },
-      { auteur: "Blaise Pascal", texte: "Tous les hommes recherchent d'être heureux ; cela est sans exception.", source: "Pensées" },
-      { auteur: "Alain", texte: "Le pessimisme est d'humeur, l'optimisme est de volonté.", source: "Propos sur le bonheur" },
-      { auteur: "John Stuart Mill", texte: "Mieux vaut être Socrate insatisfait qu'un imbécile satisfait.", source: "L'Utilitarisme" },
-      { auteur: "Épictète", texte: "Ne cherche pas que les événements arrivent comme tu le désires, mais désire que les événements arrivent comme ils arrivent, et tu seras heureux.", source: "Manuel" },
-    ],
-    auteurs: ["Aristote", "Épicure", "Épictète", "Marc Aurèle", "Emmanuel Kant", "Arthur Schopenhauer", "John Stuart Mill", "Alain", "Blaise Pascal", "John Locke"],
-  },
-  {
-    id: "etat",
-    titre: "L'État",
-    emoji: "🏛️",
-    couleur: "#1E40AF",
-    definition: "L'État est une forme d'organisation politique qui détient, sur un territoire délimité et pour une population donnée, le monopole de la contrainte légitime. Il se distingue de la société civile, de la famille et des autres formes de groupements humains par sa prétention à la souveraineté — le pouvoir suprême qui ne reconnaît aucune autorité supérieure. La philosophie politique s'interroge sur l'origine (pourquoi l'État ?), les fondements (qu'est-ce qui légitime son autorité ?) et les limites (jusqu'où peut aller son pouvoir ?) de l'État.",
-    distinctions: [
-      { terme: "État de nature vs état civil", def: "L'état de nature est une fiction méthodologique des philosophes du contrat social (Hobbes, Locke, Rousseau) : l'humanité avant toute organisation politique. Il permet de comprendre pourquoi l'État est nécessaire. L'état civil est la condition des hommes soumis à des lois communes et à un pouvoir politique institué." },
-      { terme: "État de droit", def: "Un État de droit est un État dans lequel les gouvernants eux-mêmes sont soumis à des lois et à une constitution. Nul n'est au-dessus des lois. Ce principe s'oppose à l'État absolutiste ou tyrannique où le souverain est légibus solutus (délié des lois). La séparation des pouvoirs (Montesquieu) est le mécanisme institutionnel de l'État de droit." },
-      { terme: "Légitimité vs légalité", def: "La légalité désigne la conformité à la loi positive en vigueur. La légitimité désigne le droit à gouverner reconnu par les gouvernés — fondé sur le consentement, la tradition ou le charisme (Weber). Un pouvoir peut être légal mais illégitime (une tyrannie établie par la loi) ou légitime mais illégal (une résistance populaire). La question de la désobéissance civile tient à cet écart." },
-      { terme: "Souveraineté", def: "La souveraineté est le pouvoir absolu et suprême : souverain est celui qui décide de l'état d'exception (Carl Schmitt). Pour Bodin, elle est perpétuelle et absolue. Pour Rousseau, elle réside dans le peuple (souveraineté populaire) et est inaliénable. Pour Hobbes, elle est cédée au Léviathan. La question de qui est souverain est la question centrale de la philosophie politique." },
-      { terme: "Démocratie directe vs représentative", def: "La démocratie directe (modèle athénien, Rousseau) est le régime où les citoyens exercent eux-mêmes le pouvoir sans délégation, par assemblées et votes. La démocratie représentative (Locke, Montesquieu, régimes modernes) délègue le pouvoir à des représentants élus. Rousseau critique la démocratie représentative : le peuple anglais croit être libre, mais 'il ne l'est que pendant l'élection des membres du parlement'." },
-    ],
-    idees: [
-      { titre: "Les théories du contrat social : Hobbes, Locke, Rousseau", contenu: "Les trois grands théoriciens du contrat social partagent la méthode (penser l'État à partir d'un état de nature hypothétique) mais divergent sur tout le reste. Pour Hobbes, l'état de nature est une guerre de tous contre tous : les hommes cèdent tous leurs droits au Léviathan en échange de la paix. Pour Locke, l'état de nature est relativement pacifique mais manque d'un arbitre impartial : les hommes instituent un gouvernement limité pour protéger leurs droits naturels (vie, liberté, propriété). Pour Rousseau, l'état de nature est bon ; c'est la société qui corrompt ; le contrat social doit créer une volonté générale qui exprime le bien commun." },
-      { titre: "Hobbes et le Léviathan : sécurité contre liberté", contenu: "Dans le Léviathan (1651), Hobbes décrit l'état de nature comme une condition de guerre permanente : 'L'homme est un loup pour l'homme', la vie y est 'solitaire, misérable, dangereuse, animale et brève'. Pour en sortir, les individus concluent un pacte par lequel ils cèdent tous leurs droits naturels à un souverain (Léviathan), personne morale artificielle dotée d'un pouvoir absolu et indivisible. En échange, le souverain garantit la paix et la sécurité. Cette théorie justifie l'absolutisme mais lui assigne une finalité : la protection des sujets." },
-      { titre: "Rousseau : la volonté générale et la souveraineté populaire", contenu: "Dans Du Contrat social (1762), Rousseau opère une révolution : la souveraineté appartient au peuple et est inaliénable. La volonté générale n'est pas la somme des volontés particulières (la volonté de tous) mais la volonté qui vise le bien commun. Elle est toujours droite — si les citoyens délibèrent correctement, sans factions ni intérêts particuliers. L'obéissance à la loi que l'on s'est soi-même donnée est liberté. Mais Rousseau est conscient de la difficulté : la volonté générale peut être corrompue, et les citoyens ont besoin d'un 'législateur' pour leur révéler leur vrai intérêt." },
-      { titre: "Marx : l'État instrument de domination de classe", contenu: "Pour Marx et Engels (Manifeste du parti communiste, 1848), l'État n'est pas un arbitre neutre entre intérêts divergents mais l'instrument par lequel la classe dominante (la bourgeoisie dans le capitalisme) maintient sa domination sur la classe exploitée (le prolétariat). 'Le gouvernement de l'État moderne n'est qu'un comité qui gère les affaires communes de la bourgeoisie.' Les lois, la police, l'armée, le droit de propriété : tout est fait pour protéger les intérêts capitalistes. Dans la perspective marxiste, l'État dépérira dans la société communiste, quand les classes auront disparu." },
-      { titre: "Weber : le monopole de la violence légitime", contenu: "Max Weber (Le Savant et le Politique, 1919) donne de l'État une définition sociologique devenue classique : l'État est 'la communauté humaine qui revendique avec succès le monopole de la violence physique légitime sur un territoire donné'. Deux éléments sont essentiels : le monopole (seul l'État peut légalement exercer la coercition) et la légitimité (ce monopole est reconnu par les gouvernés). Weber distingue trois types de légitimité : traditionnelle (coutume), charismatique (charme du leader) et légale-rationnelle (règles impersonnelles, propre aux États modernes)." },
-      { titre: "Tocqueville et la tyrannie de la majorité", contenu: "Alexis de Tocqueville (De la démocratie en Amérique, 1835-1840) admire la démocratie américaine mais en analyse les périls. Le principal est la 'tyrannie de la majorité' : dans une démocratie, la majorité peut écraser les minorités, non par la violence mais par la pression sociale et la conformisme. Il décrit aussi un despotisme doux : un pouvoir tutélaire, bienveillant, qui réduit les citoyens à 'un troupeau d'animaux timides et industrieux dont le gouvernement est le berger'. La démocratie risque de produire un individualisme qui détruit la vie civique." },
-      { titre: "L'anarchisme : Proudhon et Bakounine contre l'État", contenu: "Les anarchistes rejettent radicalement l'État, qu'ils considèrent comme foncièrement oppressif quelle que soit sa forme. Proudhon ('La propriété, c'est le vol') veut le remplacer par des fédérations de communes autonomes liées par des contrats mutuels. Bakounine insiste sur le fait que même un État révolutionnaire perpétuerait l'oppression : le pouvoir corrompt toujours. L'anarchisme ne s'oppose pas à l'organisation sociale mais à toute autorité contraignante non consentie. Il met en question la légitimité fondamentale de l'État, là où les théoriciens du contrat social cherchent à la fonder." },
-    ],
-    citations: [
-      { auteur: "Thomas Hobbes", texte: "L'homme est un loup pour l'homme.", source: "De Cive" },
-      { auteur: "Jean-Jacques Rousseau", texte: "L'homme est né libre, et partout il est dans les fers.", source: "Du Contrat social" },
-      { auteur: "Max Weber", texte: "L'État est la communauté humaine qui revendique avec succès le monopole de la violence physique légitime sur un territoire donné.", source: "Le Savant et le Politique" },
-      { auteur: "Karl Marx", texte: "Le gouvernement de l'État moderne n'est qu'un comité qui gère les affaires communes de la bourgeoisie.", source: "Manifeste du parti communiste" },
-      { auteur: "Montesquieu", texte: "Pour qu'on ne puisse pas abuser du pouvoir, il faut que, par la disposition des choses, le pouvoir arrête le pouvoir.", source: "De l'esprit des lois" },
-      { auteur: "John Locke", texte: "Le but principal de l'union des hommes en sociétés politiques est la préservation de leur propriété.", source: "Traité du gouvernement civil" },
-      { auteur: "Platon", texte: "La cité naît du fait que nul d'entre nous ne se suffit à lui-même.", source: "La République" },
-    ],
-    auteurs: ["Thomas Hobbes", "John Locke", "Jean-Jacques Rousseau", "Montesquieu", "Max Weber", "Karl Marx", "Alexis de Tocqueville", "Pierre-Joseph Proudhon", "Platon", "Hannah Arendt"],
-  },
-  {
-    id: "travail",
-    titre: "Le Travail",
-    emoji: "⚒️",
-    couleur: "#7C3AED",
-    definition: "Le travail désigne l'activité par laquelle l'être humain transforme la nature pour satisfaire ses besoins et produire son monde. Il est à la fois nécessité biologique (produire pour survivre), activité créatrice (exprimer son humanité dans une œuvre) et rapport social (organisation économique, division, échange). Philosophiquement, le travail pose la question de sa valeur — libère-t-il ou aliène-t-il l'homme ? — et de sa place dans l'existence humaine.",
-    distinctions: [
-      { terme: "Travail / œuvre / action (Arendt)", def: "Hannah Arendt (Condition de l'homme moderne) distingue trois activités fondamentales. Le travail (labor) produit des biens de consommation qui disparaissent aussitôt utilisés : il est cyclique, sans fin, lié au processus biologique. L'œuvre (work) fabrique des objets durables qui constituent un monde commun. L'action (action) est l'activité politique par laquelle les hommes se révèlent dans leur unicité et fondent des communautés. La modernité valorise excessivement le travail aux dépens de l'œuvre et de l'action." },
-      { terme: "Valeur d'usage vs valeur d'échange (Marx)", def: "Marx (Le Capital) distingue deux aspects de la valeur d'une marchandise. La valeur d'usage est son utilité concrète (ce qu'on en fait). La valeur d'échange est sa valeur sur le marché, déterminée par le temps de travail socialement nécessaire à sa production. Dans le capitalisme, la valeur d'échange prime sur la valeur d'usage, et le travail lui-même devient une marchandise dont la valeur d'échange (le salaire) est inférieure à ce qu'il produit : c'est la plus-value." },
-      { terme: "Aliénation", def: "L'aliénation (de l'allemand Entfremdung, étrangeté) désigne l'état dans lequel l'homme devient étranger à lui-même, à son activité ou à ses produits. Marx en distingue quatre formes dans le travail capitaliste : aliénation par rapport au produit (qui appartient au capitaliste), à l'activité productive (corvée subie), aux autres hommes (compétition), et à l'essence humaine (l'homme ne se réalise pas dans son travail)." },
-      { terme: "Travail salarié vs travail libre", def: "Le travail salarié est le travail accompli en échange d'un salaire, sous la direction d'un employeur, sur une propriété qui n'est pas la sienne. Le travail libre (artisan, artiste, agriculteur indépendant) est accompli pour soi, selon ses propres règles, avec un produit qui reste le sien. La distinction renvoie à celle entre travail comme contrainte externe et travail comme expression de soi." },
-      { terme: "Division du travail", def: "La division du travail (Adam Smith, Marx, Durkheim) désigne la spécialisation des travailleurs dans des tâches parcellaires. Smith en vante l'efficacité productive. Marx en critique l'effet abrutissant (l'ouvrier n'accomplit qu'un geste répétitif). Durkheim y voit le fondement de la solidarité organique moderne : les individus deviennent interdépendants par leur spécialisation." },
-    ],
-    idees: [
-      { titre: "Hegel : la dialectique maître-esclave et le travail formateur", contenu: "Dans la Phénoménologie de l'Esprit, Hegel montre que c'est l'esclave — et non le maître — qui se réalise véritablement par le travail. Le maître, qui jouit sans travailler, reste dépendant des objets et de l'esclave. L'esclave, lui, en travaillant la nature, en lui imprimant sa forme, se découvre lui-même comme sujet libre capable de transformer le monde. Le travail est médiation formatrice : il forme le travailleur autant qu'il forme la matière. Cette dialectique annonce Marx : le prolétariat, par son travail, porte en lui la possibilité de son émancipation." },
-      { titre: "Marx : l'aliénation du travail dans le capitalisme", contenu: "Dans les Manuscrits de 1844, Marx décrit comment le capitalisme transforme le travail — essence de l'homme, activité créatrice par laquelle il se réalise — en son contraire. Le travailleur aliéné est étranger au produit de son travail (qui appartient au capitaliste), à son activité (vécue comme corvée, non comme épanouissement), aux autres travailleurs (concurrence), et à lui-même comme 'être générique' (espèce capable de produire librement et consciemment). La plus-value est le mécanisme économique de ce vol : le travailleur produit plus de valeur qu'il n'en reçoit en salaire." },
-      { titre: "Adam Smith : division du travail, richesse et abrutissement", contenu: "Adam Smith (La Richesse des nations, 1776) fait de la division du travail le moteur principal de la croissance économique : en se spécialisant, chaque ouvrier devient extraordinairement productif. L'exemple de la manufacture d'épingles est devenu célèbre. Mais Smith est lucide sur le revers : l'ouvrier qui passe sa vie à une seule opération 'n'a généralement pas l'occasion d'exercer son intelligence' et 'devient aussi stupide et ignorant qu'il est possible à une créature humaine de le devenir'. La richesse nationale est produite au prix de l'abrutissement individuel." },
-      { titre: "Hannah Arendt : l'automatisation et la fin du travail", contenu: "Arendt (Condition de l'homme moderne, 1958) anticipe les enjeux de l'automatisation : si les machines remplacent le travail humain, que reste-t-il ? Son diagnostic est sombre : nous vivons dans une 'société de laborants' dont nous risquons de supprimer le travail — mais sans avoir développé la capacité de l'œuvre et de l'action. Une société libérée du travail par l'automatisation, mais incapable d'œuvrer ni d'agir politiquement, serait une société de pur consommateurs, sans monde commun ni liberté véritable." },
-      { titre: "Le travail comme identité sociale et le chômage comme dés-socialisation", contenu: "Dans les sociétés modernes, le travail est devenu le principal vecteur d'identité sociale, de reconnaissance et d'appartenance. Travailler, c'est être utile, participer à une collectivité, avoir une place. Le chômage n'est donc pas seulement une privation économique : c'est une crise d'identité et de socialisation. Les études sociologiques (Paugam) montrent que les chômeurs perdent leurs repères temporels, leur réseau social et leur estime de soi. La question de la valeur du travail rejoint ici celle du lien social et de la dignité humaine." },
-      { titre: "Simone Weil : l'expérience ouvrière et la déshumanisation", contenu: "Simone Weil (La Condition ouvrière, 1951) est l'une des rares philosophes à avoir voulu vivre l'expérience ouvrière de l'intérieur : elle travaille en usine en 1934-1935. Son témoignage est bouleversant : le travail à la chaîne n'est pas seulement pénible, il est une torture de l'âme, un écrasement de la pensée. La cadence empêche toute réflexion, toute initiative. L'ouvrier est réduit à l'état de rouage. Weil appelle à une réforme du travail qui permette à chaque travailleur de comprendre le sens de ce qu'il fait et d'exercer sa capacité de penser." },
-      { titre: "Freud : travail et amour comme piliers du bonheur humain", contenu: "Dans le Malaise dans la civilisation (1930), Freud affirme que l'amour et le travail sont les deux voies principales par lesquelles l'être humain investit sa libido dans le monde et trouve une satisfaction. Le travail, en tant que sublimation des pulsions, permet de déplacer l'énergie libidinale vers des objets culturellement valorisés et de tisser des liens avec d'autres. Cette vision psychanalytique fait du travail non une simple nécessité économique mais un besoin psychique profond — ce qui éclaire la souffrance particulière de ceux qui en sont privés." },
-    ],
-    citations: [
-      { auteur: "Karl Marx", texte: "Le travail aliéné retourne le rapport : c'est parce que l'homme est un être générique qu'il fait de son activité vitale le simple moyen de son existence physique.", source: "Manuscrits de 1844" },
-      { auteur: "Georg W. F. Hegel", texte: "Le serviteur se rend compte, en travaillant, qu'il a une existence propre.", source: "Phénoménologie de l'esprit" },
-      { auteur: "Voltaire", texte: "Le travail éloigne de nous trois grands maux : l'ennui, le vice et le besoin.", source: "Candide" },
-      { auteur: "Hannah Arendt", texte: "Nous vivons dans une société de laborants dont nous avons supprimé le travail.", source: "Condition de l'homme moderne" },
-      { auteur: "Sigmund Freud", texte: "L'amour et le travail sont les deux piliers du bonheur humain.", source: "Malaise dans la civilisation" },
-      { auteur: "Adam Smith", texte: "La division du travail est la source principale de la richesse des nations, mais elle rend l'ouvrier aussi stupide et ignorant qu'il est possible à une créature humaine de le devenir.", source: "La Richesse des nations" },
-      { auteur: "Simone Weil", texte: "L'usine, c'est l'esclavage sans les maîtres légaux.", source: "La Condition ouvrière" },
-    ],
-    auteurs: ["Karl Marx", "Georg W. F. Hegel", "Hannah Arendt", "Adam Smith", "Simone Weil", "Sigmund Freud", "Émile Durkheim", "Friedrich Engels", "Voltaire", "Paul Lafargue"],
-  },
-{
-    id: "religion",
-    titre: "La Religion",
-    emoji: "✡️",
-    couleur: "#B45309",
-    definition: "La religion est un ensemble de croyances, de pratiques et de rites qui unissent une communauté autour du rapport au sacré et au divin. Elle pose la question fondamentale de la foi face à la raison : peut-on prouver l'existence de Dieu ? La religion est-elle illusion, besoin social ou accès à une vérité supérieure ?",
-    distinctions: [
-      { terme: "Foi vs raison", def: "La foi est adhésion à des vérités révélées sans démonstration ; la raison cherche à démontrer. Thomas d'Aquin : elles ne se contredisent pas. Kant : la raison ne peut ni prouver ni réfuter l'existence de Dieu." },
-      { terme: "Théisme / déisme / athéisme / agnosticisme", def: "Théisme : Dieu personnel et providentiel. Déisme : Dieu créateur mais absent du monde (Voltaire). Athéisme : négation de Dieu. Agnosticisme : on ne peut savoir (Huxley)." },
-      { terme: "Sacré vs profane", def: "Durkheim : distinction fondamentale dans toute religion entre ce qui est séparé, mis à part (sacré) et le domaine ordinaire de la vie quotidienne (profane)." },
-      { terme: "Religion révélée vs naturelle", def: "Révélée : fondée sur une révélation divine (Bible, Coran). Naturelle : ce que la seule raison peut connaître de Dieu, sans révélation (Kant)." },
-      { terme: "Monothéisme vs polythéisme", def: "Un seul Dieu (christianisme, islam, judaïsme) vs plusieurs dieux (religions antiques, hindouisme). Le monothéisme pose le problème du mal de façon plus aiguë." },
-    ],
-    idees: [
-      { titre: "Les preuves de l'existence de Dieu et leurs limites", contenu: "Anselme et Descartes proposent l'argument ontologique : Dieu est l'être dont on ne peut concevoir de plus grand, donc il existe nécessairement. Kant réfute : l'existence n'est pas un prédicat, on ne peut passer du concept à la réalité. L'argument cosmologique (tout a une cause, donc il faut une cause première) est aussi critiqué : pourquoi Dieu échapperait-il à la nécessité d'une cause ?" },
-      { titre: "La religion comme illusion : Feuerbach, Marx, Freud", contenu: "Feuerbach : Dieu est une projection de l'homme idéalisé — nous attribuons à Dieu nos qualités idéales que nous nous refusons. Marx reprend cette idée : la religion est l'opium du peuple, consolation qui détourne des vraies luttes sociales. Freud : la religion est une névrose obsessionnelle collective, prolongement du désir infantile de protection d'un père tout-puissant." },
-      { titre: "Durkheim : la religion comme lien social", contenu: "Pour Durkheim, la religion n'est pas d'abord une affaire théologique mais sociale. Elle crée la cohésion d'un groupe autour du sacré, distingue le pur de l'impur. Le Dieu adoré est en réalité la société transfigurée. La dimension sociale du religieux explique sa persistance même dans les sociétés modernes." },
-      { titre: "Nietzsche : la mort de Dieu et le nihilisme", contenu: "Dans Le Gai Savoir, Nietzsche proclame la mort de Dieu : non pas que Dieu ait existé et soit mort, mais que la croyance en Dieu s'est effondrée. Cette mort entraîne un nihilisme (plus rien n'a de valeur absolue). Mais c'est aussi une libération : l'homme peut créer de nouvelles valeurs. Le surhomme est celui qui assume cette liberté." },
-      { titre: "Foi et raison chez Thomas d'Aquin", contenu: "Thomas d'Aquin réconcilie foi et raison : la raison peut approcher Dieu par les 5 voies (cosmologique, téléologique, etc.) mais la foi révèle ce que la raison seule ne peut atteindre (Trinité, Incarnation). La philosophie est la servante de la théologie, mais une servante nécessaire." },
-      { titre: "Kant : la religion dans les limites de la simple raison", contenu: "Pour Kant, la morale est autonome et n'a pas besoin de Dieu pour se fonder. Mais la religion accompagne légitimement la morale comme espoir : si l'homme doit tendre vers le bien souverain (vertu + bonheur), il doit postuler l'existence de Dieu et l'immortalité de l'âme comme conditions de possibilité." },
-      { titre: "Weber et l'éthique protestante", contenu: "Weber montre dans L'Éthique protestante que le protestantisme calviniste a favorisé le capitalisme : la prédestination crée une angoisse sur son salut, l'ascèse professionnelle et le succès économique deviennent signes d'élection divine. La religion a ainsi des effets matériels concrets sur l'économie." },
-    ],
-    citations: [
-      { auteur: "Marx", texte: "La religion est l'opium du peuple.", source: "Contribution à la critique de la philosophie du droit de Hegel" },
-      { auteur: "Freud", texte: "La religion est la névrose obsessionnelle universelle de l'humanité.", source: "L'avenir d'une illusion" },
-      { auteur: "Durkheim", texte: "La religion est une chose éminemment sociale.", source: "Les formes élémentaires de la vie religieuse" },
-      { auteur: "Nietzsche", texte: "Dieu est mort ! Dieu reste mort ! Et c'est nous qui l'avons tué !", source: "Le Gai Savoir" },
-      { auteur: "Pascal", texte: "Le cœur a ses raisons que la raison ne connaît point.", source: "Pensées" },
-      { auteur: "Feuerbach", texte: "Dieu est le miroir de l'homme.", source: "L'Essence du christianisme" },
-      { auteur: "Kant", texte: "La religion est la reconnaissance de nos devoirs comme commandements divins.", source: "La Religion dans les limites de la simple raison" },
-    ],
-    auteurs: ["Marx", "Freud", "Durkheim", "Kant", "Nietzsche", "Pascal", "Feuerbach", "Weber", "Thomas d'Aquin", "Anselme"],
-  },
-  {
-    id: "art",
-    titre: "L'Art",
-    emoji: "🎨",
-    couleur: "#DB2777",
-    definition: "L'art est une activité humaine de création de formes esthétiques ayant une valeur propre, irréductible à l'utilité. Il soulève des questions fondamentales : qu'est-ce que le beau ? Quelle est la fonction de l'art — imitation, expression, catharsis ? Comment juge-t-on une œuvre sans critère objectif ?",
-    distinctions: [
-      { terme: "Beau naturel vs beau artistique", def: "Hegel : la beauté artistique est supérieure au beau naturel car elle est l'expression de l'esprit humain — l'art est 'la manifestation sensible de l'idée'." },
-      { terme: "Jugement de goût", def: "Kant : le jugement esthétique ('c'est beau') est subjectif mais prétend à l'universalité. Il est désintéressé (pas de plaisir sensuel ni de concept), libre et réfléchissant." },
-      { terme: "Art vs artisanat", def: "L'art crée quelque chose d'original qui vise une finalité sans fin (Kant) ; l'artisanat applique des règles techniques pour produire un objet utile." },
-      { terme: "Mimèsis vs expression", def: "Platon/Aristote : l'art imite la réalité (mimèsis). Romantisme : l'art exprime les émotions intérieures de l'artiste. Ces deux conceptions s'opposent sur la source et la valeur de l'art." },
-      { terme: "Beau vs sublime", def: "Kant : le beau donne un plaisir harmonieux (accord imagination/entendement). Le sublime confronte à quelque chose d'immense qui dépasse nos facultés mais révèle notre destination morale supérieure." },
-    ],
-    idees: [
-      { titre: "Platon : l'art comme imitation dangereuse", contenu: "L'art est mimèsis (imitation) : il est une copie du monde sensible, qui est lui-même copie du monde des Idées — donc copie de copie, trois fois éloigné de la vérité. Les œuvres séduisent les passions et détournent de la raison. Dans La République, Platon veut expulser les poètes de la cité idéale." },
-      { titre: "Aristote : la catharsis et la réhabilitation de l'art", contenu: "Aristote réhabilite l'art contre Platon : la tragédie imite des actions humaines et, en provoquant terreur et pitié, produit une catharsis (purification) des passions. L'art est donc utile à l'âme, il permet de vivre les émotions fortes dans un cadre sécurisé et de s'en purger. L'imitation est aussi source de plaisir naturel et d'apprentissage." },
-      { titre: "Kant : le beau, le sublime et le génie", contenu: "Le beau est un plaisir désintéressé, sans concept, mais qui prétend à l'assentiment universel ('finalité sans fin'). Le sublime surgit face à l'immensité ou à la puissance qui dépasse notre imagination mais révèle notre grandeur morale. Le génie est celui qui crée selon une nature propre, donnant des règles à l'art sans les suivre mécaniquement." },
-      { titre: "Hegel : l'art comme moment de l'Esprit absolu", contenu: "L'art est la première forme par laquelle l'Esprit absolu se manifeste à lui-même, sous forme sensible et concrète. Il est supérieur à la nature mais inférieur à la religion et à la philosophie. À l'époque moderne, le concept prend le dessus sur l'image : Hegel parle de la 'mort de l'art' au sens où l'art n'est plus le mode d'expression le plus élevé." },
-      { titre: "Heidegger : l'œuvre d'art ouvre un monde", contenu: "Pour Heidegger, l'œuvre d'art n'est pas une représentation mais une mise en œuvre de la vérité de l'être. Le temple grec, la peinture de Van Gogh ouvrent un monde, révèlent une manière d'habiter la terre. L'art est donc ontologiquement fondamental — il dévoile ce que la science et la technique cachent." },
-      { titre: "Benjamin et l'aura : art et reproductibilité technique", contenu: "Walter Benjamin montre que la reproductibilité technique (photographie, cinéma) détruit l'aura de l'œuvre originale — son unicité, son ancrage dans un lieu et un temps. Mais cette perte libère l'art de sa fonction rituelle et le politise. Le cinéma peut devenir un art de masse émancipateur... ou un outil de propagande." },
-      { titre: "L'art contemporain et la définition institutionnelle", contenu: "Avec Duchamp (ready-made : une roue de bicyclette ou un urinoir deviennent de l'art), toute frontière formelle entre art et non-art disparaît. Danto et la théorie institutionnelle : est art ce que le 'monde de l'art' (galeries, musées, critiques) reconnaît comme tel. L'art se définit par le contexte, non par les qualités intrinsèques de l'objet." },
-    ],
-    citations: [
-      { auteur: "Kant", texte: "Est beau ce qui plaît universellement sans concept.", source: "Critique de la faculté de juger" },
-      { auteur: "Hegel", texte: "L'art est la manifestation sensible de l'idée.", source: "Cours d'esthétique" },
-      { auteur: "Platon", texte: "L'art est une imitation d'imitation, trois fois éloigné de la vérité.", source: "La République" },
-      { auteur: "Nietzsche", texte: "Nous avons l'art pour ne pas mourir de la vérité.", source: "La volonté de puissance" },
-      { auteur: "Malraux", texte: "L'art est un anti-destin.", source: "Les voix du silence" },
-      { auteur: "Heidegger", texte: "L'œuvre d'art ouvre à sa façon l'être de l'étant.", source: "L'Origine de l'œuvre d'art" },
-      { auteur: "Benjamin", texte: "A l'époque de la reproductibilité technique, ce qui dépérit dans l'œuvre d'art, c'est son aura.", source: "L'œuvre d'art à l'époque de sa reproductibilité technique" },
-    ],
-    auteurs: ["Kant", "Hegel", "Platon", "Aristote", "Nietzsche", "Heidegger", "Benjamin", "Duchamp", "Danto", "Malraux"],
-  },
-  {
-    id: "langage",
-    titre: "Le Langage",
-    emoji: "🗣️",
-    couleur: "#0E7490",
-    definition: "Le langage est un système de signes permettant de communiquer, d'exprimer la pensée et de représenter le monde. Il est à la fois outil de communication (fonction sociale) et condition de la pensée (fonction constitutive). La question centrale : le langage exprime-t-il fidèlement la pensée, ou la constitue-t-il ?",
-    distinctions: [
-      { terme: "Langue vs parole", def: "Saussure : la langue est le système collectif de signes (code partagé), la parole est l'usage individuel et concret de ce système dans une situation donnée." },
-      { terme: "Signe linguistique", def: "Saussure : le signe unit un signifiant (image acoustique) et un signifié (concept). Le lien est arbitraire — aucun rapport naturel entre le son 'arbre' et l'arbre réel." },
-      { terme: "Performatif vs constatif", def: "Austin : certains énoncés font ce qu'ils disent ('Je vous déclare mariés', 'Je promets') — performatifs ; d'autres décrivent une réalité — constatatifs. Parler c'est agir." },
-      { terme: "Grammaire universelle vs relativisme linguistique", def: "Chomsky : structure profonde commune à toutes les langues, innéité du langage. Sapir-Whorf : la langue détermine la pensée, chaque langue découpe le réel différemment." },
-      { terme: "Logos vs phonè", def: "Aristote : l'animal a la voix (phonè) pour exprimer plaisir/douleur ; l'homme seul a le logos (raison et parole) pour dire le juste et l'injuste — constitutif de la cité politique." },
-    ],
-    idees: [
-      { titre: "Le langage constitue la pensée", contenu: "Hegel : 'Le mot donne à la pensée son existence la plus haute et la plus vraie.' Sans mots, la pensée reste vague et informe. Heidegger va plus loin : 'Le langage est la maison de l'être' — ce n'est pas l'homme qui parle le langage, c'est le langage qui parle à travers l'homme. Nous ne pensons que dans et par le langage." },
-      { titre: "L'arbitraire du signe et ses conséquences (Saussure)", contenu: "Il n'y a pas de lien naturel entre un son et un sens — c'est la convention sociale qui lie signifiant et signifié. Les langues découpent différemment la réalité : là où le français a 'fleuve' et 'rivière', l'anglais n'a que 'river'. Le langage est donc un filtre interprétatif du monde, pas un miroir." },
-      { titre: "Les limites du langage (Wittgenstein)", contenu: "Dans le Tractatus, Wittgenstein affirme : 'Les limites de mon langage sont les limites de mon monde.' Ce qu'on ne peut pas dire, on ne peut pas le penser. Mais il y a des choses que le langage ne peut montrer qu'en les taisant (la mystique, l'éthique). Dans les Recherches philosophiques, il développe la notion de 'jeux de langage' : le sens dépend de l'usage, pas d'une signification fixe." },
-      { titre: "Langage et pouvoir (Orwell, Bourdieu)", contenu: "Orwell (1984) : la novlangue réduit le vocabulaire pour rendre certaines pensées impossibles — maîtriser le langage, c'est maîtriser la pensée. Bourdieu : le langage est un lieu de domination sociale (capital linguistique). Les 'fautes' de langage sont des marqueurs de classe. La légitimité linguistique est inégalement distribuée." },
-      { titre: "Les actes de langage (Austin, Searle)", contenu: "Austin montre que tout énoncé accomplit un acte : locutoire (dire quelque chose), illocutoire (promettre, ordonner, affirmer), perlocutoire (effets sur l'interlocuteur). Searle développe la théorie des actes de langage intentionnels. Parler c'est fondamentalement agir — le langage transforme la réalité sociale et crée des institutions." },
-      { titre: "Chomsky et la grammaire universelle", contenu: "Pour Chomsky, tous les humains partagent une grammaire universelle innée — une structure profonde commune sous-jacente à toutes les langues. L'acquisition du langage est trop rapide pour être purement empirique. Cette thèse rationaliste s'oppose au béhaviorisme et souligne le caractère spécifiquement humain du langage." },
-      { titre: "Le langage et l'intersubjectivité", contenu: "Benveniste : c'est dans et par le langage que l'homme se constitue comme sujet — 'je' n'existe que dans la relation à un 'tu'. Le langage est fondamentalement dialogique (Bakhtine). La parole présuppose toujours un autre auquel on s'adresse, même dans le monologue intérieur." },
-    ],
-    citations: [
-      { auteur: "Heidegger", texte: "Le langage est la maison de l'être.", source: "Lettre sur l'humanisme" },
-      { auteur: "Wittgenstein", texte: "Les limites de mon langage sont les limites de mon monde.", source: "Tractatus logico-philosophicus" },
-      { auteur: "Saussure", texte: "Dans la langue, il n'y a que des différences.", source: "Cours de linguistique générale" },
-      { auteur: "Aristote", texte: "L'homme est le seul animal qui ait le don de la parole.", source: "Politique" },
-      { auteur: "Benveniste", texte: "C'est dans et par le langage que l'homme se constitue comme sujet.", source: "Problèmes de linguistique générale" },
-      { auteur: "Wittgenstein", texte: "Ce dont on ne peut parler, il faut le taire.", source: "Tractatus logico-philosophicus" },
-      { auteur: "Orwell", texte: "Si la pensée doit corrompre le langage, le langage peut aussi corrompre la pensée.", source: "Politique et langue anglaise" },
-    ],
-    auteurs: ["Saussure", "Wittgenstein", "Heidegger", "Austin", "Aristote", "Benveniste", "Chomsky", "Bourdieu", "Searle", "Bakhtine"],
-  },
-  {
-    id: "politique",
-    titre: "La Politique",
-    emoji: "⚖️",
-    couleur: "#BE185D",
-    definition: "La politique désigne l'organisation de la vie collective, la gestion du pouvoir et la recherche du bien commun. Elle pose les questions de la légitimité du pouvoir, de la justice sociale, des régimes politiques et de la participation des citoyens. Pourquoi obéit-on ? Qu'est-ce qu'un pouvoir juste ?",
-    distinctions: [
-      { terme: "Pouvoir / autorité / domination", def: "Le pouvoir est la capacité d'agir sur autrui. L'autorité est un pouvoir reconnu comme légitime sans contrainte. La domination (Weber) est l'exercice du pouvoir : charismatique, traditionnelle ou légale-rationnelle." },
-      { terme: "Démocratie directe vs représentative", def: "Directe : les citoyens décident eux-mêmes (Rousseau, idéal athénien). Représentative : ils élisent des représentants qui décident à leur place — avec risque de confiscation du pouvoir." },
-      { terme: "Légitimité vs légalité", def: "La légalité est la conformité à la loi en vigueur. La légitimité est la justification morale ou populaire du pouvoir. Un pouvoir peut être légal sans être légitime (lois racistes, dictature légalisée)." },
-      { terme: "Libéralisme vs républicanisme", def: "Le libéralisme (Locke, Rawls) privilégie les droits individuels et la neutralité de l'État. Le républicanisme (Rousseau, Pettit) insiste sur la participation active et la non-domination." },
-      { terme: "Totalitarisme vs démocratie", def: "Le totalitarisme (Arendt) prétend englober toute la vie sociale, détruire la sphère privée et la pluralité. La démocratie repose sur la pluralité, le débat et l'alternance." },
-    ],
-    idees: [
-      { titre: "L'animal politique (Aristote)", contenu: "Aristote affirme que l'homme est un zôon politikon — un animal politique par nature. La cité (polis) n'est pas une convention artificielle mais l'accomplissement de la nature humaine : seul dans la cité l'homme peut vivre bien (eudaimonia). Celui qui vit hors de la cité est soit une bête soit un dieu." },
-      { titre: "La séparation des pouvoirs (Montesquieu)", contenu: "Pour éviter la tyrannie, Montesquieu théorise la séparation des trois pouvoirs : législatif (faire les lois), exécutif (les appliquer), judiciaire (les faire respecter). 'Le pouvoir arrête le pouvoir.' Ce principe fonde les démocraties libérales modernes et la constitution américaine." },
-      { titre: "La démocratie et ses limites", contenu: "Platon critique la démocratie : le peuple ignorant peut être manipulé par des démagogues flatteurs — la démocratie dégénère en tyrannie. Tocqueville pointe le risque de 'tyrannie de la majorité' : la démocratie peut écraser les minorités et produire un conformisme doux. Churchill : 'La démocratie est le pire des régimes, à l'exception de tous les autres.'" },
-      { titre: "Violence et politique (Arendt)", contenu: "Arendt distingue pouvoir et violence. Le pouvoir est la capacité d'agir de façon concertée — il naît du rassemblement des citoyens. La violence est sa négation : elle détruit le pouvoir et ne peut fonder un régime durable. Le totalitarisme est la destruction de la pluralité et de l'espace public par la terreur." },
-      { titre: "La désobéissance civile (Thoreau, Rawls)", contenu: "Il est parfois légitime de désobéir aux lois injustes, de façon non-violente, publique, et en acceptant les sanctions légales. Thoreau refuse de payer ses impôts pour protester contre l'esclavage. Rawls théorise la désobéissance comme appel à la conscience morale de la majorité dans une société presque juste." },
-      { titre: "Machiavel et la raison d'État", contenu: "Machiavel sépare la politique de la morale ordinaire : le Prince doit savoir être lion et renard, user de la force et de la ruse. L'objectif politique (maintenir le pouvoir, assurer la stabilité) peut légitimer des moyens immoraux. C'est le fondement du réalisme politique." },
-      { titre: "Rawls et la justice comme équité", contenu: "Rawls construit la théorie politique moderne la plus influente : derrière le 'voile d'ignorance' (on ignore sa place dans la société), on choisirait deux principes — égalité des libertés fondamentales, et le principe de différence (les inégalités sont acceptables si elles bénéficient aux plus défavorisés)." },
-    ],
-    citations: [
-      { auteur: "Aristote", texte: "L'homme est par nature un animal politique.", source: "Politique" },
-      { auteur: "Montesquieu", texte: "Pour qu'on ne puisse pas abuser du pouvoir, il faut que, par la disposition des choses, le pouvoir arrête le pouvoir.", source: "De l'esprit des lois" },
-      { auteur: "Rousseau", texte: "La souveraineté ne peut être représentée, par la même raison qu'elle ne peut être aliénée.", source: "Du contrat social" },
-      { auteur: "Arendt", texte: "Le pouvoir correspond à la capacité humaine d'agir de façon concertée.", source: "Du mensonge à la violence" },
-      { auteur: "Tocqueville", texte: "La démocratie étend la sphère de l'indépendance individuelle, le socialisme la resserre.", source: "De la démocratie en Amérique" },
-      { auteur: "Machiavel", texte: "Il vaut mieux être craint qu'aimé, si l'on ne peut être les deux.", source: "Le Prince" },
-      { auteur: "Rawls", texte: "Le premier objet de la justice est la structure de base de la société.", source: "Théorie de la justice" },
-    ],
-    auteurs: ["Aristote", "Platon", "Montesquieu", "Rousseau", "Arendt", "Machiavel", "Tocqueville", "Rawls", "Hobbes", "Marx"],
-  },
-  {
-    id: "justice",
-    titre: "La Justice",
-    emoji: "🏛️",
-    couleur: "#065F46",
-    definition: "La justice désigne à la fois une vertu morale (être juste), une institution (le droit, les tribunaux) et un principe politique (organisation équitable de la société). Elle articule égalité, équité, droit et mérite. La question fondamentale : qu'est-ce que traiter les gens justement ? La justice est-elle naturelle ou conventionnelle ?",
-    distinctions: [
-      { terme: "Justice commutative", def: "Justice dans les échanges : égalité arithmétique entre ce qu'on donne et ce qu'on reçoit (contrats, sanctions pénales proportionnelles à la faute)." },
-      { terme: "Justice distributive", def: "Répartition des biens selon un critère : mérite (Aristote), besoin (Marx), égalité des chances (Rawls). La difficulté est de choisir le critère pertinent." },
-      { terme: "Droit naturel vs droit positif", def: "Le droit naturel est universel et immuable, inhérent à la nature humaine (Locke, Cicéron). Le droit positif est le droit effectivement établi dans une société — il peut être injuste (lois ségrégationnistes)." },
-      { terme: "Légalité vs justice morale", def: "Ce qui est légal n'est pas toujours juste, et ce qui est juste n'est pas toujours légal. La résistance et la désobéissance civile naissent de cet écart (lois nazies légales mais injustes)." },
-      { terme: "Justice corrective vs préventive", def: "La justice corrective répare le tort commis (punition, réparation). La justice préventive cherche à éviter les injustices en amont (politiques sociales, prévention). Ces deux orientations reflètent deux visions de la criminalité." },
-    ],
-    idees: [
-      { titre: "Platon : la justice comme harmonie", contenu: "Dans La République, la justice est l'harmonie entre les trois parties de l'âme (raison, cœur/thumos, désir) et les trois classes de la cité (philosophes, guerriers, artisans). Chacun accomplit sa fonction propre sans empiéter sur celle des autres. La justice n'est pas d'abord une règle externe mais un état intérieur d'ordre et d'harmonie." },
-      { titre: "Aristote : rendre à chacun le sien", contenu: "Aristote distingue la justice distributive (proportionner les récompenses au mérite — égalité géométrique) de la justice corrective (rétablir l'égalité rompue par l'échange ou le crime — égalité arithmétique). La justice est une vertu morale : le juste est celui qui, pouvant prendre davantage, ne le fait pas." },
-      { titre: "La théorie de la justice de Rawls", contenu: "Rawls imagine un 'voile d'ignorance' : derrière ce voile, ignorant notre place dans la société, nous choisirions deux principes. 1er principe : égalité des libertés fondamentales. 2ème principe (de différence) : les inégalités économiques ne sont acceptables que si elles bénéficient aux membres les plus défavorisés de la société." },
-      { titre: "Marx : la justice bourgeoise comme masque", contenu: "Marx critique la justice formelle : l'égalité devant la loi est une illusion quand les conditions matérielles sont profondément inégales. Le droit de propriété consacre l'exploitation. La vraie justice exige l'abolition des classes et la répartition selon les besoins : 'De chacun selon ses capacités, à chacun selon ses besoins.'" },
-      { titre: "La vengeance vs la justice institutionnelle", contenu: "La justice institutionnelle se distingue de la vengeance privée par son impartialité, sa proportionnalité et son caractère public. Elle substitue un tiers (le juge) aux parties pour éviter le cycle infini de la vengeance. Hegel : la peine est la négation de la négation du droit — elle rétablit l'ordre." },
-      { titre: "Justice et pardon (Jankélévitch, Ricoeur)", contenu: "Peut-on à la fois exiger justice et accorder le pardon ? Jankélévitch : certains crimes (la Shoah) sont imprescriptibles — 'le temps n'y fait rien.' Ricoeur : le pardon ne supprime pas la justice mais lui ajoute une dimension de libération de l'avenir — pardonner, c'est délier l'avenir du passé sans oublier." },
-      { titre: "Sen et les capabilités", contenu: "Amartya Sen critique Rawls : la justice ne peut se réduire à la distribution de ressources matérielles. Ce qui importe, c'est la liberté réelle de chacun à accomplir les fonctionnements humains essentiels (être en bonne santé, être instruit, participer à la vie politique). La justice exige de développer les capabilités de chacun." },
-    ],
-    citations: [
-      { auteur: "Rawls", texte: "La justice est la première vertu des institutions sociales, comme la vérité est celle des systèmes de pensée.", source: "Théorie de la justice" },
-      { auteur: "Aristote", texte: "La justice consiste à traiter également les égaux et inégalement les inégaux.", source: "Éthique à Nicomaque" },
-      { auteur: "Platon", texte: "La justice, c'est accomplir sa tâche propre et ne pas se mêler de celle des autres.", source: "La République" },
-      { auteur: "Pascal", texte: "Ne pouvant faire que ce qui est juste fût fort, on a fait que ce qui est fort fût juste.", source: "Pensées" },
-      { auteur: "Marx", texte: "De chacun selon ses capacités, à chacun selon ses besoins.", source: "Critique du programme de Gotha" },
-      { auteur: "Cicéron", texte: "La loi suprême, c'est le salut du peuple.", source: "De Legibus" },
-      { auteur: "Kant", texte: "Agis de telle sorte que tu traites l'humanité, aussi bien dans ta personne que dans la personne de tout autre, toujours en même temps comme une fin, et jamais simplement comme un moyen.", source: "Fondements de la métaphysique des mœurs" },
-    ],
-    auteurs: ["Platon", "Aristote", "Rawls", "Marx", "Pascal", "Kant", "Ricoeur", "Jankélévitch", "Sen", "Cicéron"],
-  },
-  {
-    id: "nature",
-    titre: "La Nature",
-    emoji: "🌿",
-    couleur: "#047857",
-    definition: "La nature désigne soit l'ensemble du monde physique non transformé par l'homme (opposé à la culture), soit l'essence propre d'un être ('sa nature'). Elle pose des questions fondamentales : y a-t-il une nature humaine ? Quelle est notre responsabilité envers la nature ? La distinction nature/culture est-elle absolue ?",
-    distinctions: [
-      { terme: "Nature vs culture", def: "La culture est ce que l'homme produit en transformant la nature (langage, institutions, techniques). La question : y a-t-il une nature humaine fixe, ou l'homme est-il entièrement culturel (Sartre) ?" },
-      { terme: "Nature normative (sophisme naturaliste)", def: "Confondre ce qui est naturel avec ce qui est bien (ce qui est 'contre nature' serait mal). Hume : on ne peut déduire un devoir-être d'un être — le 'sophisme naturaliste' (Moore)." },
-      { terme: "Physis vs technè", def: "Les Grecs distinguaient la physis (croissance spontanée des êtres vivants) et la technè (production humaine par art). La nature a sa propre logique interne que la technique tente d'imiter ou de dépasser." },
-      { terme: "Anthropocentrisme vs biocentrisme", def: "L'anthropocentrisme place l'homme au centre — la nature a une valeur instrumentale (pour nous). Le biocentrisme (deep ecology) reconnaît une valeur intrinsèque à tous les êtres vivants, indépendamment de leur utilité." },
-      { terme: "Nature sauvage vs domestiquée", def: "Opposition entre la wilderness (nature vierge, Thoreau) et la nature transformée, gérée, artificialisée par l'activité humaine. La notion de 'nature sauvage' est elle-même en partie une construction culturelle." },
-    ],
-    idees: [
-      { titre: "L'état de nature : une hypothèse philosophique", contenu: "Les philosophes utilisent l'état de nature comme fiction méthodologique pour penser l'homme avant la société. Hobbes : guerre de tous contre tous, la vie y est 'solitaire, misérable, dangereuse, animale et brève.' Rousseau : bonté naturelle et liberté originelle corrompues par la civilisation. Locke : raison et propriété déjà présentes à l'état de nature." },
-      { titre: "Descartes : maître et possesseur de la nature", contenu: "Descartes fonde l'exploitation de la nature en affirmant que la science et la technique permettent à l'homme de se rendre 'maître et possesseur de la nature.' Vision anthropocentrique et utilitariste : la nature est une machine sans âme ni finalité propre. Cette conception fonde techniquement et philosophiquement la révolution industrielle." },
-      { titre: "La crise écologique et le principe responsabilité (Jonas)", contenu: "Hans Jonas (Le Principe responsabilité) réagit à la crise écologique en formulant un impératif éthique nouveau : 'Agis de façon que les effets de ton action soient compatibles avec la permanence d'une vie humaine authentique.' Nous avons des devoirs envers les générations futures et la nature, car nos actions ont des effets irréversibles à l'échelle planétaire." },
-      { titre: "Lévi-Strauss : le passage de la nature à la culture", contenu: "Pour Lévi-Strauss, la prohibition de l'inceste est le premier fait culturel universel : elle marque le passage de la nature à la culture en imposant une règle là où la nature laissait libre cours aux pulsions. L'homme est fondamentalement un être culturel — mais la culture varie, seule la structure est universelle." },
-      { titre: "La deep ecology : droits de la nature (Næss)", contenu: "Arne Næss fonde la deep ecology : la nature a une valeur intrinsèque indépendamment de son utilité pour l'homme. Il faut passer d'un anthropocentrisme à un biocentrisme ou écocentrisme. Cette position radicale remet en cause le droit de l'homme à exploiter la nature et inspire les mouvements écologistes contemporains." },
-      { titre: "Michel Serres : le contrat naturel", contenu: "Michel Serres propose d'étendre le contrat social à la nature elle-même : de même que Hobbes et Rousseau ont théorisé un contrat entre les hommes pour mettre fin à la guerre, il faut un 'contrat naturel' de symbiose et de réciprocité entre l'humanité et la Terre. La nature doit devenir un sujet de droit." },
-      { titre: "Thoreau et le rapport direct à la nature", contenu: "Thoreau (Walden) expérimente deux ans de vie en forêt pour retrouver l'essentiel. La nature n'est pas un simple décor mais une condition de liberté, de vérité et de réveil moral. Cette expérience fonde aussi sa pensée politique (désobéissance civile) : l'homme libre est celui qui n'est pas corrompu par la civilisation mercantile." },
-    ],
-    citations: [
-      { auteur: "Descartes", texte: "Nous rendre comme maîtres et possesseurs de la nature.", source: "Discours de la méthode" },
-      { auteur: "Rousseau", texte: "Tout est bien sortant des mains de l'Auteur des choses, tout dégénère entre les mains de l'homme.", source: "Émile" },
-      { auteur: "Jonas", texte: "Agis de façon que les effets de ton action soient compatibles avec la permanence d'une vie humaine authentique.", source: "Le Principe responsabilité" },
-      { auteur: "Lévi-Strauss", texte: "La prohibition de l'inceste constitue le pas fondamental grâce auquel s'accomplit le passage de la nature à la culture.", source: "Les Structures élémentaires de la parenté" },
-      { auteur: "Thoreau", texte: "Je voulais vivre profondément et sucer la moelle de la vie.", source: "Walden" },
-      { auteur: "Serres", texte: "Nous devons signer un contrat naturel de symbiose et de réciprocité avec la nature.", source: "Le Contrat naturel" },
-      { auteur: "Hegel", texte: "L'esprit est la négation de la nature.", source: "Encyclopédie des sciences philosophiques" },
-    ],
-    auteurs: ["Rousseau", "Descartes", "Jonas", "Aristote", "Lévi-Strauss", "Hobbes", "Thoreau", "Næss", "Serres", "Locke"],
-  },
-{
-    id: "desir",
-    titre: "Le Désir",
-    emoji: "🔥",
-    couleur: "#DC2626",
-    definition: "Le désir est un élan vers ce qu'on n'a pas, un manque ressenti qui tend vers sa propre satisfaction. Il se distingue du besoin (biologique, satisfiable) et de la volonté (raisonnée). La question centrale : le désir est-il source de bonheur ou de souffrance ? Peut-on éduquer ses désirs ?",
-    distinctions: [
-      { terme: "Désir / Besoin / Volonté", def: "Le besoin est naturel et biologiquement satisfiable ; le désir est toujours relancé après satisfaction ; la volonté est un acte raisonné et délibéré." },
-      { terme: "Éros / Philia / Agapê", def: "Trois formes d'amour : Éros est l'amour-désir fusionnel et passionné ; Philia est l'amour-amitié fondé sur l'estime réciproque ; Agapê est l'amour-charité inconditionnel, don sans retour." },
-      { terme: "Désirs naturels-nécessaires / naturels non nécessaires / vains (Épicure)", def: "Les désirs naturels et nécessaires (manger, se chauffer) sont simples à satisfaire ; les naturels non nécessaires (raffinement) sont superflus ; les désirs vains (gloire, richesse) sont illimités et ne se satisfont jamais." },
-      { terme: "Désir conscient / désir inconscient (Freud)", def: "Le désir conscient est accessible à la réflexion ; le désir inconscient est refoulé, censuré par le surmoi, et revient sous forme déguisée dans les rêves, les lapsus et les symptômes." },
-      { terme: "Manque / Plénitude", def: "Pour Platon et Schopenhauer, le désir est manque et souffrance ; pour Spinoza au contraire, le désir n'est pas un manque mais une force positive, un conatus, une puissance d'exister." },
-    ],
-    idees: [
-      { titre: "Platon : l'Éros, désir du Beau en soi", contenu: "Dans le Banquet, Diotime révèle à Socrate qu'Éros est fils de Poros (la ressource) et de Pénia (la pauvreté) : il est donc à la fois manque et élan vers la plénitude. L'amour commence par le désir d'un beau corps, puis s'élève vers les belles âmes, les belles activités, les belles sciences, jusqu'au Beau en soi, éternel et immuable. Le désir est ainsi un moteur de l'ascension philosophique." },
-      { titre: "Épicure : hiérarchiser les désirs pour atteindre l'ataraxie", contenu: "Épicure classe les désirs en trois catégories : naturels et nécessaires, naturels et non nécessaires, vains. Seuls les premiers méritent d'être satisfaits car ils sont limités et leur satisfaction procure un plaisir stable (plaisir catastématique). Les désirs vains, comme la gloire ou la richesse, sont illimités et leur poursuite engendre l'anxiété plutôt que la paix. Éduquer ses désirs est la voie vers le bonheur." },
-      { titre: "Spinoza : le désir comme conatus, essence de l'homme", contenu: "À rebours de Platon, Spinoza affirme dans l'Éthique que le désir n'est pas un manque mais le conatus lui-même : l'effort de chaque être pour persévérer dans son existence et augmenter sa puissance d'agir. Le désir est donc l'essence même de l'homme, une force positive et affirmative. La joie accompagne l'augmentation de puissance, la tristesse sa diminution. Il ne s'agit pas de réprimer le désir mais de le comprendre." },
-      { titre: "Hegel : le désir de reconnaissance", contenu: "Dans la Phénoménologie de l'Esprit, Hegel montre que la conscience de soi ne peut se constituer seule : elle a besoin d'être reconnue par une autre conscience. Le désir est fondamentalement intersubjectif — je désire que l'autre me reconnaisse comme sujet libre. La dialectique du maître et de l'esclave illustre cette lutte pour la reconnaissance : chacun risque sa vie pour être reconnu, non pour survivre." },
-      { titre: "Schopenhauer : le désir comme souffrance sans issue", contenu: "Pour Schopenhauer, toute réalité est manifestation d'une Volonté aveugle, irrationnelle et insatiable. Le désir insatisfait fait souffrir ; une fois satisfait, il laisse place à l'ennui, avant qu'un nouveau désir ne surgisse. L'existence oscille entre souffrance et ennui comme un pendule. Seules la contemplation esthétique, la compassion et l'ascèse permettent une suspension temporaire de ce cycle infernal." },
-      { titre: "Freud : le désir inconscient et le principe de plaisir", contenu: "Freud découvre que le psychisme est régi par le principe de plaisir (décharge des tensions) que le principe de réalité vient contrecarrer. Les désirs inacceptables pour le moi et le surmoi sont refoulés dans l'inconscient, mais reviennent sous des formes déguisées : rêves, lapsus, actes manqués, symptômes névrotiques. Le moi n'est pas maître dans sa propre maison — le sujet est habité par des désirs qui lui échappent." },
-      { titre: "Lacan : le désir est désir de l'Autre", contenu: "Lacan reprend Freud en articulant le désir à la structure du langage : le désir naît de l'écart entre le besoin (biologique) et la demande (adressée à l'Autre). Il vise non un objet réel mais l'objet a, cause du désir toujours manquant. Le désir est fondamentalement désir de l'Autre : il se structure à travers le regard et la parole de l'autre, et ne peut jamais être pleinement satisfait." },
-      { titre: "Sartre : le désir comme manque ontologique", contenu: "Pour Sartre, l'homme est un être qui n'est pas ce qu'il est et est ce qu'il n'est pas. La conscience humaine est fondamentalement manque d'être : elle désire être en-soi-pour-soi, c'est-à-dire avoir la plénitude de la chose tout en conservant la liberté de la conscience. Ce désir d'être Dieu est contradictoire et voué à l'échec : l'homme est une passion inutile." },
-    ],
-    citations: [
-      { auteur: "Spinoza", texte: "Le désir est l'essence même de l'homme.", source: "Éthique" },
-      { auteur: "Platon", texte: "L'amour est un désir d'immortalité.", source: "Le Banquet" },
-      { auteur: "Schopenhauer", texte: "Tout désir naît d'un manque, d'un état qui nous fait souffrir.", source: "Le Monde comme volonté et représentation" },
-      { auteur: "Freud", texte: "Le moi n'est pas maître dans sa propre maison.", source: "Introduction à la psychanalyse" },
-      { auteur: "Épicure", texte: "Parmi les désirs, les uns sont naturels et nécessaires, les autres naturels et non nécessaires, les autres vains et sans fondement naturel.", source: "Lettre à Ménécée" },
-      { auteur: "Lacan", texte: "Le désir de l'homme est le désir de l'Autre.", source: "Écrits" },
-      { auteur: "Pascal", texte: "Qui veut faire l'ange fait la bête.", source: "Pensées" },
-    ],
-    auteurs: ["Platon", "Épicure", "Spinoza", "Schopenhauer", "Freud", "Lacan", "Sartre", "Hegel", "Nietzsche", "Aristote"],
-  },
-  {
-    id: "technique",
-    titre: "La Technique",
-    emoji: "🔧",
-    couleur: "#475569",
-    definition: "La technique est l'ensemble des procédés, outils et savoir-faire par lesquels l'homme transforme la nature pour satisfaire ses besoins. Elle est constitutive de l'humanité (l'homo faber), mais pose la question : la technique libère-t-elle l'homme ou le domine-t-elle ? Est-elle neutre ou porte-t-elle une vision du monde ?",
-    distinctions: [
-      { terme: "Technique / Technologie / Science", def: "La technique précède la science et désigne un savoir-faire pratique ; la technologie est l'application raisonnée de la science à la production ; la science est la connaissance théorique des lois de la nature." },
-      { terme: "Outil / Machine / Automate", def: "L'outil prolonge et amplifie le geste humain (marteau, levier) ; la machine remplace le geste humain et fonctionne par une source d'énergie externe ; l'automate est une machine autonome qui se régule elle-même sans intervention humaine continue." },
-      { terme: "Technique artisanale / Technique industrielle", def: "La technique artisanale est individuelle, liée au geste du corps et à la maîtrise de la matière de bout en bout ; la technique industrielle implique la division du travail, la standardisation et la production en série." },
-      { terme: "Efficacité / Finalité", def: "La logique d'efficacité technique consiste à produire le maximum avec le minimum de moyens, sans questionner les buts ; la question de la finalité demande : pour quoi faire ? au service de quelles valeurs ?" },
-      { terme: "Moyen / Fin", def: "La technique est-elle un simple moyen neutre au service de fins humaines librement choisies, ou détermine-t-elle elle-même des fins et transforme-t-elle notre rapport au monde (Heidegger, Ellul) ?" },
-    ],
-    idees: [
-      { titre: "Mythe de Prométhée : la technique comme transgression fondatrice", contenu: "Dans le Protagoras de Platon, Épiméthée a distribué toutes les qualités aux animaux, oubliant l'homme. Prométhée vole alors le feu (technique) et l'intelligence aux dieux pour doter l'humanité. Ce mythe dit que la technique est constitutive de l'humanité, mais aussi transgression punissable : Prométhée est enchaîné. La technique est à la fois don et danger, humanisation et démesure (hybris)." },
-      { titre: "Bergson : l'homo faber, intelligence et fabrication", contenu: "Dans L'Évolution créatrice, Bergson affirme que l'intelligence humaine est essentiellement orientée vers la fabrication d'objets artificiels : l'homme est avant tout homo faber. Fabriquer des outils, c'est projeter une intention dans la matière. La technique n'est pas un accident de l'histoire humaine mais sa définition même. Pourtant, cette intelligence technicienne risque de méconnaître la vie dans sa fluidité (l'élan vital)." },
-      { titre: "Heidegger : la technique moderne comme arraisonnement (Gestell)", contenu: "Heidegger distingue la technique ancienne (qui laisse advenir ce qui est) de la technique moderne qui impose un mode de dévoilement : le Gestell (arraisonnement), qui réduit tout à un 'fonds disponible' (Bestand) exploitable et calculable. La technique n'est pas neutre : elle transforme profondément notre rapport à l'être, à la nature, aux autres. Son essence n'est pas technique mais métaphysique — et le danger est que nous ne le voyions plus." },
-      { titre: "Marx : technique et aliénation capitaliste", contenu: "Marx distingue la technique en soi (qui peut libérer l'homme du travail pénible) de son usage dans le système capitaliste. La machine, dans ce contexte, aliène l'ouvrier : elle le dépossède de son savoir-faire, le parcellise, le remplace et crée du chômage. La technique n'est pas neutre car elle s'inscrit dans des rapports sociaux de production qui déterminent qui en bénéficie et qui en souffre." },
-      { titre: "Ellul : l'autonomie de la technique", contenu: "Jacques Ellul soutient que la technique est devenue autonome : elle obéit à sa propre logique d'efficacité maximale, échappe au contrôle humain et crée un 'milieu technique' qui conditionne l'homme de l'extérieur comme jadis le milieu naturel. La rationalité technique envahit tous les domaines (politique, éducation, art). L'homme croit maîtriser la technique mais c'est elle qui le définit." },
-      { titre: "Jonas : le principe responsabilité face aux risques technologiques", contenu: "Hans Jonas constate que la technique moderne (nucléaire, génétique, IA) crée des risques globaux, irréversibles et à long terme que les éthiques traditionnelles n'anticipaient pas. Il formule le 'principe responsabilité' : agir de façon que les effets de ton action soient compatibles avec la permanence d'une vie humaine authentique sur Terre. La prudence et le souci des générations futures deviennent des obligations éthiques." },
-      { titre: "Arendt : l'homo faber et le risque de l'instrumentalisation universelle", contenu: "Dans Condition de l'homme moderne, Arendt distingue le travail (cycle biologique), l'œuvre (création d'un monde durable par l'homo faber) et l'action (vie politique). L'homo faber fabrique un monde commun et durable, mais sa logique instrumentale (tout est moyen pour une fin) risque de réduire toutes choses — y compris les personnes — à leur utilité." },
-      { titre: "Simondon : réhabiliter la culture technique", contenu: "Gilbert Simondon critique le fait que la culture humaniste ignore les objets techniques. Comprendre leur genèse et leur fonctionnement (ce qu'il appelle la 'genèse des objets techniques') permettrait de s'y réinsérer en acteurs éclairés plutôt qu'en usagers aliénés. La technique n'est pas aliénante en elle-même : c'est son incompréhension qui l'est." },
-    ],
-    citations: [
-      { auteur: "Heidegger", texte: "L'essence de la technique n'est absolument rien de technique.", source: "La Question de la technique" },
-      { auteur: "Descartes", texte: "Nous rendre comme maîtres et possesseurs de la nature.", source: "Discours de la méthode" },
-      { auteur: "Bergson", texte: "L'intelligence est la faculté de fabriquer des objets artificiels.", source: "L'Évolution créatrice" },
-      { auteur: "Jonas", texte: "Agis de façon que les effets de ton action soient compatibles avec la permanence d'une vie humaine authentique.", source: "Le Principe responsabilité" },
-      { auteur: "Ellul", texte: "La technique est devenue le milieu de l'homme moderne.", source: "La Technique ou l'enjeu du siècle" },
-      { auteur: "Marx", texte: "Le moulin à bras vous donnera la société avec le suzerain ; le moulin à vapeur, la société avec le capitalisme industriel.", source: "Misère de la philosophie" },
-      { auteur: "Arendt", texte: "L'homo faber, le fabricateur du monde, se distingue de l'animal laborans en ce que son monde dure.", source: "Condition de l'homme moderne" },
-    ],
-    auteurs: ["Heidegger", "Bergson", "Arendt", "Marx", "Ellul", "Simondon", "Jonas", "Descartes", "Aristote", "Platon"],
-  },
-  {
-    id: "morale",
-    titre: "La Morale et le Devoir",
-    emoji: "⚖️",
-    couleur: "#16A34A",
-    definition: "La morale désigne l'ensemble des règles qui guident l'action humaine en distinguant le bien du mal. Le devoir est l'obligation morale inconditionnelle, qui s'impose à la volonté. La question fondamentale : d'où vient l'obligation morale ? La morale est-elle universelle ou culturellement relative ?",
-    distinctions: [
-      { terme: "Morale / Éthique / Droit", def: "La morale est l'ensemble des règles intérieures distinguant le bien du mal, vécue comme obligation de conscience ; l'éthique désigne la réflexion sur la vie bonne et les fins de l'existence ; le droit est l'ensemble des règles extérieures imposées par l'État et assorties de sanctions." },
-      { terme: "Déontologie / Conséquentialisme / Éthique des vertus", def: "La déontologie (Kant) juge l'acte en lui-même, indépendamment de ses effets ; le conséquentialisme (Mill, Bentham) juge l'acte par ses conséquences sur le bonheur ; l'éthique des vertus (Aristote) s'intéresse au caractère moral de l'agent." },
-      { terme: "Autonomie / Hétéronomie", def: "L'autonomie morale (Kant) consiste à se donner à soi-même sa propre loi au nom de la raison universelle ; l'hétéronomie consiste à recevoir la loi de l'extérieur : Dieu, la société, les penchants, l'autorité." },
-      { terme: "Impératif catégorique / Impératif hypothétique", def: "L'impératif catégorique s'impose inconditionnellement ('Tu ne tueras point') indépendamment de tout désir ou intérêt ; l'impératif hypothétique est conditionnel ('Si tu veux réussir, travaille') et ne vaut qu'en vue d'une fin." },
-      { terme: "Morale individuelle / Norme sociale (Durkheim)", def: "La morale peut être vue comme conviction intérieure et personnelle, ou comme fait social extérieur s'imposant à l'individu par la pression collective et l'éducation (Durkheim)." },
-    ],
-    idees: [
-      { titre: "Kant : l'impératif catégorique et l'autonomie de la raison pratique", contenu: "Pour Kant, la loi morale vient de la raison pure pratique, non de l'expérience ni du bonheur. Agir moralement, c'est agir par devoir (et non simplement conformément au devoir par intérêt). Il formule deux formes de l'impératif catégorique : 'Agis seulement selon la maxime que tu peux vouloir ériger en loi universelle' (universalisabilité) et 'Agis de telle sorte que tu traites l'humanité toujours comme une fin, jamais seulement comme un moyen' (dignité humaine)." },
-      { titre: "Bentham et Mill : l'utilitarisme, maximiser le bonheur collectif", contenu: "Pour Bentham, la morale se résume à un calcul : est bon ce qui maximise le bonheur du plus grand nombre (calcul hédoniste). Mill affine cette position en distinguant des plaisirs supérieurs (intellectuels, moraux) et des plaisirs inférieurs (sensoriels) : mieux vaut être Socrate insatisfait qu'un imbécile satisfait. La morale se fonde sur les conséquences réelles des actes pour le bien-être collectif." },
-      { titre: "Aristote : l'éthique des vertus et le juste milieu", contenu: "Aristote définit la vertu éthique comme une disposition stable à bien agir, acquise par l'habitude et la pratique répétée. Elle consiste en un juste milieu entre deux extrêmes vicieux (le courage est le milieu entre la lâcheté et la témérité). La vie morale ne se réduit pas à l'obéissance à des règles mais à l'épanouissement de l'excellence humaine (eudaimonia) dans la cité." },
-      { titre: "Nietzsche : généalogie et critique de la morale", contenu: "Nietzsche entreprend dans La Généalogie de la morale une enquête sur l'origine des valeurs morales. Il distingue la morale des 'maîtres' (affirmation de soi, noblesse, force) et la morale des 'esclaves' née du ressentiment des faibles contre les forts. Nos valeurs morales (pitié, humilité, égalité) sont des créations humaines qui servent des intérêts de pouvoir. Il appelle à dépasser le bien et le mal pour une réevaluation de toutes les valeurs." },
-      { titre: "Sartre : la morale de la situation et l'angoisse de la liberté", contenu: "Pour Sartre, l'existence précède l'essence : il n'y a pas de valeurs absolues données d'avance par Dieu ou la nature. L'homme est condamné à être libre et à inventer ses propres valeurs dans l'angoisse, sans pouvoir se réfugier derrière une morale préétablie. L'authenticité consiste à assumer cette liberté radicale et la responsabilité qui en découle pour soi et pour tous." },
-      { titre: "Gilligan et l'éthique du care", contenu: "Carol Gilligan critique le modèle moral universaliste et abstrait de Kohlberg (inspiré de Kant) comme étant andocentrique. Elle propose une éthique du care fondée sur l'attention aux relations concrètes, aux personnes vulnérables et aux contextes particuliers. La morale n'est pas affaire d'application de principes universels mais de responsabilité envers ceux dont nous prenons soin." },
-      { titre: "Durkheim : la morale comme fait social", contenu: "Pour Durkheim, les faits moraux sont des faits sociaux comme les autres : ils varient selon les sociétés et les époques, servent la cohésion collective et s'imposent à l'individu avec une force contraignante extérieure. L'obligation morale n'est pas la voix de la raison universelle mais la pression de la société intériorisée. La sociologie doit étudier la morale sans la juger." },
-    ],
-    citations: [
-      { auteur: "Kant", texte: "Agis seulement d'après la maxime grâce à laquelle tu peux vouloir en même temps qu'elle devienne une loi universelle.", source: "Fondements de la métaphysique des mœurs" },
-      { auteur: "Nietzsche", texte: "Il n'existe pas de phénomènes moraux, mais seulement une interprétation morale des phénomènes.", source: "Par-delà bien et mal" },
-      { auteur: "Mill", texte: "Les actions sont bonnes dans la mesure où elles tendent à promouvoir le bonheur, mauvaises en tant qu'elles tendent à produire le contraire.", source: "L'Utilitarisme" },
-      { auteur: "Aristote", texte: "La vertu est une disposition à agir d'une façon délibérée, consistant en un juste milieu relatif à nous.", source: "Éthique à Nicomaque" },
-      { auteur: "Sartre", texte: "L'homme est condamné à être libre.", source: "L'existentialisme est un humanisme" },
-      { auteur: "Pascal", texte: "La justice sans la force est impuissante ; la force sans la justice est tyrannique.", source: "Pensées" },
-      { auteur: "Kant", texte: "Le ciel étoilé au-dessus de moi, la loi morale en moi.", source: "Critique de la raison pratique" },
-    ],
-    auteurs: ["Kant", "Aristote", "Mill", "Bentham", "Nietzsche", "Sartre", "Durkheim", "Gilligan", "Levinas", "Rousseau"],
-  },
-  {
-    id: "histoire",
-    titre: "L'Histoire",
-    emoji: "📜",
-    couleur: "#92400E",
-    definition: "L'histoire désigne à la fois le passé des sociétés humaines et la discipline scientifique qui l'étudie et le reconstitue. Elle pose les questions : l'histoire a-t-elle un sens et un but ? Y a-t-il un progrès historique ? L'homme est-il acteur ou jouet de l'histoire ?",
-    distinctions: [
-      { terme: "Histoire / Mémoire / Mythe", def: "L'histoire est une reconstruction critique et méthodique du passé à partir de sources ; la mémoire est un rapport affectif et sélectif au passé, individuel ou collectif ; le mythe est un récit fondateur qui organise symboliquement l'origine d'une communauté, hors de la temporalité ordinaire." },
-      { terme: "Geschichte / Historie (Heidegger)", def: "Heidegger distingue la Geschichte (l'histoire comme événement vécu, ce qui arrive au Dasein) de l'Historie (le récit historique, la discipline scientifique qui reconstitue le passé). L'histoire vécue précède et fonde le discours sur l'histoire." },
-      { terme: "Philosophie critique / Philosophie spéculative de l'histoire", def: "La philosophie critique de l'histoire s'interroge sur la méthode, l'objectivité et les conditions de la connaissance historique ; la philosophie spéculative cherche le sens global et le but (telos) de l'histoire universelle (Hegel, Marx)." },
-      { terme: "Événement / Structure / Longue durée (Braudel)", def: "L'histoire événementielle s'intéresse aux faits datés et aux personnages ; l'histoire des structures analyse les phénomènes économiques et sociaux stables ; la longue durée (Braudel, Annales) étudie les lents mouvements géographiques et climatiques qui conditionnent les civilisations." },
-      { terme: "Progrès / Cycles / Catastrophes", def: "La vision progressiste voit l'histoire comme mouvement vers un but meilleur (Hegel, Marx, Lumières) ; la vision cyclique (Vico, Nietzsche) voit le retour des mêmes configurations ; la vision catastrophiste (Benjamin) voit l'histoire comme accumulation de ruines et de violences." },
-    ],
-    idees: [
-      { titre: "Hegel : la raison dans l'histoire et la dialectique", contenu: "Pour Hegel, l'histoire universelle est le déploiement progressif de l'Esprit absolu vers la pleine conscience de sa liberté. La dialectique (thèse-antithèse-synthèse) est le moteur de ce progrès : chaque période est dépassée et conservée dans la suivante (Aufhebung). Les grands hommes (César, Napoléon) sont des 'âmes du monde', instruments inconscients de la Raison. L'histoire a donc un sens et une fin : la réalisation de la liberté dans l'État rationnel." },
-      { titre: "Marx : le matérialisme historique et la lutte des classes", contenu: "Marx retourne Hegel : ce ne sont pas les idées qui font l'histoire, mais les conditions matérielles de production. L'histoire est le produit des luttes de classes entre ceux qui possèdent les moyens de production et ceux qui ne possèdent que leur force de travail. Les superstructures (droit, politique, religion, philosophie) reflètent et légitiment les rapports de production dominants. L'histoire tend dialectiquement vers la société communiste sans classes." },
-      { titre: "Benjamin : l'histoire des opprimés contre l'histoire des vainqueurs", contenu: "Dans ses Thèses sur la philosophie de l'histoire, Walter Benjamin critique l'idée de progrès historique continu. L'histoire officielle est celle des vainqueurs qui piétinent les vaincus. L'ange de l'histoire voit une catastrophe continue, un amoncellement de ruines. Le matérialiste historique doit 'brosser l'histoire à rebrousse-poil' : faire mémoire des victimes, réactualiser les possibilités avortées du passé pour libérer le présent." },
-      { titre: "Aron : la contingence historique et l'objectivité relative", contenu: "Raymond Aron refuse toute philosophie spéculative de l'histoire : l'histoire n'a pas de sens prédéterminé ni de lois scientifiques. Elle est faite de décisions humaines contingentes, d'accidents et de rencontres. L'historien ne décrit pas mais interprète en fonction de sa perspective et de ses valeurs. Une objectivité relative est possible par la rigueur critique, mais non une vérité absolue sur le sens de l'histoire." },
-      { titre: "Nietzsche : contre l'historicisme, pour la vie", contenu: "Dans les Considérations inactuelles, Nietzsche critique l'excès d'histoire (historicisme) propre au XIXe siècle : trop de savoir sur le passé paralyse l'action, écrase la créativité et engendre le nihilisme. Il distingue trois usages de l'histoire : monumentale (modèles héroïques), antiquaire (conservation de l'héritage), critique (jugement du passé). Il faut savoir oublier pour vivre et créer de nouvelles valeurs." },
-      { titre: "Fukuyama : la fin de l'histoire et la démocratie libérale", contenu: "Francis Fukuyama soutient après 1989 que la démocratie libérale représente le stade final de l'évolution politique de l'humanité : elle résout la contradiction fondamentale du désir de reconnaissance. La chute du communisme signifierait la victoire définitive du modèle libéral — non la fin des événements, mais la fin des grandes alternatives idéologiques. Cette thèse très contestée a fait l'objet de nombreuses réfutations (Huntington, conflits post-1989)." },
-      { titre: "Ricoeur : identité narrative, mémoire et pardon", contenu: "Pour Ricoeur, l'identité humaine — individuelle et collective — est fondamentalement narrative : nous nous comprenons à travers les récits que nous faisons de notre passé. La mémoire juste (ni amnésie ni obsession) et le pardon (qui libère du passé sans l'effacer) sont les conditions d'un rapport sain à l'histoire. L'historien a une dette envers les morts et une responsabilité envers les vivants." },
-    ],
-    citations: [
-      { auteur: "Hegel", texte: "La raison gouverne le monde, et par conséquent l'histoire universelle s'est déroulée raisonnablement.", source: "La Raison dans l'histoire" },
-      { auteur: "Marx", texte: "Ce n'est pas la conscience des hommes qui détermine leur existence, c'est au contraire leur existence sociale qui détermine leur conscience.", source: "Contribution à la critique de l'économie politique" },
-      { auteur: "Benjamin", texte: "Il n'est pas un document de culture qui ne soit aussi document de barbarie.", source: "Thèses sur la philosophie de l'histoire" },
-      { auteur: "Nietzsche", texte: "Il faut de l'histoire pour la vie et pour l'action.", source: "Considérations inactuelles" },
-      { auteur: "Aron", texte: "L'histoire est la science des hommes dans le temps.", source: "Introduction à la philosophie de l'histoire" },
-      { auteur: "Tocqueville", texte: "Chaque génération est un peuple nouveau.", source: "De la démocratie en Amérique" },
-      { auteur: "Sartre", texte: "L'homme ne se définit pas par ce qu'il est mais par ce qu'il fait de ce qu'on a fait de lui.", source: "L'existentialisme est un humanisme" },
-    ],
-    auteurs: ["Hegel", "Marx", "Benjamin", "Aron", "Nietzsche", "Ricoeur", "Tocqueville", "Fukuyama", "Foucault", "Braudel"],
-  },
-];
-
-const METHODES = {
-  dissertation: {
-    titre: "La Dissertation",
-    emoji: "✍️",
-    intro: "La dissertation philosophique consiste à répondre à une question en construisant une argumentation rigoureuse, nuancée et progressive.",
-    etapes: [
-      {
-        num: "1",
-        titre: "Analyser le sujet",
-        contenu: [
-          "Identifier les notions clés et les définir",
-          "Reformuler le sujet (de quoi parle-t-il vraiment ?)",
-          "Repérer les présupposés implicites de la question",
-          "Chercher les tensions, paradoxes, ambiguïtés",
-          "Se demander : POURQUOI cette question se pose-t-elle ?",
-        ],
-      },
-      {
-        num: "2",
-        titre: "Construire la problématique",
-        contenu: [
-          "La problématique n'est pas la question du sujet reformulée",
-          "Elle doit montrer POURQUOI la question est difficile, pourquoi on ne peut pas y répondre directement",
-          "Elle met en tension deux positions opposées légitimes",
-          "Elle oriente le plan de la dissertation",
-          "Elle doit être explicitement formulée dans l'introduction",
-        ],
-      },
-      {
-        num: "3",
-        titre: "Élaborer le plan",
-        contenu: [
-          "PLAN EN 3 PARTIES (le plus courant)",
-          "Thèse → Antithèse → Synthèse (dépassement, pas compromis)",
-          "Chaque partie : 2-3 sous-parties avec argument + exemple + citation",
-          "Chaque partie répond à la problématique d'un point de vue",
-          "Transitions obligatoires entre chaque partie",
-        ],
-      },
-      {
-        num: "4",
-        titre: "Rédiger l'introduction",
-        contenu: [
-          "ACCROCHE : partir d'un fait, d'une citation, d'une situation concrète",
-          "ANALYSE DU SUJET : définir les termes clés",
-          "PROBLÉMATIQUE : formuler explicitement la tension",
-          "ANNONCE DU PLAN : présenter les 3 parties",
-          "L'introduction ne doit pas dépasser 15-20 lignes",
-        ],
-      },
-      {
-        num: "5",
-        titre: "Rédiger le développement",
-        contenu: [
-          "Chaque paragraphe = 1 idée + 1 argument + 1 exemple + 1 référence",
-          "Utiliser des connecteurs logiques : 'en effet', 'cependant', 'ainsi'",
-          "Les références philosophiques doivent être expliquées, pas juste citées",
-          "Transitions entre parties : bilan + limite + nouvelle question",
-          "Ne jamais donner son avis à la première personne",
-        ],
-      },
-      {
-        num: "6",
-        titre: "Rédiger la conclusion",
-        contenu: [
-          "BILAN : récapituler le cheminement (pas les arguments)",
-          "RÉPONSE : donner clairement une réponse à la question",
-          "OUVERTURE : élargir sur une question connexe (pas obligatoire mais valorisé)",
-          "Pas de nouvelle idée dans la conclusion",
-          "La conclusion doit montrer qu'on a progressé depuis l'introduction",
-        ],
-      },
-    ],
-    piegesToEviter: [
-      "Répondre par oui/non dès le début sans problématiser",
-      "Faire un plan par auteurs ('Platon dit… Kant dit…')",
-      "Illustrer sans argumenter (l'exemple n'est pas la preuve)",
-      "Sortir du sujet en parlant d'une notion vaguement liée",
-      "Oublier la conclusion ou la bâcler",
-      "Utiliser le 'je' ou les expressions familières",
-      "Paraphraser le cours sans réflexion personnelle",
-    ],
-  },
-  commentaire: {
-    titre: "Le Commentaire de Texte",
-    emoji: "📖",
-    intro: "Le commentaire de texte philosophique consiste à dégager le sens et la portée d'un extrait de philosophe, en montrant la cohérence de son argumentation et en l'éclairant par des connaissances extérieures.",
-    etapes: [
-      {
-        num: "1",
-        titre: "Première lecture",
-        contenu: [
-          "Lire le texte 2-3 fois sans annoter",
-          "Identifier l'auteur et replacer dans son contexte",
-          "Trouver la thèse principale (ce que défend l'auteur)",
-          "Repérer le problème auquel le texte répond",
-          "Identifier les notions clés du texte",
-        ],
-      },
-      {
-        num: "2",
-        titre: "Analyser la structure",
-        contenu: [
-          "Découper le texte en parties logiques (souvent 2-3)",
-          "Pour chaque partie : quelle idée est développée ?",
-          "Repérer les connecteurs logiques (or, donc, ainsi, mais…)",
-          "Identifier le type de raisonnement (inductif, déductif, dialectique)",
-          "Repérer les exemples, métaphores, analogies utilisées",
-        ],
-      },
-      {
-        num: "3",
-        titre: "Construire l'introduction",
-        contenu: [
-          "PRÉSENTATION : auteur, œuvre, thème général",
-          "PROBLÈME : quel problème le texte soulève-t-il ?",
-          "THÈSE : quelle réponse l'auteur propose-t-il ?",
-          "PLAN : comment le texte progresse-t-il ?",
-          "PAS de paraphrase, PAS de 'Dans ce texte, l'auteur dit que…'",
-        ],
-      },
-      {
-        num: "4",
-        titre: "Rédiger le commentaire",
-        contenu: [
-          "Suivre l'ordre du texte (structure linéaire ou thématique)",
-          "Expliquer chaque idée en détail : QUE veut dire l'auteur ?",
-          "Montrer POURQUOI l'auteur dit cela (sa logique, ses présupposés)",
-          "Mettre en relation avec d'autres philosophes (accord, désaccord)",
-          "Évaluer la portée et les limites de la thèse",
-        ],
-      },
-      {
-        num: "5",
-        titre: "Règles fondamentales",
-        contenu: [
-          "NE PAS paraphraser : reformuler ne suffit pas, il faut expliquer",
-          "NE PAS plaquer son cours : tout doit être au service du texte",
-          "Citer le texte entre guillemets pour appuyer son analyse",
-          "Montrer la progression logique : chaque partie prépare la suivante",
-          "La conclusion doit évaluer la thèse et ouvrir une question",
-        ],
-      },
-    ],
-    piegesToEviter: [
-      "La paraphrase (raconter le texte avec ses mots)",
-      "Ignorer une partie du texte",
-      "Faire une dissertation sur le thème au lieu de commenter LE texte",
-      "Critiquer l'auteur sans arguments solides",
-      "Oublier de citer le texte",
-      "Inventer la thèse de l'auteur",
-      "Plan hors-texte (ne pas suivre la logique interne)",
-    ],
-  },
-};
-
-const AUTEURS_CLES = [
-  { nom: "Platon", periode: "Antiquité (~428-348 av. J.-C.)", apport: "Théorie des Idées (le monde sensible n'est qu'une copie imparfaite du monde intelligible), mythe de la caverne, dualisme âme/corps, amour platonique (Éros comme élan dialectique vers le Beau en soi), politique idéale (philosophes-rois dans la cité juste).", oeuvres: ["La République", "Le Banquet", "Phédon", "Ménon"] },
-  { nom: "Aristote", periode: "Antiquité (~384-322 av. J.-C.)", apport: "Fondateur de la logique, de la biologie et de la philosophie pratique. Critique des Idées platoniciennes au profit d'une philosophie de la substance et de la forme immanente. Éthique des vertus (eudaimonia, juste milieu), politique (l'homme est un animal politique), théorie de la connaissance par induction.", oeuvres: ["Éthique à Nicomaque", "La Politique", "Métaphysique", "De l'âme"] },
-  { nom: "Épicure", periode: "Antiquité (~341-270 av. J.-C.)", apport: "Fondateur de l'épicurisme : le bonheur (eudaimonia) s'obtient par l'ataraxie (absence de trouble de l'âme) et l'aponie (absence de douleur physique). Hiérarchie des désirs (naturels nécessaires/non nécessaires/vains), amitié comme valeur suprême, matérialisme atomiste hérité de Démocrite.", oeuvres: ["Lettre à Ménécée", "Lettre à Hérodote", "Maximes capitales", "Lettre à Pythoclès"] },
-  { nom: "Descartes", periode: "Modernité (1596-1650)", apport: "Père de la philosophie moderne et du rationalisme. Doute méthodique, cogito ('Je pense donc je suis'), dualisme âme/corps (res cogitans vs res extensa), mathématisation de la nature, projet de maîtrise technique de la nature 'au profit de la vie'. Fondateur de la méthode scientifique moderne.", oeuvres: ["Méditations métaphysiques", "Discours de la méthode", "Les Passions de l'âme", "Principes de la philosophie"] },
-  { nom: "Spinoza", periode: "Modernité (1632-1677)", apport: "Rationalisme radical et panthéisme : Dieu et la Nature sont une seule et même substance (Deus sive Natura). Le désir est le conatus, essence de toute chose. Critique de la téléologie et du libre arbitre illusion : tout est nécessaire. Éthique fondée sur la connaissance des causes comme voie vers la liberté et la joie.", oeuvres: ["Éthique", "Traité théologico-politique", "Traité de la réforme de l'entendement", "Lettres"] },
-  { nom: "Locke", periode: "Modernité (1632-1704)", apport: "Fondateur du libéralisme politique et de l'empirisme britannique. L'esprit à la naissance est une 'table rase' (tabula rasa) : toute connaissance vient de l'expérience. Théorie des droits naturels (vie, liberté, propriété), séparation des pouvoirs, légitimité du gouvernement par consentement, tolérance religieuse.", oeuvres: ["Essai sur l'entendement humain", "Deux traités du gouvernement civil", "Lettre sur la tolérance", "Quelques pensées sur l'éducation"] },
-  { nom: "Hume", periode: "Modernité (1711-1776)", apport: "Empirisme radical et scepticisme. Critique de la causalité (elle n'est qu'une habitude mentale, non une nécessité logique), critique du moi (pas de substance permanente, seulement un flux de perceptions), critique de la religion naturelle. La raison est 'esclave des passions' : c'est la sympathie qui fonde la morale.", oeuvres: ["Traité de la nature humaine", "Enquête sur l'entendement humain", "Dialogues sur la religion naturelle", "Essais moraux et politiques"] },
-  { nom: "Rousseau", periode: "Modernité (1712-1778)", apport: "Critique de la civilisation comme source de corruption morale : l'homme naturel est bon, c'est la société qui le pervertit. Théorie du contrat social (la souveraineté appartient au peuple, volonté générale vs volonté de tous), pédagogie naturelle (Émile), sentiment de l'existence et amour de soi vs amour-propre.", oeuvres: ["Du contrat social", "Discours sur l'origine de l'inégalité", "Émile ou De l'éducation", "Les Confessions"] },
-  { nom: "Kant", periode: "Modernité (1724-1804)", apport: "Révolution copernicienne en philosophie : c'est le sujet qui structure l'expérience (espace, temps, catégories). Critique des limites de la raison pure (la métaphysique est impossible), fondement de la morale dans la raison pratique (impératif catégorique, autonomie, dignité humaine), philosophie du droit et de la paix perpétuelle.", oeuvres: ["Critique de la raison pure", "Critique de la raison pratique", "Fondements de la métaphysique des mœurs", "Critique de la faculté de juger"] },
-  { nom: "Hegel", periode: "Modernité (1770-1831)", apport: "Idéalisme absolu : la réalité est le déploiement de l'Esprit (Geist) à travers la dialectique (thèse-antithèse-synthèse). La conscience de soi se constitue par la reconnaissance intersubjective (dialectique maître/esclave). La raison gouverne l'histoire universelle. L'État est la réalisation de la liberté concrète.", oeuvres: ["Phénoménologie de l'Esprit", "Principes de la philosophie du droit", "La Raison dans l'histoire", "Science de la logique"] },
-  { nom: "Marx", periode: "XIXe siècle (1818-1883)", apport: "Matérialisme historique et dialectique : l'histoire est le produit des luttes de classes, les rapports de production déterminent les superstructures. Critique de l'aliénation du travail dans le capitalisme, théorie de la plus-value, projet d'émancipation vers une société sans classes. La philosophie doit transformer le monde, non seulement l'interpréter.", oeuvres: ["Le Capital", "Manifeste du Parti communiste", "Manuscrits de 1844", "L'Idéologie allemande"] },
-  { nom: "Nietzsche", periode: "XIXe siècle (1844-1900)", apport: "Critique de la métaphysique, de la morale et du nihilisme occidental. 'Mort de Dieu' et nécessité de créer de nouvelles valeurs (transvaluation). Volonté de puissance comme fond de tout ce qui existe. Éternel retour comme épreuve du oui à la vie. Le surhomme comme idéal de création et d'affirmation.", oeuvres: ["Ainsi parlait Zarathoustra", "Par-delà bien et mal", "La Généalogie de la morale", "Le Gai Savoir"] },
-  { nom: "Freud", periode: "XIXe-XXe siècle (1856-1939)", apport: "Fondateur de la psychanalyse : découverte de l'inconscient comme instance psychique autonome. Topiques du psychisme (inconscient/préconscient/conscient ; ça/moi/surmoi). Théorie des pulsions (Eros et Thanatos), complexe d'Œdipe, mécanismes de défense. Le moi n'est pas maître dans sa propre maison.", oeuvres: ["L'Interprétation des rêves", "Introduction à la psychanalyse", "Malaise dans la civilisation", "Au-delà du principe de plaisir"] },
-  { nom: "Bergson", periode: "XIXe-XXe siècle (1859-1941)", apport: "Critique du mécanisme et du déterminisme : la durée (le temps vécu, qualitatif) est irréductible au temps spatialisé de la science. L'élan vital comme principe créateur du vivant. L'intuition philosophique dépasse l'intelligence analytique. Distinction entre sociétés fermées (morales closes) et sociétés ouvertes (amour universel).", oeuvres: ["Essai sur les données immédiates de la conscience", "Matière et Mémoire", "L'Évolution créatrice", "Les Deux Sources de la morale et de la religion"] },
-  { nom: "Husserl", periode: "XIXe-XXe siècle (1859-1938)", apport: "Fondateur de la phénoménologie : retour aux 'choses elles-mêmes' par la description rigoureuse de la conscience intentionnelle. La réduction phénoménologique (épochè) met entre parenthèses l'existence du monde pour étudier la structure de la conscience. Analyse du temps, de l'intersubjectivité et du monde de la vie (Lebenswelt).", oeuvres: ["Recherches logiques", "Idées directrices pour une phénoménologie pure", "Méditations cartésiennes", "La Crise des sciences européennes"] },
-  { nom: "Sartre", periode: "XXe siècle (1905-1980)", apport: "Principal représentant de l'existentialisme athée : 'l'existence précède l'essence', l'homme est condamné à être libre et à se définir par ses actes. Ontologie de l'en-soi et du pour-soi, analyse du regard et de l'Autre, mauvaise foi comme fuite de la liberté. Engagement politique de l'intellectuel.", oeuvres: ["L'Être et le Néant", "L'Existentialisme est un humanisme", "Critique de la raison dialectique", "Les Mots"] },
-  { nom: "Simone de Beauvoir", periode: "XXe siècle (1908-1986)", apport: "Fondatrice du féminisme philosophique existentialiste : 'On ne naît pas femme, on le devient'. La féminité est une construction sociale et historique, non une essence naturelle. Théorie de l'altérité radicale de la femme dans la culture patriarcale. Analyse de l'oppression, de la liberté située et de l'ambiguïté de la condition humaine.", oeuvres: ["Le Deuxième Sexe", "Pour une morale de l'ambiguïté", "Les Mandarins", "Mémoires d'une jeune fille rangée"] },
-  { nom: "Arendt", periode: "XXe siècle (1906-1975)", apport: "Analyse du totalitarisme comme phénomène politique radicalement nouveau. Distinction vita activa : travail (animal laborans), œuvre (homo faber), action (vie politique). La banalité du mal (Eichmann) : le mal peut être accompli sans malveillance, par simple absence de pensée. Réhabilitation de la politique comme espace de la pluralité humaine.", oeuvres: ["Les Origines du totalitarisme", "Condition de l'homme moderne", "La Crise de la culture", "Eichmann à Jérusalem"] },
-  { nom: "Merleau-Ponty", periode: "XXe siècle (1908-1961)", apport: "Phénoménologie du corps propre : c'est par le corps vécu (et non par la conscience pure) que nous sommes au monde. Critique du dualisme cartésien âme/corps et de l'empirisme réducteur. La perception est première et irréductible. Le monde est toujours déjà là, saisi dans la chair de l'être avant toute réflexion.", oeuvres: ["Phénoménologie de la perception", "La Structure du comportement", "L'Œil et l'Esprit", "Le Visible et l'Invisible"] },
-  { nom: "Levinas", periode: "XXe siècle (1906-1995)", apport: "Éthique comme philosophie première : la responsabilité envers autrui précède tout savoir et tout être. Le visage de l'Autre m'interpelle inconditionnellement ('Tu ne tueras pas') et m'ouvre à l'infini. Critique de l'ontologie heideggérienne au profit d'une métaphysique de l'altérité radicale. L'éthique de l'accueil de l'étranger.", oeuvres: ["Totalité et Infini", "Autrement qu'être ou Au-delà de l'essence", "Le Temps et l'Autre", "Éthique et Infini"] },
-];
+import { NOTIONS } from "./data/notions";
+import { METHODES } from "./data/methodes";
+import { AUTEURS_CLES } from "./data/auteurs";
 
 export default function App() {
   const [vue, setVue] = useState("accueil");
   const [notionActive, setNotionActive] = useState(null);
   const [methodeActive, setMethodeActive] = useState(null);
   const [onglet, setOnglet] = useState("idees");
+  const [recherche, setRecherche] = useState("");
+  const [auteurActive, setAuteurActive] = useState(null);
+  const [flashcardIndex, setFlashcardIndex] = useState(0);
+  const [flashcardRevelee, setFlashcardRevelee] = useState(false);
+  const [progression, setProgression] = useState(() => {
+    try { return JSON.parse(localStorage.getItem("philo-progression") || "{}"); } catch { return {}; }
+  });
 
   const ouvrirNotion = (notion) => { setNotionActive(notion); setVue("notion"); setOnglet("idees"); };
   const ouvrirMethode = (m) => { setMethodeActive(m); setVue("methode"); };
-  const retour = () => { setVue("accueil"); setNotionActive(null); setMethodeActive(null); };
+  const ouvrirAuteur = (nomAuteur) => {
+    const a = AUTEURS_CLES.find(a => a.nom === nomAuteur);
+    if (a) { setAuteurActive(a); setVue("auteur"); }
+  };
+  const retour = () => {
+    setVue("accueil"); setNotionActive(null); setMethodeActive(null);
+    setAuteurActive(null); setRecherche("");
+  };
+
+  const notionIndex = notionActive ? NOTIONS.findIndex(n => n.id === notionActive.id) : -1;
+  const notionPrecedente = notionIndex > 0 ? NOTIONS[notionIndex - 1] : null;
+  const notionSuivante = notionIndex < NOTIONS.length - 1 ? NOTIONS[notionIndex + 1] : null;
+
+  const toggleProgression = (notionId, e) => {
+    if (e) e.stopPropagation();
+    const newProg = { ...progression, [notionId]: !progression[notionId] };
+    setProgression(newProg);
+    localStorage.setItem("philo-progression", JSON.stringify(newProg));
+  };
+  const nbRevisees = Object.values(progression).filter(Boolean).length;
+
+  const notionsFiltrees = NOTIONS.filter(n =>
+    !recherche ||
+    n.titre.toLowerCase().includes(recherche.toLowerCase()) ||
+    n.definition.toLowerCase().includes(recherche.toLowerCase())
+  );
+  const auteursFiltres = AUTEURS_CLES.filter(a =>
+    !recherche ||
+    a.nom.toLowerCase().includes(recherche.toLowerCase()) ||
+    a.apport.toLowerCase().includes(recherche.toLowerCase())
+  );
+
+  const flashcardNotion = NOTIONS[flashcardIndex % NOTIONS.length];
 
   return (
     <div style={{ fontFamily: "'Georgia', serif", minHeight: "100vh", background: "#0f0f13", color: "#e8e6e1" }}>
@@ -1170,28 +60,91 @@ export default function App() {
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #1a1a24; }
         ::-webkit-scrollbar-thumb { background: #444; border-radius: 3px; }
-        .card-notion { transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; }
+
+        .card-notion {
+          transition: transform 0.2s, box-shadow 0.2s;
+          cursor: pointer; background: none; border: none; text-align: left; width: 100%;
+        }
         .card-notion:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.5); }
-        .onglet-btn { transition: all 0.2s; }
+        .card-notion:focus-visible { outline: 2px solid #7C3AED; outline-offset: 3px; border-radius: 12px; }
+
+        .onglet-btn { transition: all 0.2s; border: none; cursor: pointer; }
         .onglet-btn:hover { opacity: 0.85; }
+        .onglet-btn:focus-visible { outline: 2px solid #7C3AED; outline-offset: 2px; border-radius: 20px; }
+
         .citation-card { border-left: 3px solid; padding: 12px 16px; margin: 8px 0; background: rgba(255,255,255,0.04); border-radius: 0 8px 8px 0; }
         .etape-card { border-radius: 12px; padding: 16px; margin: 10px 0; background: rgba(255,255,255,0.05); }
         .piege-item { display: flex; gap: 8px; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.07); }
-        .auteur-card { background: rgba(255,255,255,0.04); border-radius: 12px; padding: 14px; border: 1px solid rgba(255,255,255,0.08); transition: all 0.2s; }
+
+        .auteur-card {
+          background: rgba(255,255,255,0.04); border-radius: 12px; padding: 14px;
+          border: 1px solid rgba(255,255,255,0.08); transition: all 0.2s;
+          width: 100%; text-align: left; cursor: pointer;
+        }
         .auteur-card:hover { background: rgba(255,255,255,0.08); }
-        .back-btn { cursor: pointer; display: inline-flex; align-items: center; gap: 6px; opacity: 0.7; transition: opacity 0.2s; }
+        .auteur-card:focus-visible { outline: 2px solid #7C3AED; outline-offset: 2px; border-radius: 12px; }
+
+        .back-btn {
+          cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+          opacity: 0.7; transition: opacity 0.2s; background: none; border: none;
+          color: #a0aec0; font-size: 14px; padding: 0;
+        }
         .back-btn:hover { opacity: 1; }
+        .back-btn:focus-visible { outline: 2px solid #7C3AED; outline-offset: 2px; }
+
+        .nav-btn {
+          background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);
+          border-radius: 8px; padding: 8px 14px; color: #a0aec0; cursor: pointer;
+          font-size: 12px; font-family: 'Source Sans 3', sans-serif;
+          transition: all 0.2s; white-space: nowrap; overflow: hidden;
+          text-overflow: ellipsis; max-width: 46%;
+        }
+        .nav-btn:hover:not(:disabled) { background: rgba(255,255,255,0.14); color: #f0e6c8; }
+        .nav-btn:disabled { opacity: 0.25; cursor: not-allowed; }
+        .nav-btn:focus-visible { outline: 2px solid #7C3AED; outline-offset: 2px; }
+
+        .prog-btn { background: none; border: none; cursor: pointer; border-radius: 6px; transition: opacity 0.2s; }
+        .prog-btn:hover { opacity: 0.8; }
+        .prog-btn:focus-visible { outline: 2px solid #7C3AED; outline-offset: 2px; }
+
+        .auteur-tag-btn { border: none; cursor: pointer; border-radius: 20px; padding: 6px 14px; font-family: 'Source Sans 3', sans-serif; transition: opacity 0.2s; }
+        .auteur-tag-btn:hover { opacity: 0.75; }
+        .auteur-tag-btn:focus-visible { outline: 2px solid #7C3AED; outline-offset: 2px; }
+
+        .recherche-input {
+          width: 100%; padding: 12px 16px 12px 42px;
+          background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+          border-radius: 12px; color: #e8e6e1; font-size: 14px;
+          font-family: 'Source Sans 3', sans-serif; outline: none; transition: border-color 0.2s;
+        }
+        .recherche-input:focus { border-color: rgba(124,58,237,0.55); }
+        .recherche-input::placeholder { color: #6b7280; }
+
+        .title-clickable { cursor: pointer; }
+        .title-clickable:hover h1 { opacity: 0.85; }
+
+        @media (max-width: 640px) {
+          .grid-2col { grid-template-columns: 1fr !important; }
+          .grid-2col-methodes { grid-template-columns: 1fr !important; }
+          .nav-btn { font-size: 11px; padding: 6px 10px; }
+        }
       `}</style>
 
       {/* HEADER */}
       <div style={{ background: "linear-gradient(135deg, #1a0a2e 0%, #0d1b2a 100%)", padding: "24px 20px 20px", borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
         <div style={{ maxWidth: 900, margin: "0 auto" }}>
           {vue !== "accueil" && (
-            <div className="back-btn" onClick={retour} style={{ marginBottom: 12, fontSize: 14, color: "#a0aec0" }}>
+            <button className="back-btn" onClick={retour} style={{ marginBottom: 12 }} aria-label="Retour à l'accueil">
               ← Retour à l'accueil
-            </div>
+            </button>
           )}
-          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <div
+            className={vue !== "accueil" ? "title-clickable" : ""}
+            onClick={vue !== "accueil" ? retour : undefined}
+            role={vue !== "accueil" ? "button" : undefined}
+            aria-label={vue !== "accueil" ? "Retour à l'accueil" : undefined}
+            style={{ display: "flex", alignItems: "center", gap: 12 }}
+          >
             <div style={{ fontSize: 32 }}>📚</div>
             <div>
               <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 26, fontWeight: 900, margin: 0, letterSpacing: "-0.5px", background: "linear-gradient(90deg, #f0e6c8, #d4a8ff)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
@@ -1210,78 +163,171 @@ export default function App() {
         {/* ACCUEIL */}
         {vue === "accueil" && (
           <>
-            {/* Méthodes */}
-            <div style={{ marginBottom: 28 }}>
-              <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, color: "#f0e6c8", borderBottom: "1px solid rgba(255,255,255,0.1)", paddingBottom: 8, marginBottom: 14 }}>
-                📝 Méthodes d'Examen
-              </h2>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-                {Object.entries(METHODES).map(([key, m]) => (
-                  <div key={key} className="card-notion" onClick={() => ouvrirMethode(key)}
-                    style={{ background: "linear-gradient(135deg, rgba(255,255,255,0.07), rgba(255,255,255,0.03))", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 14, padding: 18 }}>
-                    <div style={{ fontSize: 28, marginBottom: 8 }}>{m.emoji}</div>
-                    <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 17, fontWeight: 700, color: "#f0e6c8" }}>{m.titre}</div>
-                    <div style={{ fontSize: 12, color: "#8892a4", marginTop: 4 }}>Méthode complète + pièges à éviter</div>
-                  </div>
-                ))}
-              </div>
+            {/* Barre de recherche */}
+            <div style={{ position: "relative", marginBottom: 20 }}>
+              <span style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", fontSize: 16, color: "#6b7280", pointerEvents: "none" }} aria-hidden="true">🔍</span>
+              <input
+                type="search"
+                className="recherche-input"
+                placeholder="Rechercher une notion, un auteur, une idée…"
+                value={recherche}
+                onChange={(e) => setRecherche(e.target.value)}
+                aria-label="Rechercher dans les notions et les auteurs"
+              />
             </div>
+
+            {/* Progression + bouton flashcard */}
+            {!recherche && (
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12, marginBottom: 24, padding: "14px 16px", background: "rgba(255,255,255,0.04)", borderRadius: 12, border: "1px solid rgba(255,255,255,0.08)" }}>
+                <div>
+                  <div style={{ fontSize: 13, color: "#f0e6c8", fontFamily: "'Source Sans 3', sans-serif" }}>
+                    <span style={{ fontWeight: 700, color: "#d4a8ff" }}>{nbRevisees}</span>
+                    <span style={{ color: "#8892a4" }}> / {NOTIONS.length} notions révisées</span>
+                  </div>
+                  <div style={{ width: 160, height: 4, background: "rgba(255,255,255,0.1)", borderRadius: 2, marginTop: 7 }}>
+                    <div style={{ width: `${(nbRevisees / NOTIONS.length) * 100}%`, height: "100%", background: "linear-gradient(90deg, #7C3AED, #1D4ED8)", borderRadius: 2, transition: "width 0.3s" }} aria-hidden="true" />
+                  </div>
+                </div>
+                <button
+                  onClick={() => { setFlashcardIndex(0); setFlashcardRevelee(false); setVue("flashcard"); }}
+                  style={{ padding: "9px 18px", background: "linear-gradient(135deg, #7C3AED, #1D4ED8)", border: "none", borderRadius: 8, color: "#fff", fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: "'Source Sans 3', sans-serif" }}
+                  aria-label="Démarrer le mode révision flashcards"
+                >
+                  🃏 Mode révision
+                </button>
+              </div>
+            )}
+
+            {/* Méthodes */}
+            {!recherche && (
+              <div style={{ marginBottom: 28 }}>
+                <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, color: "#f0e6c8", borderBottom: "1px solid rgba(255,255,255,0.1)", paddingBottom: 8, marginBottom: 14 }}>
+                  📝 Méthodes d'Examen
+                </h2>
+                <div className="grid-2col-methodes" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                  {Object.entries(METHODES).map(([key, m]) => (
+                    <button key={key} className="card-notion" onClick={() => ouvrirMethode(key)}
+                      aria-label={`Ouvrir la méthode : ${m.titre}`}
+                      style={{ background: "linear-gradient(135deg, rgba(255,255,255,0.07), rgba(255,255,255,0.03))", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 14, padding: 18 }}>
+                      <div style={{ fontSize: 28, marginBottom: 8 }}>{m.emoji}</div>
+                      <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 17, fontWeight: 700, color: "#f0e6c8" }}>{m.titre}</div>
+                      <div style={{ fontSize: 12, color: "#8892a4", marginTop: 4 }}>Méthode complète + pièges à éviter</div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Notions */}
             <div style={{ marginBottom: 28 }}>
               <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, color: "#f0e6c8", borderBottom: "1px solid rgba(255,255,255,0.1)", paddingBottom: 8, marginBottom: 14 }}>
                 🧩 Les Notions du Programme
+                {recherche && (
+                  <span style={{ fontSize: 13, color: "#8892a4", fontWeight: 400, marginLeft: 8 }}>
+                    ({notionsFiltrees.length} résultat{notionsFiltrees.length !== 1 ? "s" : ""})
+                  </span>
+                )}
               </h2>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-                {NOTIONS.map((n) => (
-                  <div key={n.id} className="card-notion" onClick={() => ouvrirNotion(n)}
-                    style={{ background: `linear-gradient(135deg, ${n.couleur}22, ${n.couleur}08)`, border: `1px solid ${n.couleur}44`, borderRadius: 12, padding: 14 }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                      <span style={{ fontSize: 22 }}>{n.emoji}</span>
-                      <span style={{ fontFamily: "'Playfair Display', serif", fontSize: 15, fontWeight: 700, color: "#f0e6c8" }}>{n.titre}</span>
+              {notionsFiltrees.length === 0 ? (
+                <p style={{ color: "#6b7280", fontFamily: "'Source Sans 3', sans-serif", fontSize: 14 }}>
+                  Aucune notion trouvée pour « {recherche} »
+                </p>
+              ) : (
+                <div className="grid-2col" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+                  {notionsFiltrees.map((n) => (
+                    <div key={n.id} style={{ position: "relative" }}>
+                      <button className="card-notion" onClick={() => ouvrirNotion(n)}
+                        aria-label={`Ouvrir la fiche notion : ${n.titre}`}
+                        style={{ background: `linear-gradient(135deg, ${n.couleur}22, ${n.couleur}08)`, border: `1px solid ${n.couleur}44`, borderRadius: 12, padding: "14px 40px 14px 14px" }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                          <span style={{ fontSize: 22 }} aria-hidden="true">{n.emoji}</span>
+                          <span style={{ fontFamily: "'Playfair Display', serif", fontSize: 15, fontWeight: 700, color: "#f0e6c8" }}>{n.titre}</span>
+                        </div>
+                        <div style={{ fontSize: 11, color: "#8892a4", marginTop: 6 }}>
+                          {n.idees.length} idées · {n.citations.length} citations · {n.auteurs.length} auteurs
+                        </div>
+                      </button>
+                      <button
+                        className="prog-btn"
+                        onClick={(e) => toggleProgression(n.id, e)}
+                        aria-label={progression[n.id] ? `Retirer ${n.titre} des révisées` : `Marquer ${n.titre} comme révisée`}
+                        title={progression[n.id] ? "Révisée" : "Marquer comme révisée"}
+                        style={{ position: "absolute", top: 10, right: 10, fontSize: 17, color: progression[n.id] ? "#10b981" : "#4b5563", padding: "2px 4px" }}
+                      >
+                        {progression[n.id] ? "✓" : "○"}
+                      </button>
                     </div>
-                    <div style={{ fontSize: 11, color: "#8892a4", marginTop: 6 }}>
-                      {n.idees.length} idées · {n.citations.length} citations · {n.auteurs.length} auteurs
-                    </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
             </div>
 
-            {/* Auteurs clés */}
-            <div>
-              <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, color: "#f0e6c8", borderBottom: "1px solid rgba(255,255,255,0.1)", paddingBottom: 8, marginBottom: 14 }}>
-                🎓 Auteurs Clés
-              </h2>
-              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                {AUTEURS_CLES.map((a) => (
-                  <div key={a.nom} className="auteur-card">
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 4 }}>
-                      <div>
-                        <span style={{ fontFamily: "'Playfair Display', serif", fontSize: 16, fontWeight: 700, color: "#d4a8ff" }}>{a.nom}</span>
-                        <span style={{ fontSize: 12, color: "#6b7280", marginLeft: 8 }}>{a.periode}</span>
+            {/* Auteurs Clés */}
+            {(!recherche || auteursFiltres.length > 0) && (
+              <div>
+                <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, color: "#f0e6c8", borderBottom: "1px solid rgba(255,255,255,0.1)", paddingBottom: 8, marginBottom: 14 }}>
+                  🎓 Auteurs Clés
+                  {recherche && (
+                    <span style={{ fontSize: 13, color: "#8892a4", fontWeight: 400, marginLeft: 8 }}>
+                      ({auteursFiltres.length} résultat{auteursFiltres.length !== 1 ? "s" : ""})
+                    </span>
+                  )}
+                </h2>
+                <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                  {auteursFiltres.map((a) => (
+                    <button key={a.nom} className="auteur-card" onClick={() => ouvrirAuteur(a.nom)} aria-label={`Voir la fiche de ${a.nom}`}>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 4 }}>
+                        <div>
+                          <span style={{ fontFamily: "'Playfair Display', serif", fontSize: 16, fontWeight: 700, color: "#d4a8ff" }}>{a.nom}</span>
+                          <span style={{ fontSize: 12, color: "#6b7280", marginLeft: 8 }}>{a.periode}</span>
+                        </div>
+                        <span style={{ fontSize: 11, color: "#6b7280" }}>→</span>
                       </div>
-                    </div>
-                    <p style={{ fontSize: 13, color: "#c4c4c4", margin: "6px 0 4px", lineHeight: 1.5, fontFamily: "'Source Sans 3', sans-serif" }}>{a.apport}</p>
-                    <div style={{ fontSize: 11, color: "#6b7280" }}>📖 {a.oeuvres.join(" · ")}</div>
-                  </div>
-                ))}
+                      <p style={{ fontSize: 13, color: "#c4c4c4", margin: "6px 0 4px", lineHeight: 1.5, fontFamily: "'Source Sans 3', sans-serif" }}>{a.apport}</p>
+                      <div style={{ fontSize: 11, color: "#6b7280" }}>📖 {a.oeuvres.join(" · ")}</div>
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
           </>
         )}
 
         {/* FICHE NOTION */}
         {vue === "notion" && notionActive && (
           <>
+            {/* Navigation prev / next */}
+            <div style={{ display: "flex", justifyContent: "space-between", gap: 8, marginBottom: 16 }}>
+              <button className="nav-btn" onClick={() => ouvrirNotion(notionPrecedente)} disabled={!notionPrecedente}
+                aria-label={notionPrecedente ? `Notion précédente : ${notionPrecedente.titre}` : "Première notion"}>
+                ← {notionPrecedente ? notionPrecedente.titre : "—"}
+              </button>
+              <button className="nav-btn" onClick={() => ouvrirNotion(notionSuivante)} disabled={!notionSuivante}
+                aria-label={notionSuivante ? `Notion suivante : ${notionSuivante.titre}` : "Dernière notion"}
+                style={{ textAlign: "right" }}>
+                {notionSuivante ? notionSuivante.titre : "—"} →
+              </button>
+            </div>
+
+            {/* En-tête notion */}
             <div style={{ background: `linear-gradient(135deg, ${notionActive.couleur}33, ${notionActive.couleur}11)`, border: `1px solid ${notionActive.couleur}55`, borderRadius: 16, padding: 20, marginBottom: 20 }}>
-              <div style={{ fontSize: 40, marginBottom: 8 }}>{notionActive.emoji}</div>
-              <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 24, fontWeight: 900, color: "#f0e6c8", margin: "0 0 10px" }}>{notionActive.titre}</h2>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8 }}>
+                <div style={{ fontSize: 40 }} aria-hidden="true">{notionActive.emoji}</div>
+                <button
+                  className="prog-btn"
+                  onClick={(e) => toggleProgression(notionActive.id, e)}
+                  aria-label={progression[notionActive.id] ? "Retirer des notions révisées" : "Marquer cette notion comme révisée"}
+                  style={{ fontSize: 13, color: progression[notionActive.id] ? "#10b981" : "#6b7280", fontFamily: "'Source Sans 3', sans-serif", display: "flex", alignItems: "center", gap: 4, padding: "5px 10px", border: `1px solid ${progression[notionActive.id] ? "#10b981" : "rgba(255,255,255,0.12)"}`, borderRadius: 7 }}
+                >
+                  {progression[notionActive.id] ? "✓ Révisée" : "○ Marquer révisée"}
+                </button>
+              </div>
+              <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 24, fontWeight: 900, color: "#f0e6c8", margin: "8px 0 10px" }}>{notionActive.titre}</h2>
               <p style={{ fontSize: 14, color: "#c4c4c4", lineHeight: 1.6, margin: 0, fontFamily: "'Source Sans 3', sans-serif" }}>{notionActive.definition}</p>
             </div>
 
             {/* Onglets */}
-            <div style={{ display: "flex", gap: 8, marginBottom: 18, overflowX: "auto" }}>
+            <div style={{ display: "flex", gap: 8, marginBottom: 18, overflowX: "auto" }} role="tablist" aria-label="Sections de la fiche notion">
               {[
                 { key: "idees", label: "💡 Idées" },
                 { key: "distinctions", label: "⚖️ Distinctions" },
@@ -1289,7 +335,8 @@ export default function App() {
                 { key: "auteurs", label: "🎓 Auteurs" },
               ].map((o) => (
                 <button key={o.key} className="onglet-btn" onClick={() => setOnglet(o.key)}
-                  style={{ padding: "8px 14px", borderRadius: 20, border: "none", cursor: "pointer", fontSize: 13, fontWeight: 600, whiteSpace: "nowrap",
+                  role="tab" aria-selected={onglet === o.key}
+                  style={{ padding: "8px 14px", borderRadius: 20, cursor: "pointer", fontSize: 13, fontWeight: 600, whiteSpace: "nowrap",
                     background: onglet === o.key ? notionActive.couleur : "rgba(255,255,255,0.08)",
                     color: onglet === o.key ? "#fff" : "#a0aec0" }}>
                   {o.label}
@@ -1297,61 +344,117 @@ export default function App() {
               ))}
             </div>
 
-            {onglet === "idees" && (
-              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                {notionActive.idees.map((idee, i) => (
-                  <div key={i} style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 12, padding: 16 }}>
-                    <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 15, fontWeight: 700, color: "#f0e6c8", marginBottom: 6 }}>
-                      <span style={{ color: notionActive.couleur, marginRight: 8 }}>▶</span>{idee.titre}
-                    </div>
-                    <p style={{ fontSize: 13.5, color: "#c4c4c4", margin: 0, lineHeight: 1.65, fontFamily: "'Source Sans 3', sans-serif" }}>{idee.contenu}</p>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {onglet === "distinctions" && (
-              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                {notionActive.distinctions.map((d, i) => (
-                  <div key={i} style={{ borderLeft: `4px solid ${notionActive.couleur}`, paddingLeft: 14, paddingTop: 6, paddingBottom: 6 }}>
-                    <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 15, fontWeight: 700, color: "#f0e6c8" }}>{d.terme}</div>
-                    <p style={{ fontSize: 13.5, color: "#c4c4c4", margin: "4px 0 0", lineHeight: 1.55, fontFamily: "'Source Sans 3', sans-serif" }}>{d.def}</p>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {onglet === "citations" && (
-              <div>
-                {notionActive.citations.map((c, i) => (
-                  <div key={i} className="citation-card" style={{ borderColor: notionActive.couleur }}>
-                    <p style={{ fontStyle: "italic", fontSize: 14, color: "#e8e6e1", margin: "0 0 6px", lineHeight: 1.6, fontFamily: "'Playfair Display', serif" }}>« {c.texte} »</p>
-                    <div style={{ fontSize: 12, color: "#8892a4" }}>— <strong style={{ color: "#d4a8ff" }}>{c.auteur}</strong>, <em>{c.source}</em></div>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {onglet === "auteurs" && (
-              <div style={{ background: "rgba(255,255,255,0.04)", borderRadius: 12, padding: 16 }}>
-                <p style={{ fontSize: 13, color: "#8892a4", margin: "0 0 12px", fontFamily: "'Source Sans 3', sans-serif" }}>Auteurs à connaître pour cette notion :</p>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                  {notionActive.auteurs.map((a, i) => (
-                    <span key={i} style={{ background: `${notionActive.couleur}33`, border: `1px solid ${notionActive.couleur}66`, borderRadius: 20, padding: "6px 14px", fontSize: 13, color: "#f0e6c8", fontFamily: "'Source Sans 3', sans-serif" }}>
-                      {a}
-                    </span>
-                  ))}
-                </div>
-                <div style={{ marginTop: 16, borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: 14 }}>
-                  {AUTEURS_CLES.filter(a => notionActive.auteurs.includes(a.nom)).map((a) => (
-                    <div key={a.nom} style={{ marginBottom: 12, paddingBottom: 12, borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-                      <div style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700, color: "#d4a8ff", fontSize: 14 }}>{a.nom} <span style={{ fontWeight: 400, color: "#6b7280", fontSize: 12 }}>{a.periode}</span></div>
-                      <p style={{ fontSize: 13, color: "#b0b0b0", margin: "4px 0 0", fontFamily: "'Source Sans 3', sans-serif" }}>{a.apport}</p>
+            {/* Contenu onglets */}
+            <div role="tabpanel">
+              {onglet === "idees" && (
+                <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                  {notionActive.idees.map((idee, i) => (
+                    <div key={i} style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 12, padding: 16 }}>
+                      <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 15, fontWeight: 700, color: "#f0e6c8", marginBottom: 6 }}>
+                        <span style={{ color: notionActive.couleur, marginRight: 8 }} aria-hidden="true">▶</span>{idee.titre}
+                      </div>
+                      <p style={{ fontSize: 13.5, color: "#c4c4c4", margin: 0, lineHeight: 1.65, fontFamily: "'Source Sans 3', sans-serif" }}>{idee.contenu}</p>
                     </div>
                   ))}
                 </div>
+              )}
+
+              {onglet === "distinctions" && (
+                <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                  {notionActive.distinctions.map((d, i) => (
+                    <div key={i} style={{ borderLeft: `4px solid ${notionActive.couleur}`, paddingLeft: 14, paddingTop: 6, paddingBottom: 6 }}>
+                      <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 15, fontWeight: 700, color: "#f0e6c8" }}>{d.terme}</div>
+                      <p style={{ fontSize: 13.5, color: "#c4c4c4", margin: "4px 0 0", lineHeight: 1.55, fontFamily: "'Source Sans 3', sans-serif" }}>{d.def}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {onglet === "citations" && (
+                <div>
+                  {notionActive.citations.map((c, i) => (
+                    <div key={i} className="citation-card" style={{ borderColor: notionActive.couleur }}>
+                      <p style={{ fontStyle: "italic", fontSize: 14, color: "#e8e6e1", margin: "0 0 6px", lineHeight: 1.6, fontFamily: "'Playfair Display', serif" }}>« {c.texte} »</p>
+                      <div style={{ fontSize: 12, color: "#8892a4" }}>— <strong style={{ color: "#d4a8ff" }}>{c.auteur}</strong>, <em>{c.source}</em></div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {onglet === "auteurs" && (
+                <div style={{ background: "rgba(255,255,255,0.04)", borderRadius: 12, padding: 16 }}>
+                  <p style={{ fontSize: 13, color: "#8892a4", margin: "0 0 12px", fontFamily: "'Source Sans 3', sans-serif" }}>
+                    Auteurs à connaître — cliquez pour voir leur fiche :
+                  </p>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 16 }}>
+                    {notionActive.auteurs.map((nomAuteur, i) => (
+                      <button key={i} className="auteur-tag-btn" onClick={() => ouvrirAuteur(nomAuteur)}
+                        aria-label={`Voir la fiche de ${nomAuteur}`}
+                        style={{ background: `${notionActive.couleur}33`, border: `1px solid ${notionActive.couleur}66`, color: "#f0e6c8", fontSize: 13 }}>
+                        {nomAuteur} →
+                      </button>
+                    ))}
+                  </div>
+                  <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: 14 }}>
+                    {AUTEURS_CLES.filter(a => notionActive.auteurs.includes(a.nom)).map((a) => (
+                      <div key={a.nom} style={{ marginBottom: 12, paddingBottom: 12, borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+                        <button onClick={() => ouvrirAuteur(a.nom)} aria-label={`Ouvrir la fiche de ${a.nom}`}
+                          style={{ background: "none", border: "none", cursor: "pointer", padding: 0, textAlign: "left" }}>
+                          <div style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700, color: "#d4a8ff", fontSize: 14 }}>
+                            {a.nom} <span style={{ fontWeight: 400, color: "#6b7280", fontSize: 12 }}>{a.periode}</span>
+                          </div>
+                        </button>
+                        <p style={{ fontSize: 13, color: "#b0b0b0", margin: "4px 0 0", fontFamily: "'Source Sans 3', sans-serif" }}>{a.apport}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </>
+        )}
+
+        {/* FICHE AUTEUR */}
+        {vue === "auteur" && auteurActive && (
+          <>
+            <div style={{ background: "linear-gradient(135deg, rgba(212,168,255,0.15), rgba(212,168,255,0.05))", border: "1px solid rgba(212,168,255,0.3)", borderRadius: 16, padding: 20, marginBottom: 20 }}>
+              <div style={{ fontSize: 36, marginBottom: 8 }} aria-hidden="true">🎓</div>
+              <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 24, fontWeight: 900, color: "#f0e6c8", margin: "0 0 4px" }}>{auteurActive.nom}</h2>
+              <p style={{ fontSize: 13, color: "#8892a4", margin: "0 0 14px", fontFamily: "'Source Sans 3', sans-serif" }}>{auteurActive.periode}</p>
+              <p style={{ fontSize: 14, color: "#c4c4c4", lineHeight: 1.65, margin: 0, fontFamily: "'Source Sans 3', sans-serif" }}>{auteurActive.apport}</p>
+            </div>
+
+            <div style={{ marginBottom: 24 }}>
+              <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 17, color: "#d4a8ff", marginBottom: 12 }}>📖 Œuvres principales</h3>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                {auteurActive.oeuvres.map((o, i) => (
+                  <span key={i} style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 8, padding: "6px 12px", fontSize: 13, color: "#c4c4c4", fontFamily: "'Source Sans 3', sans-serif", fontStyle: "italic" }}>{o}</span>
+                ))}
               </div>
-            )}
+            </div>
+
+            <div>
+              <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 17, color: "#d4a8ff", marginBottom: 12 }}>🧩 Notions associées</h3>
+              {(() => {
+                const notionsLiees = NOTIONS.filter(n => n.auteurs.includes(auteurActive.nom));
+                return notionsLiees.length === 0 ? (
+                  <p style={{ color: "#6b7280", fontFamily: "'Source Sans 3', sans-serif", fontSize: 13 }}>Cet auteur ne figure pas dans la liste des auteurs associés aux notions.</p>
+                ) : (
+                  <div className="grid-2col" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+                    {notionsLiees.map(n => (
+                      <button key={n.id} className="card-notion" onClick={() => ouvrirNotion(n)}
+                        aria-label={`Ouvrir la notion : ${n.titre}`}
+                        style={{ background: `linear-gradient(135deg, ${n.couleur}22, ${n.couleur}08)`, border: `1px solid ${n.couleur}44`, borderRadius: 12, padding: 12 }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                          <span style={{ fontSize: 18 }} aria-hidden="true">{n.emoji}</span>
+                          <span style={{ fontFamily: "'Playfair Display', serif", fontSize: 14, fontWeight: 700, color: "#f0e6c8" }}>{n.titre}</span>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                );
+              })()}
+            </div>
           </>
         )}
 
@@ -1361,7 +464,7 @@ export default function App() {
           return (
             <>
               <div style={{ background: "linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03))", border: "1px solid rgba(255,255,255,0.15)", borderRadius: 16, padding: 20, marginBottom: 20 }}>
-                <div style={{ fontSize: 36, marginBottom: 8 }}>{m.emoji}</div>
+                <div style={{ fontSize: 36, marginBottom: 8 }} aria-hidden="true">{m.emoji}</div>
                 <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 24, fontWeight: 900, color: "#f0e6c8", margin: "0 0 10px" }}>{m.titre}</h2>
                 <p style={{ fontSize: 14, color: "#c4c4c4", lineHeight: 1.6, margin: 0, fontFamily: "'Source Sans 3', sans-serif" }}>{m.intro}</p>
               </div>
@@ -1370,7 +473,7 @@ export default function App() {
               {m.etapes.map((e) => (
                 <div key={e.num} className="etape-card">
                   <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
-                    <div style={{ width: 28, height: 28, borderRadius: "50%", background: "linear-gradient(135deg, #7C3AED, #1D4ED8)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13, fontWeight: 700, color: "#fff", flexShrink: 0 }}>{e.num}</div>
+                    <div style={{ width: 28, height: 28, borderRadius: "50%", background: "linear-gradient(135deg, #7C3AED, #1D4ED8)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13, fontWeight: 700, color: "#fff", flexShrink: 0 }} aria-hidden="true">{e.num}</div>
                     <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 15, fontWeight: 700, color: "#f0e6c8" }}>{e.titre}</div>
                   </div>
                   <ul style={{ margin: 0, paddingLeft: 20 }}>
@@ -1385,7 +488,7 @@ export default function App() {
               <div style={{ background: "rgba(248, 113, 113, 0.08)", border: "1px solid rgba(248,113,113,0.2)", borderRadius: 12, padding: 16 }}>
                 {m.piegesToEviter.map((p, i) => (
                   <div key={i} className="piege-item">
-                    <span style={{ color: "#f87171", fontSize: 14, flexShrink: 0 }}>✕</span>
+                    <span style={{ color: "#f87171", fontSize: 14, flexShrink: 0 }} aria-hidden="true">✕</span>
                     <span style={{ fontSize: 13.5, color: "#c4c4c4", fontFamily: "'Source Sans 3', sans-serif" }}>{p}</span>
                   </div>
                 ))}
@@ -1393,6 +496,83 @@ export default function App() {
             </>
           );
         })()}
+
+        {/* FLASHCARD */}
+        {vue === "flashcard" && (
+          <>
+            <div style={{ textAlign: "center", marginBottom: 20 }}>
+              <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 22, color: "#f0e6c8", margin: "0 0 4px" }}>🃏 Mode révision</h2>
+              <p style={{ fontSize: 13, color: "#8892a4", margin: 0, fontFamily: "'Source Sans 3', sans-serif" }}>
+                {(flashcardIndex % NOTIONS.length) + 1} / {NOTIONS.length}
+              </p>
+            </div>
+
+            <div style={{ background: `linear-gradient(135deg, ${flashcardNotion.couleur}33, ${flashcardNotion.couleur}11)`, border: `1px solid ${flashcardNotion.couleur}55`, borderRadius: 20, padding: "32px 24px", marginBottom: 20, minHeight: 220, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center" }}>
+              <div style={{ fontSize: 48, marginBottom: 12 }} aria-hidden="true">{flashcardNotion.emoji}</div>
+              <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 26, fontWeight: 900, color: "#f0e6c8", margin: "0 0 20px" }}>{flashcardNotion.titre}</h3>
+              {flashcardRevelee ? (
+                <p style={{ fontSize: 14, color: "#c4c4c4", lineHeight: 1.65, margin: 0, fontFamily: "'Source Sans 3', sans-serif", maxWidth: 560 }}>{flashcardNotion.definition}</p>
+              ) : (
+                <button
+                  onClick={() => setFlashcardRevelee(true)}
+                  style={{ padding: "10px 28px", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 10, color: "#a0aec0", cursor: "pointer", fontSize: 14, fontFamily: "'Source Sans 3', sans-serif" }}
+                  aria-label="Révéler la définition"
+                >
+                  Afficher la définition
+                </button>
+              )}
+            </div>
+
+            {flashcardRevelee && flashcardNotion.citations[0] && (
+              <div style={{ marginBottom: 20 }}>
+                <p style={{ fontSize: 12, color: "#6b7280", margin: "0 0 8px", fontFamily: "'Source Sans 3', sans-serif", textTransform: "uppercase", letterSpacing: "0.05em" }}>Citation clé</p>
+                <div className="citation-card" style={{ borderColor: flashcardNotion.couleur }}>
+                  <p style={{ fontStyle: "italic", fontSize: 14, color: "#e8e6e1", margin: "0 0 6px", fontFamily: "'Playfair Display', serif", lineHeight: 1.6 }}>« {flashcardNotion.citations[0].texte} »</p>
+                  <div style={{ fontSize: 12, color: "#8892a4" }}>— <strong style={{ color: "#d4a8ff" }}>{flashcardNotion.citations[0].auteur}</strong>, <em>{flashcardNotion.citations[0].source}</em></div>
+                </div>
+              </div>
+            )}
+
+            <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+              {flashcardRevelee && (
+                <>
+                  <button
+                    onClick={() => toggleProgression(flashcardNotion.id)}
+                    style={{ flex: 1, minWidth: 140, padding: "10px 14px", background: progression[flashcardNotion.id] ? "rgba(16,185,129,0.15)" : "rgba(255,255,255,0.06)", border: `1px solid ${progression[flashcardNotion.id] ? "#10b981" : "rgba(255,255,255,0.12)"}`, borderRadius: 10, color: progression[flashcardNotion.id] ? "#10b981" : "#a0aec0", cursor: "pointer", fontSize: 13, fontFamily: "'Source Sans 3', sans-serif" }}
+                    aria-label={progression[flashcardNotion.id] ? "Retirer des notions révisées" : "Marquer cette notion comme révisée"}
+                  >
+                    {progression[flashcardNotion.id] ? "✓ Révisée" : "○ Marquer révisée"}
+                  </button>
+                  <button
+                    onClick={() => ouvrirNotion(flashcardNotion)}
+                    style={{ flex: 1, minWidth: 140, padding: "10px 14px", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 10, color: "#a0aec0", cursor: "pointer", fontSize: 13, fontFamily: "'Source Sans 3', sans-serif" }}
+                    aria-label="Voir la fiche complète de cette notion"
+                  >
+                    📖 Fiche complète
+                  </button>
+                </>
+              )}
+              <button
+                onClick={() => { setFlashcardIndex(i => i + 1); setFlashcardRevelee(false); }}
+                style={{ flex: 2, minWidth: 160, padding: "10px 20px", background: "linear-gradient(135deg, #7C3AED, #1D4ED8)", border: "none", borderRadius: 10, color: "#fff", cursor: "pointer", fontSize: 13, fontWeight: 600, fontFamily: "'Source Sans 3', sans-serif" }}
+                aria-label={flashcardRevelee ? "Passer à la notion suivante" : "Passer cette notion"}
+              >
+                {flashcardRevelee ? "→ Notion suivante" : "→ Passer"}
+              </button>
+            </div>
+
+            <div style={{ marginTop: 20 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                <span style={{ fontSize: 12, color: "#6b7280", fontFamily: "'Source Sans 3', sans-serif" }}>Notions révisées</span>
+                <span style={{ fontSize: 12, color: "#6b7280", fontFamily: "'Source Sans 3', sans-serif" }}>{nbRevisees} / {NOTIONS.length}</span>
+              </div>
+              <div style={{ width: "100%", height: 5, background: "rgba(255,255,255,0.08)", borderRadius: 3 }}>
+                <div style={{ width: `${(nbRevisees / NOTIONS.length) * 100}%`, height: "100%", background: "linear-gradient(90deg, #7C3AED, #1D4ED8)", borderRadius: 3, transition: "width 0.3s" }} aria-hidden="true" />
+              </div>
+            </div>
+          </>
+        )}
+
       </div>
     </div>
   );

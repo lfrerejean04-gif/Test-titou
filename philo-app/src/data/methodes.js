@@ -1,0 +1,155 @@
+export const METHODES = {
+  dissertation: {
+    titre: "La Dissertation",
+    emoji: "✍️",
+    intro: "La dissertation philosophique consiste à répondre à une question en construisant une argumentation rigoureuse, nuancée et progressive.",
+    etapes: [
+      {
+        num: "1",
+        titre: "Analyser le sujet",
+        contenu: [
+          "Identifier les notions clés et les définir",
+          "Reformuler le sujet (de quoi parle-t-il vraiment ?)",
+          "Repérer les présupposés implicites de la question",
+          "Chercher les tensions, paradoxes, ambiguïtés",
+          "Se demander : POURQUOI cette question se pose-t-elle ?",
+        ],
+      },
+      {
+        num: "2",
+        titre: "Construire la problématique",
+        contenu: [
+          "La problématique n'est pas la question du sujet reformulée",
+          "Elle doit montrer POURQUOI la question est difficile, pourquoi on ne peut pas y répondre directement",
+          "Elle met en tension deux positions opposées légitimes",
+          "Elle oriente le plan de la dissertation",
+          "Elle doit être explicitement formulée dans l'introduction",
+        ],
+      },
+      {
+        num: "3",
+        titre: "Élaborer le plan",
+        contenu: [
+          "PLAN EN 3 PARTIES (le plus courant)",
+          "Thèse → Antithèse → Synthèse (dépassement, pas compromis)",
+          "Chaque partie : 2-3 sous-parties avec argument + exemple + citation",
+          "Chaque partie répond à la problématique d'un point de vue",
+          "Transitions obligatoires entre chaque partie",
+        ],
+      },
+      {
+        num: "4",
+        titre: "Rédiger l'introduction",
+        contenu: [
+          "ACCROCHE : partir d'un fait, d'une citation, d'une situation concrète",
+          "ANALYSE DU SUJET : définir les termes clés",
+          "PROBLÉMATIQUE : formuler explicitement la tension",
+          "ANNONCE DU PLAN : présenter les 3 parties",
+          "L'introduction ne doit pas dépasser 15-20 lignes",
+        ],
+      },
+      {
+        num: "5",
+        titre: "Rédiger le développement",
+        contenu: [
+          "Chaque paragraphe = 1 idée + 1 argument + 1 exemple + 1 référence",
+          "Utiliser des connecteurs logiques : 'en effet', 'cependant', 'ainsi'",
+          "Les références philosophiques doivent être expliquées, pas juste citées",
+          "Transitions entre parties : bilan + limite + nouvelle question",
+          "Ne jamais donner son avis à la première personne",
+        ],
+      },
+      {
+        num: "6",
+        titre: "Rédiger la conclusion",
+        contenu: [
+          "BILAN : récapituler le cheminement (pas les arguments)",
+          "RÉPONSE : donner clairement une réponse à la question",
+          "OUVERTURE : élargir sur une question connexe (pas obligatoire mais valorisé)",
+          "Pas de nouvelle idée dans la conclusion",
+          "La conclusion doit montrer qu'on a progressé depuis l'introduction",
+        ],
+      },
+    ],
+    piegesToEviter: [
+      "Répondre par oui/non dès le début sans problématiser",
+      "Faire un plan par auteurs ('Platon dit… Kant dit…')",
+      "Illustrer sans argumenter (l'exemple n'est pas la preuve)",
+      "Sortir du sujet en parlant d'une notion vaguement liée",
+      "Oublier la conclusion ou la bâcler",
+      "Utiliser le 'je' ou les expressions familières",
+      "Paraphraser le cours sans réflexion personnelle",
+    ],
+  },
+  commentaire: {
+    titre: "Le Commentaire de Texte",
+    emoji: "📖",
+    intro: "Le commentaire de texte philosophique consiste à dégager le sens et la portée d'un extrait de philosophe, en montrant la cohérence de son argumentation et en l'éclairant par des connaissances extérieures.",
+    etapes: [
+      {
+        num: "1",
+        titre: "Première lecture",
+        contenu: [
+          "Lire le texte 2-3 fois sans annoter",
+          "Identifier l'auteur et replacer dans son contexte",
+          "Trouver la thèse principale (ce que défend l'auteur)",
+          "Repérer le problème auquel le texte répond",
+          "Identifier les notions clés du texte",
+        ],
+      },
+      {
+        num: "2",
+        titre: "Analyser la structure",
+        contenu: [
+          "Découper le texte en parties logiques (souvent 2-3)",
+          "Pour chaque partie : quelle idée est développée ?",
+          "Repérer les connecteurs logiques (or, donc, ainsi, mais…)",
+          "Identifier le type de raisonnement (inductif, déductif, dialectique)",
+          "Repérer les exemples, métaphores, analogies utilisées",
+        ],
+      },
+      {
+        num: "3",
+        titre: "Construire l'introduction",
+        contenu: [
+          "PRÉSENTATION : auteur, œuvre, thème général",
+          "PROBLÈME : quel problème le texte soulève-t-il ?",
+          "THÈSE : quelle réponse l'auteur propose-t-il ?",
+          "PLAN : comment le texte progresse-t-il ?",
+          "PAS de paraphrase, PAS de 'Dans ce texte, l'auteur dit que…'",
+        ],
+      },
+      {
+        num: "4",
+        titre: "Rédiger le commentaire",
+        contenu: [
+          "Suivre l'ordre du texte (structure linéaire ou thématique)",
+          "Expliquer chaque idée en détail : QUE veut dire l'auteur ?",
+          "Montrer POURQUOI l'auteur dit cela (sa logique, ses présupposés)",
+          "Mettre en relation avec d'autres philosophes (accord, désaccord)",
+          "Évaluer la portée et les limites de la thèse",
+        ],
+      },
+      {
+        num: "5",
+        titre: "Règles fondamentales",
+        contenu: [
+          "NE PAS paraphraser : reformuler ne suffit pas, il faut expliquer",
+          "NE PAS plaquer son cours : tout doit être au service du texte",
+          "Citer le texte entre guillemets pour appuyer son analyse",
+          "Montrer la progression logique : chaque partie prépare la suivante",
+          "La conclusion doit évaluer la thèse et ouvrir une question",
+        ],
+      },
+    ],
+    piegesToEviter: [
+      "La paraphrase (raconter le texte avec ses mots)",
+      "Ignorer une partie du texte",
+      "Faire une dissertation sur le thème au lieu de commenter LE texte",
+      "Critiquer l'auteur sans arguments solides",
+      "Oublier de citer le texte",
+      "Inventer la thèse de l'auteur",
+      "Plan hors-texte (ne pas suivre la logique interne)",
+    ],
+  },
+};
